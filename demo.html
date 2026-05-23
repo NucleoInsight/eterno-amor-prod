@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Demonstração Grátis - Eterno Amor</title>
+    <style>
+        body { font-family: Arial; background: #1a1a1a; color: #fff; padding: 20px; max-width: 600px; margin: 0 auto; }
+        h1 { color: #ff4d6d; text-align: center; }
+        label { display: block; margin-top: 15px; font-weight: bold; }
+        input, textarea { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #444; background: #2a2a2a; color: #fff; border-radius: 5px; box-sizing: border-box; }
+        button { background: #ff4d6d; color: white; border: none; padding: 15px 30px; margin-top: 20px; border-radius: 5px; font-size: 16px; cursor: pointer; width: 100%; }
+        .tarja { background: #ff4d6d; color: #000; text-align: center; padding: 10px; font-weight: bold; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="tarja">MODO DEMONSTRAÇÃO - Para salvar e compartilhar, escolha um plano</div>
+    <h1>Crie sua Homenagem Grátis</h1>
+    
+    <label>Nome do Casal:</label>
+    <input type="text" id="nomes" placeholder="Ex: Gil e Maria">
+    
+    <label>Data Especial:</label>
+    <input type="date" id="data">
+    
+    <label>Mensagem de Amor:</label>
+    <textarea id="mensagem" rows="4" placeholder="Escreva sua declaração..."></textarea>
+    
+    <button onclick="tentarSalvar()">Salvar e Compartilhar</button>
+
+    <script>
+        function tentarSalvar() {
+            alert('Quase lá! Para salvar sua homenagem e receber o link exclusivo, escolha um dos nossos planos.');
+            window.location.href = '/eterno-amor-prod/#planos';
+        }
+    </script>
+</body>
+</html>
