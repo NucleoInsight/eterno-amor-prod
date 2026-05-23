@@ -196,7 +196,7 @@ footer {
 <header>
   <div class="container header-content">
     <div class="logo">Eterno<span>Amor</span></div>
-    <a href="#precos" class="btn">Criar Agora</a>
+    <a href="#planos" class="btn">Criar Agora</a>
   </div>
 </header>
 
@@ -210,7 +210,8 @@ footer {
       <div class="countdown-item"><div class="countdown-number" id="minutes">00</div><div class="countdown-label">Min</div></div>
       <div class="countdown-item"><div class="countdown-number" id="seconds">00</div><div class="countdown-label">Seg</div></div>
     </div>
-    <a href="#demo" class="btn">Ver Demonstração Grátis</a>
+    <!-- MUDANÇA AQUI: Botão agora leva pra demo.html -->
+    <a href="demo.html" class="btn">Ver Demonstração Grátis</a>
   </div>
 </section>
 
@@ -288,7 +289,8 @@ footer {
   </div>
 </section>
 
-<section class="pricing" id="precos">
+<!-- MUDANÇA AQUI: Adicionei id="planos" pra demo.html conseguir rolar até aqui -->
+<section class="pricing" id="planos">
   <div class="container">
     <h2 class="section-title">Escolha Seu Plano</h2>
     <div class="pricing-grid">
@@ -302,7 +304,8 @@ footer {
           <li>QR Code</li>
           <li>1 Ano no ar</li>
         </ul>
-        <a href="https://checkout.infinitepay.io/atlivio-servicos/1990" class="btn btn-outline">Quero Esse</a>
+        <!-- MUDANÇA AQUI: Trocar pelo link da InfinitePay do Eterno Amor Essencial -->
+        <a href="LINK_CHECKOUT_ESSENCIAL" class="btn btn-outline">Quero Esse</a>
       </div>
       <div class="price-card popular">
         <div class="popular-badge">MAIS VENDIDO</div>
@@ -316,7 +319,8 @@ footer {
           <li>Efeitos especiais</li>
           <li>Domínio: eternoamor.com/casal</li>
         </ul>
-        <a href="https://checkout.infinitepay.io/atlivio-servicos/2990" class="btn">Quero Esse</a>
+        <!-- MUDANÇA AQUI: Trocar pelo link da InfinitePay do Eterno Amor Completo -->
+        <a href="LINK_CHECKOUT_COMPLETO" class="btn">Quero Esse</a>
       </div>
       <div class="price-card">
         <h3>Vitalício</h3>
@@ -328,7 +332,8 @@ footer {
           <li>Certificado digital</li>
           <li>Suporte prioritário</li>
         </ul>
-        <a href="https://checkout.infinitepay.io/atlivio-servicos/4790" class="btn btn-outline">Quero Esse</a>
+        <!-- MUDANÇA AQUI: Trocar pelo link da InfinitePay do Eterno Amor Vitalício -->
+        <a href="LINK_CHECKOUT_VITALICIO" class="btn btn-outline">Quero Esse</a>
       </div>
     </div>
     <p style="text-align:center;margin-top:40px;color:#777;">Pagamento 100% seguro | Garantia de 7 dias ou seu dinheiro de volta</p>
@@ -428,11 +433,7 @@ const observer = new IntersectionObserver(entries => {
   });
 });
 stats.forEach(stat => observer.observe(stat));
-
-// Trocar links de checkout aqui: LINK_CHECKOUT_ESSENCIAL, LINK_CHECKOUT_COMPLETO, LINK_CHECKOUT_VITALICIO
 </script>
 
-<!-- Google Analytics - Trocar ID -->
-<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script> -->
 </body>
 </html>
