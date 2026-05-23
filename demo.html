@@ -9,12 +9,14 @@
         label { display: block; margin-top: 15px; font-weight: bold; }
         input, textarea { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #444; background: #2a2a2a; color: #fff; border-radius: 5px; box-sizing: border-box; }
         button { background: #ff4d6d; color: white; border: none; padding: 15px 30px; margin-top: 20px; border-radius: 5px; font-size: 16px; cursor: pointer; width: 100%; }
-        .tarja { background: #ff4d6d; color: #000; text-align: center; padding: 10px; font-weight: bold; margin-bottom: 20px; }
+        .tarja { background: #ff4d6d; color: #000; text-align: center; padding: 10px; font-weight: bold; margin-bottom: 20px; border-radius: 5px; }
+        .preview { background: #2a2a2a; padding: 20px; border-radius: 8px; margin-top: 20px; }
     </style>
 </head>
 <body>
     <div class="tarja">MODO DEMONSTRAÇÃO - Para salvar e compartilhar, escolha um plano</div>
     <h1>Crie sua Homenagem Grátis</h1>
+    <p style="text-align:center; color:#ccc;">Preencha tudo e veja como vai ficar. É grátis pra testar.</p>
     
     <label>Nome do Casal:</label>
     <input type="text" id="nomes" placeholder="Ex: Gil e Maria">
@@ -22,14 +24,33 @@
     <label>Data Especial:</label>
     <input type="date" id="data">
     
-    <label>Mensagem de Amor:</label>
+    <label>Sua Mensagem de Amor:</label>
     <textarea id="mensagem" rows="4" placeholder="Escreva sua declaração..."></textarea>
     
-    <button onclick="tentarSalvar()">Salvar e Compartilhar</button>
+    <label>Link da Música do YouTube:</label>
+    <input type="url" id="musica" placeholder="https://youtube.com/...">
+    
+    <label>Link da Foto 1:</label>
+    <input type="url" id="foto1" placeholder="Cole o link da imagem ou use imgur.com">
+    
+    <button onclick="desbloquear()">Salvar e Compartilhar Minha Homenagem</button>
+
+    <div class="preview">
+        <h3>Preview ao vivo:</h3>
+        <p><strong>Casal:</strong> <span id="prevNomes">---</span></p>
+        <p><strong>Data:</strong> <span id="prevData">---</span></p>
+    </div>
 
     <script>
-        function tentarSalvar() {
-            alert('Quase lá! Para salvar sua homenagem e receber o link exclusivo, escolha um dos nossos planos.');
+        document.getElementById('nomes').addEventListener('input', e => {
+            document.getElementById('prevNomes').innerText = e.target.value || '---';
+        });
+        document.getElementById('data').addEventListener('input', e => {
+            document.getElementById('prevData').innerText = e.target.value || '---';
+        });
+        
+        function desbloquear() {
+            alert('Sua homenagem tá linda! 🔥\n\nPara salvar e receber o link exclusivo com QR Code, escolha um dos nossos planos.');
             window.location.href = '/eterno-amor-prod/#planos';
         }
     </script>
