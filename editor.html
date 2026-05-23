@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor - Eterno Amor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #1a1a1a;
+            color: #fff;
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        h1 { color: #ff4d6d; }
+        label { display: block; margin-top: 15px; font-weight: bold; }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #444;
+            background: #2a2a2a;
+            color: #fff;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            background: #ff4d6d;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            margin-top: 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .aviso {
+            background: #333;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="aviso">
+        <strong>ID da Homenagem:</strong> <span id="homenagemId">Carregando...</span>
+    </div>
+
+    <h1>Monte sua Homenagem Eterna</h1>
+    <p>Preencha os campos abaixo. Depois que salvar, te enviamos o link final.</p>
+
+    <label>Nome do Casal:</label>
+    <input type="text" id="nomes" placeholder="Ex: Gil e Maria">
+
+    <label>Data Especial:</label>
+    <input type="date" id="data">
+
+    <label>Mensagem de Amor:</label>
+    <textarea id="mensagem" rows="4" placeholder="Escreva sua declaração..."></textarea>
+
+    <label>Link da Música do YouTube:</label>
+    <input type="url" id="musica" placeholder="https://youtube.com/...">
+
+    <label>Link da Foto 1:</label>
+    <input type="url" id="foto1" placeholder="Cole o link da imagem">
+
+    <label>Link da Foto 2:</label>
+    <input type="url" id="foto2" placeholder="Cole o link da imagem">
+
+    <label>Link da Foto 3:</label>
+    <input type="url" id="foto3" placeholder="Cole o link da imagem">
+
+    <button onclick="salvar()">Salvar Homenagem</button>
+
+    <script>
+        // Pega o ID da URL: ?id=amor123
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id') || 'teste';
+        document.getElementById('homenagemId').innerText = id;
+
+        function salvar() {
+            const dados = {
+                id: id,
+                nomes: document.getElementById('nomes').value,
+                data: document.getElementById('data').value,
+                mensagem: document.getElementById('mensagem').value,
+                musica: document.getElementById('musica').value,
+                foto1: document.getElementById('foto1').value,
+                foto2: document.getElementById('foto2').value,
+                foto3: document.getElementById('foto3').value
+            };
+
+            // Por enquanto só mostra na tela. Depois conectamos no Firebase.
+            alert('Dados preenchidos! Copia e manda no WhatsApp:\n\n' + JSON.stringify(dados, null, 2));
+        }
+    </script>
+</body>
+</html>
