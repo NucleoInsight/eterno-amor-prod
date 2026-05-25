@@ -166,35 +166,39 @@
             document.getElementById('mensagem').value = mensagens[modelo];
         }
 
-        // TRAVA NA HORA DE SALVAR
+        // ABRE DEMO COM MARCA D'ÁGUA
         function finalizar() {
             const nomes = document.getElementById('nomes').value;
             const data = document.getElementById('data').value;
             const mensagem = document.getElementById('mensagem').value;
-            const musica = document.getElementById('musica').value;
-            const foto1 = document.getElementById('foto1').value;
-            const foto2 = document.getElementById('foto2').value;
-            const foto3 = document.getElementById('foto3').value;
 
             if (!nomes ||!data ||!mensagem) {
                 alert('Preenche pelo menos: Nome do Casal, Data e Mensagem pra testar :)');
                 return;
             }
 
-            // Monta URL com dados pra preview
-            const params = new URLSearchParams({
-                preview: 'true',
+            // Salva dados da demo no navegador
+            const idDemo = 'demo-' + Date.now();
+            const dadosDemo = {
                 nomes: nomes,
                 data: data,
                 mensagem: mensagem,
-                musica: musica,
-                foto1: foto1,
-                foto2: foto2,
-                foto3: foto3
-            });
+                musica: document.getElementById('musica').value,
+                foto1: document.getElementById('foto1').value,
+                foto2: document.getElementById('foto2').value,
+                foto3: document.getElementById('foto3').value,
+                demo: true
+            };
 
-            // Abre h.html em modo preview
-            window.open(`h.html?${params.toString()}`, '_blank');
+            localStorage.setItem(idDemo, JSON.stringify(dadosDemo));
+
+            // Abre h.html em modo DEMO com marca d'água
+            window.open('h.html?id=' + idDemo + '&demo=true', '_blank');
+
+            // Mostra alerta depois de abrir
+            setTimeout(() => {
+                alert('Prévia aberta! 🔥\n\nReparou na marca d\'água e que a música não toca?\n\nPague qualquer plano pra remover e deixar no ar pra sempre.');
+            }, 500);
         }
         // UPLOAD DE FOTO PRÁTICO
 async function enviarFoto(input, campoId) {
