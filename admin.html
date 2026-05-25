@@ -147,10 +147,10 @@
             }
 
             const limites = {
-                essencial: { fotos: 3, musica: false, edicao: false, qr: true },
-                completo: { fotos: 15, musica: true, edicao: false, qr: true },
-                vitalicio: { fotos: 15, musica: true, edicao: true, qr: true }
-            };
+                    essencial: { fotos: 1, musica: false, qr: false },
+                    completo: { fotos: 5, musica: true, qr: false },
+                    vitalicio: { fotos: 10, musica: true, qr: true }
+                };
 
             await setDoc(doc(db, 'liberados', id), {
                 plano: plano,
