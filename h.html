@@ -178,9 +178,11 @@
             document.getElementById('contador').innerText = `♥ ${dias} dias de amor ♥`;
 
             let fotosHtml = '';
-            if (dados.foto1) fotosHtml += `<img src="${dados.foto1}">`;
-            if (dados.foto2) fotosHtml += `<img src="${dados.foto2}">`;
-            if (dados.foto3) fotosHtml += `<img src="${dados.foto3}">`;
+            for (let i = 1; i <= 10; i++) {
+                if (dados[`foto${i}`]) {
+                    fotosHtml += `<img src="${dados[`foto${i}`]}">`;
+                }
+            }
             document.getElementById('fotos').innerHTML = fotosHtml;
 
            if (!isDemo && dados.musica) {
