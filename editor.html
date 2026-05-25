@@ -252,7 +252,7 @@
             const preview = document.getElementById('preview' + campoId.slice(-1));
             preview.innerText = 'Enviando foto...';
 
-            if (file.size > 5 * 1024) {
+            if (file.size > 5 * 1024 * 1024) {
                 alert('Foto muito grande. Máximo 5MB.');
                 preview.innerText = '';
                 return;
