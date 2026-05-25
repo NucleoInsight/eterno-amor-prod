@@ -312,12 +312,13 @@
                     document.getElementById('data').value = d.data || '';
                     document.getElementById('mensagem').value = d.mensagem || '';
                     document.getElementById('musica').value = d.musica || '';
-                    document.getElementById('foto1').value = d.foto1 || '';
-                    document.getElementById('foto2').value = d.foto2 || '';
-                    document.getElementById('foto3').value = d.foto3 || '';
-                    if (d.foto1) document.getElementById('preview1').innerHTML = `✓ <img src="${d.foto1}" style="width:40px;height:40px;border-radius:4px;">`;
-                    if (d.foto2) document.getElementById('preview2').innerHTML = `✓ <img src="${d.foto2}" style="width:40px;height:40px;border-radius:4px;">`;
-                    if (d.foto3) document.getElementById('preview3').innerHTML = `✓ <img src="${d.foto3}" style="width:40px;height:40px;border-radius:4px;">`;
+                    for (let i = 1; i <= 10; i++) {
+                        const fotoEl = document.getElementById(`foto${i}`);
+                        if (fotoEl && d[`foto${i}`]) {
+                            fotoEl.value = d[`foto${i}`];
+                            document.getElementById(`preview${i}`).innerHTML = `✓ <img src="${d[`foto${i}`]}" style="width:40px;height:40px;border-radius:4px;">`;
+                        }
+                    }
                     atualizarPreview();
                 }
             } catch (e) { console.log(e); }
