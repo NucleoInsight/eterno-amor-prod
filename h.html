@@ -306,8 +306,11 @@
 
                     window.copiarLinkHomenagem = function() {
                         const link = window.location.href.replace('&criador=true','').replace('?criador=true','');
-                        navigator.clipboard.writeText(link).then(() => {
-                            alert('Link copiado! ✅\n\nManda no WhatsApp pro seu amor:\n' + link);
+                        const nomes = document.getElementById('nomesCasais')?.innerText || 'nossa história';
+                        const textoPronto = `*Fiz uma surpresa pra você* ❤️\n\nClica aqui pra ver: ${link}\n\n_Espero que goste..._`;
+                        
+                        navigator.clipboard.writeText(textoPronto).then(() => {
+                            alert('Texto copiado! ✅\n\nJá colei tudo formatado pra você.\nÉ só abrir o WhatsApp e colar.');
                         });
                     }
 
