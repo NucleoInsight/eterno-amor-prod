@@ -392,56 +392,89 @@
             }
 
             // FUNÇÃO QUE GERA ARTE PRA TODO MUNDO
-            function gerarArteStories() {
+           function gerarArteStories() {
                 const nomes = document.getElementById('titulo')?.innerText || 'Nosso Amor';
                 const dias = document.getElementById('contador')?.innerText.replace('♥ ','').replace(' de amor ♥','') || '365 dias';
                 const foto = document.querySelector('.fotos img')?.src || '';
                 const link = window.location.href.replace('&criador=true','').replace('?criador=true','');
-                const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(link)}`;
+                const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(link)}`;
 
-                const janelaArte = window.open('', '_blank', 'width=450,height=800');
+                const janelaArte = window.open('', '_blank');
                 janelaArte.document.write(`
                     <!DOCTYPE html>
                     <html>
                     <head>
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
                         <title>Stories - ${nomes}</title>
                         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+                        <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"><\/script>
                         <style>
-                            body { margin:0;background:#000;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:'Poppins',sans-serif; }
-                            .arte { width:1080px;height:1920px;transform:scale(0.35);transform-origin:top center;background:linear-gradient(135deg,#1a0a0a 0%,#0a0a0a 50%,#000 100%);position:relative;overflow:hidden; }
-                            .conteudo { position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:space-between;align-items:center;padding:120px 80px;text-align:center;color:#fff; }
-                            .topo { font-size:40px;color:#FFD166;letter-spacing:8px;text-transform:uppercase;font-weight:700; }
-                            .foto { width:600px;height:600px;border-radius:50px;border:8px solid #FF4D79;object-fit:cover;box-shadow:0 30px 80px rgba(255,77,121,0.5); }
-                            .nomes { font-family:'Playfair Display',serif;font-size:120px;font-weight:700;color:#fff;text-shadow:0 0 40px rgba(255,77,121,0.6);line-height:1.1; }
-                            .contador { font-size:70px;background:linear-gradient(135deg,#FF4D79,#FF8C42);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:900;margin:40px 0; }
-                            .qr { background:#fff;padding:30px;border-radius:30px;margin-top:60px; }
-                            .qr p { color:#000;margin-top:20px;font-weight:700;font-size:32px; }
-                            .marca { font-size:28px;color:#666;margin-top:80px; }
-                            .glow { position:absolute;width:800px;height:800px;background:radial-gradient(circle,rgba(255,77,121,0.3) 0%,transparent 70%);top:-200px;left:-200px;filter:blur(60px); }
-                            .glow2 { position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(255,140,66,0.2) 0%,transparent 70%);bottom:-100px;right:-100px;filter:blur(60px); }
+                            body { margin:0;background:#000;display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:100vh;font-family:'Poppins',sans-serif;padding:20px; }
+                            #arteCanvas { width:100%;max-width:450px;height:auto;aspect-ratio:9/16;background:linear-gradient(135deg,#1a0a0a 0%,#0a0a0a 50%,#000 100%);position:relative;overflow:hidden;border-radius:20px; }
+                            .conteudo { position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:space-between;align-items:center;padding:10% 8%;text-align:center;color:#fff; }
+                            .topo { font-size:16px;color:#FFD166;letter-spacing:4px;text-transform:uppercase;font-weight:700; }
+                            .foto { width:60%;aspect-ratio:1/1;border-radius:20px;border:4px solid #FF4D79;object-fit:cover;box-shadow:0 15px 40px rgba(255,77,121,0.5); }
+                            .nomes { font-family:'Playfair Display',serif;font-size:42px;font-weight:700;color:#fff;text-shadow:0 0 20px rgba(255,77,121,0.6);line-height:1.1; }
+                            .contador { font-size:28px;background:linear-gradient(135deg,#FF4D79,#FF8C42);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:900;margin:20px 0; }
+                            .qr { background:#fff;padding:15px;border-radius:15px;margin-top:30px; }
+                            .qr img { width:100px;height:100px; }
+                            .qr p { color:#000;margin:10px 0 0 0;font-weight:700;font-size:12px; }
+                            .marca { font-size:12px;color:#666;margin-top:30px; }
+                            .glow { position:absolute;width:300px;height:300px;background:radial-gradient(circle,rgba(255,77,121,0.3) 0%,transparent 70%);top:-50px;left:-50px;filter:blur(40px); }
+                            .botoes { margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center; }
+                            .botoes button { background:linear-gradient(135deg,#FF4D79,#FF8C42);color:#fff;border:none;padding:12px 25px;border-radius:50px;cursor:pointer;font-weight:700;font-size:14px; }
                         </style>
                     </head>
                     <body>
-                        <div class="arte">
-                            <div class="glow"></div><div class="glow2"></div>
+                        <div id="arteCanvas">
+                            <div class="glow"></div>
                             <div class="conteudo">
                                 <div class="topo">Eterno Amor</div>
-                                ${foto ? `<img src="${foto}" class="foto">` : '<div style="font-size:300px;">❤️</div>'}
+                                ${foto ? `<img src="${foto}" class="foto" crossorigin="anonymous">` : '<div style="font-size:100px;">❤️</div>'}
                                 <div>
                                     <div class="nomes">${nomes}</div>
-                                    <div class="contador">${dias}</div>
+                                    <div class="contador">♥ ${dias} ♥</div>
                                 </div>
                                 <div class="qr">
-                                    <img src="${qrUrl}" width="200" height="200">
+                                    <img src="${qrUrl}" crossorigin="anonymous">
                                     <p>Escaneie e veja nossa história</p>
                                 </div>
                                 <div class="marca">eternoamor.com</div>
                             </div>
                         </div>
-                        <div style="position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.8);padding:20px;border-radius:20px;text-align:center;">
-                            <p style="color:#FFD166;margin:0 0 15px 0;font-weight:700;">Tire print da tela acima</p>
-                            <button onclick="window.print()" style="background:linear-gradient(135deg,#FF4D79,#FF8C42);color:#fff;border:none;padding:15px 40px;border-radius:50px;cursor:pointer;font-weight:700;font-size:16px;">💾 Salvar Imagem</button>
+                        <div class="botoes">
+                            <button id="btnBaixar">📥 Baixar PNG</button>
+                            <button id="btnCompartilhar">📲 Compartilhar</button>
                         </div>
+
+                        <script>
+                            const arte = document.getElementById('arteCanvas');
+                            
+                            document.getElementById('btnBaixar').onclick = function() {
+                                html2canvas(arte, { scale: 2, useCORS: true, backgroundColor: '#000000' }).then(canvas => {
+                                    const link = document.createElement('a');
+                                    link.download = 'eterno-amor-stories.png';
+                                    link.href = canvas.toDataURL('image/png');
+                                    link.click();
+                                });
+                            };
+
+                            document.getElementById('btnCompartilhar').onclick = async function() {
+                                const canvas = await html2canvas(arte, { scale: 2, useCORS: true, backgroundColor: '#000000' });
+                                canvas.toBlob(async (blob) => {
+                                    const file = new File([blob], 'eterno-amor-stories.png', { type: 'image/png' });
+                                    if (navigator.share && navigator.canShare({ files: [file] })) {
+                                        await navigator.share({
+                                            files: [file],
+                                            title: 'Eterno Amor',
+                                            text: 'Olha a homenagem que fizemos ❤️'
+                                        });
+                                    } else {
+                                        alert('Seu navegador não suporta compartilhar. Use o botão Baixar.');
+                                    }
+                                });
+                            };
+                        <\/script>
                     </body>
                     </html>
                 `);
