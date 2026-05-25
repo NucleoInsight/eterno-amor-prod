@@ -114,6 +114,72 @@
             document.getElementById('idLiberar').value = id;
         }
 
+        async function carregarDemos() {
+            const lista = document.getElementById('listaDemos');
+            lista.innerHTML = 'Carregando...';
+            try {
+                const querySnapshot = await getDocs(collection(db, 'demos'));
+                if (querySnapshot.empty) {
+                    lista.innerHTML = '<div style="color:#666;text-align:center;">Nenhuma demo aguardando</div>';
+                    return;
+                }
+                let html = '';
+                querySnapshot.forEach((doc) => {
+                    const d = doc.data();
+                    const data = new Date(d.criadoEm).toLocaleString('pt-BR');
+                    html += `
+                        <div class="item-liberado" style="border-left-color:#FF8C42;">
+                            <div>
+                                <strong>${d.nomes}</strong> <span class="tag" style="background:#FF8C42;">DEMO</span><br>
+                                <span style="color:#888;font-size:12px;">Criado em ${data}</span>
+                            </div>
+                            <div>
+                                <button style="background:#2e7d32;" onclick="liberarDemo('${doc.id}','${d.nomes}')">Liberar</button>
+                            </div>
+                        </div>
+                    `;
+                });
+                lista.innerHTML = html;
+            } catch (e) {
+                lista.innerHTML = `<div style="color:#d32f2f;">Erro: ${e.message}</div>`;
+            }
+        }
+
+        window.liberarDemo = async function(idDemo, nomes) {
+            const plano = prompt(`Liberar "${nomes}" em qual plano?\n\nDigite: essencial, completo ou vitalicio`);
+            if (!plano || !['essencial','completo','vitalicio'].includes(plano)) return;
+            
+            // Gera slug do nome
+            let id = nomes.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+            
+            // Checa se já existe
+            const docExistente = await getDoc(doc(db, 'liberados', id));
+            if (docExistente.exists()) {
+                id = id + '-' + Date.now().toString().slice(-4);
+            }
+
+            const limites = {
+                essencial: { fotos: 1, musica: false, qr: false },
+                completo: { fotos: 5, musica: true, qr: false },
+                vitalicio: { fotos: 10, musica: true, qr: true }
+            };
+
+            await setDoc(doc(db, 'liberados', id), {
+                plano: plano,
+                limites: limites[plano],
+                liberadoEm: serverTimestamp(),
+                ativo: true,
+                nomes: nomes
+            });
+
+            // Apaga da fila de demos
+            await deleteDoc(doc(db, 'demos', idDemo));
+            
+            alert(`Liberado!\n\nEnvie pro cliente:\nhttps://nucleoinsight.github.io/eterno-amor-prod/editor.html?id=${id}`);
+            carregarDemos();
+            carregarLiberados();
+        }
+        
         window.entrar = function() {
             const senha = document.getElementById('senha').value;
             if (senha === SENHA_CORRETA) {
