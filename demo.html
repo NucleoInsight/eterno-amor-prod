@@ -308,7 +308,7 @@
             }, 30000);
         }
 
-        function gerarMensagem() {
+                function gerarMensagem() {
             const nomesInput = document.getElementById('nomes').value.trim();
             if (!nomesInput) {
                 alert('Escreve o nome do casal primeiro, amor 😍');
@@ -317,11 +317,11 @@
 
             let nome1, nome2;
             if (nomesInput.toLowerCase().includes(' e ')) {
-                [nome1][nome2] = nomesInput.split(/ e /i).map(n => n.trim());
+                [nome1, nome2] = nomesInput.split(/ e /i).map(n => n.trim());
             } else if (nomesInput.includes('&')) {
-                [nome1][nome2] = nomesInput.split('&').map(n => n.trim());
+                [nome1, nome2] = nomesInput.split('&').map(n => n.trim());
             } else if (nomesInput.includes('+')) {
-                [nome1][nome2] = nomesInput.split('+').map(n => n.trim());
+                [nome1, nome2] = nomesInput.split('+').map(n => n.trim());
             } else {
                 nome1 = nomesInput;
                 nome2 = 'amor';
@@ -337,7 +337,7 @@
             }
 
             const mensagens = {
-                romantico: `${nome2}, eu juro que tentei encontrar palavras à altura do que sinto. Mas como explicar que você transformou minha vida em filme? ${anos? `Em ${anos}` : 'Desde o primeiro dia'}, você me ensinou que amor não é sobre promessas... é sobre escolher a mesma pessoa todos os dias. E eu escolheria você em todas as vidas. Obrigado por ser meu 'pra sempre'. Te amo mais que ontem, menos que amanhã. — ${nome1}`,
+                romantico: `${nome2}, eu juro que tentei encontrar palavras à altura do que sinto. Mas como explicar que você transformou minha vida em filme? ${anos? `Em ${anos}` : 'Desde o primeiro dia'}, você me ensinou que amor não é sobre promessas... é sobre escolher a mesma pessoa todos os dias. E eu escolheria você em todas as vidas. Obrigado por ser meu "pra sempre". Te amo mais que ontem, menos que amanhã. — ${nome1}`,
                 engracado: `${nome2}, estatística: 100% dos meus dias ficam melhores depois que você sorri. ${anos? `Já são ${anos}` : 'Todo esse tempo'} aguentando meus memes ruins e meu ronco. Você merece um prêmio. Ou pelo menos metade da minha pizza. Pra sempre. Você é meu match perfeito, minha dupla favorita pro resto da vida. Te amo, sua chata linda. — ${nome1}`,
                 intenso: `${nome2}. Você não entrou na minha vida. Você INVADIU. Derrubou todas as minhas defesas, bagunçou meus planos e me fez entender que lar não é lugar... é pessoa. ${anos? `${anos} e eu ainda descubro` : 'Todo dia eu descubro'} um motivo novo pra me apaixonar. Você é minha paz e meu caos favorito. Se isso não for amor, eu não quero saber o que é. Pra sempre seu, ${nome1}.`,
                 curto: `${nome2}, você é meu ponto final. Meu 'e viveram felizes'. Meu tudo. ${anos? `${anos} provando que` : 'Provando que'} pra sempre existe. Te amo. — ${nome1}`
