@@ -102,11 +102,6 @@
         const db = getFirestore(app);
         const SENHA_CORRETA = '9859';
 
-        window.gerarId = function() {
-            const id = 'amor' + Math.floor(1000 + Math.random() * 9000);
-            document.getElementById('idLiberar').value = id;
-        }
-
         async function carregarDemos() {
             const lista = document.getElementById('listaDemos');
             lista.innerHTML = 'Carregando...';
