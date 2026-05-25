@@ -333,7 +333,7 @@
             try {
                 await setDoc(doc(db, 'homenagens', id), dados, { merge: true });
                 alert(`Homenagem publicada! 🎉\n\nLink final: h.html?id=${id}`);
-                window.location.href = `h.html?id=${id}`;
+                window.location.href = `h.html?id=${id}&criador=true`;
             } catch (e) {
                 alert('Erro ao salvar: ' + e.message);
                 btn.disabled = false;
