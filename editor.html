@@ -67,32 +67,8 @@
             </div>
 
             <div class="grupo-foto">
-                <label>Fotos do Casal: <span id="limiteFotos"></span></label>
-
-                <div id="blocoFoto1">
-                    <input type="file" id="uploadFoto1" accept="image/*" style="display:none" onchange="enviarFoto(this, 'foto1')">
-                    <button type="button" class="btn-secundario" onclick="document.getElementById('uploadFoto1').click()">📷 Adicionar Foto 1</button>
-                    <input type="hidden" id="foto1">
-                    <div id="preview1" class="dica"></div>
-                </div>
-
-                <div id="blocoFoto2">
-                    <input type="file" id="uploadFoto2" accept="image/*" style="display:none" onchange="enviarFoto(this, 'foto2')">
-                    <button type="button" class="btn-secundario" onclick="document.getElementById('uploadFoto2').click()">📷 Adicionar Foto 2</button>
-                    <input type="hidden" id="foto2">
-                    <div id="preview2" class="dica"></div>
-                </div>
-
-                <div id="blocoFoto3">
-                    <input type="file" id="uploadFoto3" accept="image/*" style="display:none" onchange="enviarFoto(this, 'foto3')">
-                    <button type="button" class="btn-secundario" onclick="document.getElementById('uploadFoto3').click()">📷 Adicionar Foto 3</button>
-                    <input type="hidden" id="foto3">
-                    <div id="preview3" class="dica"></div>
-                </div>
-
-                <div class="dica" style="margin-top:15px;">Clique no botão e escolha da sua galeria.</div>
+                <!-- Blocos de foto são gerados dinamicamente pelo JS -->
             </div>
-
             <button id="btnSalvar" onclick="salvar()">Salvar e Publicar Homenagem</button>
 
             <div class="preview-box">
