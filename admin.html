@@ -188,6 +188,17 @@
                     return;
                 }
 
+                // Atualiza dashboard
+                document.getElementById('totalLiberados').innerText = querySnapshot.size;
+                
+                const hoje = new Date().setHours(0,0,0,0);
+                let vendasHoje = 0;
+                querySnapshot.forEach(doc => {
+                    const data = doc.data().liberadoEm?.toDate();
+                    if (data && data.setHours(0,0,0,0) === hoje) vendasHoje++;
+                });
+                document.getElementById('vendasHoje').innerText = vendasHoje;
+
                 let html = '';
                 querySnapshot.forEach((doc) => {
                     const dados = doc.data();
