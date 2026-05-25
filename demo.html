@@ -56,16 +56,25 @@
         <div class="dica">A música toca sozinha, sem anúncios. Copia o link do YouTube</div>
 
         <div class="grupo-foto">
-            <label>Foto 1 - Principal:</label>
-            <input type="url" id="foto1" placeholder="Cole o link da imagem">
+    <label>Fotos do Casal:</label>
 
-            <label>Foto 2:</label>
-            <input type="url" id="foto2" placeholder="Cole o link da imagem">
+    <input type="file" id="uploadFoto1" accept="image/*" style="display:none" onchange="enviarFoto(this, 'foto1')">
+    <button type="button" class="btn-secundario" onclick="document.getElementById('uploadFoto1').click()">📷 Adicionar Foto 1</button>
+    <input type="hidden" id="foto1">
+    <div id="preview1" class="dica"></div>
 
-            <label>Foto 3:</label>
-            <input type="url" id="foto3" placeholder="Cole o link da imagem">
-            <div class="dica">Não sabe pegar link? <a href="https://imgur.com/upload" target="_blank">Clique aqui, suba as fotos no Imgur</a> e cole os links. É grátis e leva 10s.</div>
-        </div>
+    <input type="file" id="uploadFoto2" accept="image/*" style="display:none" onchange="enviarFoto(this, 'foto2')">
+    <button type="button" class="btn-secundario" onclick="document.getElementById('uploadFoto2').click()">📷 Adicionar Foto 2</button>
+    <input type="hidden" id="foto2">
+    <div id="preview2" class="dica"></div>
+
+    <input type="file" id="uploadFoto3" accept="image/*" style="display:none" onchange="enviarFoto(this, 'foto3')">
+    <button type="button" class="btn-secundario" onclick="document.getElementById('uploadFoto3').click()">📷 Adicionar Foto 3</button>
+    <input type="hidden" id="foto3">
+    <div id="preview3" class="dica"></div>
+
+    <div class="dica" style="margin-top:15px;">Clique no botão e escolha da sua galeria. Sem complicação.</div>
+</div>
 
         <button onclick="finalizar()">Salvar e Gerar Meu Link Exclusivo</button>
 
