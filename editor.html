@@ -139,10 +139,7 @@
             // USA LIMITES QUE VÊM DO FIREBASE - ADMIN É A FONTE DA VERDADE
             const limites = dadosPlano.limites || { fotos: 1, musica: false, qr: false, edicao: false };
               
-            // APLICA LIMITES NA TELA
-            document.getElementById('limiteFotos').innerText = `(Máx: ${limites.fotos} foto${limites.fotos > 1 ? 's' : ''})`;
-            
-            // GERA BLOCOS DE FOTO DINÂMICOS
+                       // GERA BLOCOS DE FOTO DINÂMICOS
             const containerFotos = document.querySelector('.grupo-foto');
             let htmlFotos = `<label>Fotos do Casal: <span id="limiteFotos">(Máx: ${limites.fotos} foto${limites.fotos > 1 ? 's' : ''})</span></label>`;
             
