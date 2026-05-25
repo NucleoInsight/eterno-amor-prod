@@ -451,20 +451,6 @@ const countdown = setInterval(() => {
   if (distance < 0) clearInterval(countdown);
 }, 1000);
 
-// Demo interativa do widget
-function atualizarPreview() {
-  const nome1 = document.getElementById("nome1").value || "Nome 1";
-  const nome2 = document.getElementById("nome2").value || "Nome 2";
-  const dataInicio = new Date(document.getElementById("dataInicio").value);
-  document.getElementById("previewNomes").innerText = `${nome1} & ${nome2}`;
-  
-  const agora = new Date();
-  let anos = agora.getFullYear() - dataInicio.getFullYear();
-  let meses = agora.getMonth() - dataInicio.getMonth();
-  if (meses < 0) { anos--; meses += 12; }
-  document.getElementById("previewTempo").innerText = `${anos} ano${anos!==1?'s':''}, ${meses} mes${meses!==1?'es':''}`;
-}
-
 // FAQ Accordion
 document.querySelectorAll('.faq-question').forEach(item => {
   item.addEventListener('click', () => {
