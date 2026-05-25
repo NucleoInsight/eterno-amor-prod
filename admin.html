@@ -271,7 +271,7 @@
                                 <span style="color:#FFD166;font-size:11px;">${dados.limites.fotos} fotos | ${dados.limites.musica ? 'Música' : 'S/Música'} | ${dados.limites.qr ? 'QR' : 'S/QR'} | ${dados.limites.edicao ? 'Editável' : 'Fixo'}</span>
                             </div>
                             <div>
-                                <button class="btn-copiar" onclick="copiarLink('${doc.id}')">Copiar Link</button>
+                                <button class="btn-copiar" onclick="copiarLink('${doc.id}', '${dados.plano}', '${dados.nomes || ''}')">📋 Copiar WhatsApp</button>
                                 <button onclick="bloquear('${doc.id}')">Bloquear</button>
                             </div>
                         </div>
