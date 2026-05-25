@@ -267,9 +267,9 @@ footer {
     <div class="demo-grid">
       <div class="demo-form">
         <h3>Digite o nome do casal:</h3>
-        <input type="text" id="nome1" placeholder="Seu nome" value="Maria">
-        <input type="text" id="nome2" placeholder="Nome do mozão" value="João">
-        <input type="date" id="dataInicio" value="2023-06-12">
+        <input type="text" id="nome1" placeholder="Seu nome" oninput="atualizarPreview()" value="Maria">
+        <input type="text" id="nome2" placeholder="Nome do mozão" oninput="atualizarPreview()" value="João">
+        <input type="date" id="dataInicio" oninput="atualizarPreview()" value="2023-06-12">
         <a href="demo.html" class="btn" style="width:100%;margin-top:10px;">Quero Criar a Minha Completa</a>
         <p style="margin-top:20px;font-size:0.9rem;color:#777;">* Clique acima pra adicionar fotos, música e texto personalizado na degustação grátis.</p>
       </div>
