@@ -268,7 +268,7 @@
                             <div>
                                 <strong>${doc.id}</strong> <span class="tag">${dados.plano}</span><br>
                                 <span style="color:#888;font-size:12px;">Liberado em ${data}</span><br>
-                                <span style="color:#FFD166;font-size:11px;">editor.html?id=${doc.id}</span>
+                                <span style="color:#FFD166;font-size:11px;">${dados.limites.fotos} fotos | ${dados.limites.musica ? 'Música' : 'S/Música'} | ${dados.limites.qr ? 'QR' : 'S/QR'} | ${dados.limites.edicao ? 'Editável' : 'Fixo'}</span>
                             </div>
                             <div>
                                 <button class="btn-copiar" onclick="copiarLink('${doc.id}')">Copiar Link</button>
