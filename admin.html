@@ -200,7 +200,19 @@
         }
 
         window.liberarAcesso = async function() {
-            const id = document.getElementById('idLiberar').value.trim().toLowerCase();
+            const nomes = document.getElementById('nomeLiberar').value.trim();
+            if (!nomes) {
+                msg.innerText = 'Digite o nome do casal';
+                msg.className = 'status erro';
+                msg.classList.remove('oculto');
+                return;
+            }
+            let id = nomes.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+            
+            const docExistente = await getDoc(doc(db, 'liberados', id));
+            if (docExistente.exists()) {
+                id = id + '-' + Date.now().toString().slice(-4);
+            }
             const plano = document.getElementById('planoLiberar').value;
             const msg = document.getElementById('msgStatus');
 
