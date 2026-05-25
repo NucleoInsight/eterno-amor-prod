@@ -223,6 +223,13 @@
             }
         }
 
+        window.copiarLink = function(id) {
+            const link = `https://nucleoinsight.github.io/eterno-amor-prod/editor.html?id=${id}`;
+            navigator.clipboard.writeText(link).then(() => {
+                alert('Link copiado!\n\n' + link);
+            });
+        }
+        
         window.bloquear = async function(id) {
             if (!confirm(`Bloquear o ID ${id}? O cliente vai perder acesso.`)) return;
             
