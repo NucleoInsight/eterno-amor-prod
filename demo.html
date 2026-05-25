@@ -246,6 +246,76 @@ async function enviarFoto(input, campoId) {
     };
     reader.readAsDataURL(file);
 }
+        // SISTEMA DE ESCASSEZ + COOKIE DE RETORNO
+        function iniciarEscassez() {
+            // Vagas fake que diminuem
+            let vagas = localStorage.getItem('vagasDemo') || 3;
+            if (localStorage.getItem('jaVisitou')) {
+                vagas = 1; // Se voltou, só tem 1 vaga
+                document.getElementById('tarjaEscassez').innerHTML = '⚠️ ÚLTIMA CHANCE: Você voltou! Liberamos 1 vaga extra só pra você';
+                document.getElementById('tarjaEscassez').style.background = 'linear-gradient(135deg, #d32f2f 0%, #FF4D79 100%)';
+            }
+            document.getElementById('vagasHoje').innerText = vagas;
+
+            // Marca que já visitou
+            setTimeout(() => localStorage.setItem('jaVisitou', 'true'), 5000);
+
+            // Diminui vagas a cada 30s pra dar urgência
+            setInterval(() => {
+                if (vagas > 1) {
+                    vagas--;
+                    document.getElementById('vagasHoje').innerText = vagas;
+                    localStorage.setItem('vagasDemo', vagas);
+                    if (vagas === 1) {
+                        document.getElementById('tarjaEscassez').innerHTML = '🚨 ÚLTIMA VAGA DE HOJE - Depois só amanhã';
+                    }
+                }
+            }, 30000);
+        }
+
+        // MENSAGENS NÍVEL CINEMA
+        function gerarMensagem() {
+            const nomesInput = document.getElementById('nomes').value.trim();
+            if (!nomesInput) {
+                alert('Escreve o nome do casal primeiro, amor 😍');
+                return;
+            }
+
+            let nome1, nome2;
+            if (nomesInput.toLowerCase().includes(' e ')) {
+                [nome1, nome2] = nomesInput.split(/ e /i).map(n => n.trim());
+            } else if (nomesInput.includes('&')) {
+                [nome1, nome2] = nomesInput.split('&').map(n => n.trim());
+            } else if (nomesInput.includes('+')) {
+                [nome1, nome2] = nomesInput.split('+').map(n => n.trim());
+            } else {
+                nome1 = nomesInput;
+                nome2 = 'amor';
+            }
+
+            const modelo = document.getElementById('modeloMsg').value || 'romantico';
+            const data = document.getElementById('data').value;
+            let anos = '';
+
+            if (data) {
+                const anosJuntos = new Date().getFullYear() - new Date(data).getFullYear();
+                anos = anosJuntos > 0? `${anosJuntos} anos` : 'cada segundo';
+            }
+
+            const mensagens = {
+                romantico: `${nome2}, eu juro que tentei encontrar palavras à altura do que sinto. Mas como explicar que você transformou minha vida em filme? ${anos? `Em ${anos}` : 'Desde o primeiro dia'}, você me ensinou que amor não é sobre promessas... é sobre escolher a mesma pessoa todos os dias. E eu escolheria você em todas as vidas. Obrigado por ser meu 'pra sempre'. Te amo mais que ontem, menos que amanhã. — ${nome1}`,
+                
+                engracado: `${nome2}, estatística: 100% dos meus dias ficam melhores depois que você sorri. ${anos? `Já são ${anos}` : 'Todo esse tempo'} aguentando meus memes ruins e meu ronco. Você merece um prêmio. Ou pelo menos metade da minha pizza. Pra sempre. Você é meu match perfeito, minha dupla favorita pro resto da vida. Te amo, sua chata linda. — ${nome1}`,
+                
+                intenso: `${nome2}. Você não entrou na minha vida. Você INVADIU. Derrubou todas as minhas defesas, bagunçou meus planos e me fez entender que lar não é lugar... é pessoa. ${anos? `${anos} e eu ainda descubro` : 'Todo dia eu descubro'} um motivo novo pra me apaixonar. Você é minha paz e meu caos favorito. Se isso não for amor, eu não quero saber o que é. Pra sempre seu, ${nome1}.`,
+                
+                curto: `${nome2}, você é meu ponto final. Meu 'e viveram felizes'. Meu tudo. ${anos? `${anos} provando que` : 'Provando que'} pra sempre existe. Te amo. — ${nome1}`
+            };
+
+            document.getElementById('mensagem').value = mensagens[modelo];
+        }
+
+        iniciarEscassez();
     </script>
 </body>
 </html>
