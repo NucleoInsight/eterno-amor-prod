@@ -136,30 +136,9 @@
             document.getElementById('telaEditor').classList.remove('oculto');
             document.getElementById('nomePlano').innerText = dadosPlano.plano.toUpperCase();
               
-            // DEFINE LIMITES PADRÃO SE NÃO VIER DO FIREBASE
-            const limites = {
-                fotos: 3,
-                musica: false,
-                edicao: false,
-                ...dadosPlano.limites
-            };
-
-            // AJUSTA PELO PLANO - VALORES FINAIS
-            if (dadosPlano.plano === 'essencial') {
-                limites.fotos = 1;
-                limites.musica = false;
-                limites.edicao = false;
-            } else if (dadosPlano.plano === 'completo') {
-                limites.fotos = 5;
-                limites.musica = true;
-                limites.edicao = false;
-                limites.edicao = false;
-            } else if (dadosPlano.plano === 'vitalicio') {
-                limites.fotos = 10;
-                limites.musica = true;
-                limites.edicao = true;
-            }
-
+            // USA LIMITES QUE VÊM DO FIREBASE - ADMIN É A FONTE DA VERDADE
+            const limites = dadosPlano.limites || { fotos: 1, musica: false, qr: false, edicao: false };
+              
             // APLICA LIMITES NA TELA
             document.getElementById('limiteFotos').innerText = `(Máx: ${limites.fotos} foto${limites.fotos > 1 ? 's' : ''})`;
             
