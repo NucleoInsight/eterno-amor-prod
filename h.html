@@ -276,15 +276,73 @@
 
         carregar();
             
-            // RODAPÉ VIRAL - SÓ APARECE SE NÃO FOR DEMO
-            if (!isDemo) {
+            // PAINEL DO CRIADOR - SÓ QUEM ACABOU DE CRIAR VÊ
+            if (isCriador && !isDemo) {
+                setTimeout(() => {
+                    const painel = document.createElement('div');
+                    painel.innerHTML = `
+                        <div style="text-align:center;margin-top:50px;padding:30px;background:linear-gradient(145deg,rgba(26,26,26,0.95),rgba(10,10,10,0.98));border:1px solid rgba(255,77,121,0.4);border-radius:20px;backdrop-filter:blur(10px);">
+                            <h3 style="color:#FFD166;margin-bottom:20px;font-family:'Cormorant Garamond',serif;font-size:2rem;">Sua homenagem está no ar! 🎉</h3>
+                            <p style="color:#ccc;font-size:15px;margin-bottom:25px;">Escolha como quer enviar pro seu amor:</p>
+                            
+                            <button onclick="copiarLinkHomenagem()" style="background:linear-gradient(135deg,#FF4D79,#FF8C42);color:#fff;border:none;padding:15px 35px;border-radius:50px;margin:8px;cursor:pointer;font-weight:700;font-size:16px;width:280px;">
+                                📋 Copiar Link da Homenagem
+                            </button><br>
+                            
+                            <button onclick="gerarQRCode()" style="background:transparent;border:2px solid #FF4D79;color:#FF4D79;padding:15px 35px;border-radius:50px;margin:8px;cursor:pointer;font-weight:700;font-size:16px;width:280px;">
+                                📱 Gerar QR Code
+                            </button><br>
+                            
+                            <button onclick="gerarArte()" style="background:transparent;border:2px solid #FF8C42;color:#FF8C42;padding:15px 35px;border-radius:50px;margin:8px;cursor:pointer;font-weight:700;font-size:16px;width:280px;">
+                                🎨 Baixar Arte pro Stories
+                            </button>
+                            
+                            <div id="areaQR" style="margin-top:30px;"></div>
+                            <div id="areaArte" style="margin-top:30px;"></div>
+                        </div>
+                    `;
+                    document.querySelector('.card').after(painel);
+
+                    // FUNÇÕES DO PAINEL
+                    window.copiarLinkHomenagem = function() {
+                        const link = window.location.href.replace('&criador=true','');
+                        navigator.clipboard.writeText(link).then(() => {
+                            alert('Link copiado! ✅\n\nManda no WhatsApp pro seu amor:\n' + link);
+                        });
+                    }
+
+                    window.gerarQRCode = function() {
+                        const link = window.location.href.replace('&criador=true','');
+                        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(link)}`;
+                        document.getElementById('areaQR').innerHTML = `
+                            <div style="padding:20px;background:#0a0a0a;border-radius:12px;margin-top:20px;">
+                                <img src="${qrUrl}" style="border:5px solid #FF4D79;border-radius:12px;width:250px;">
+                                <p style="color:#888;font-size:13px;margin-top:10px;">Imprima e cole no presente</p>
+                                <button onclick="window.print()" style="background:#333;color:#fff;border:none;padding:10px 25px;border-radius:8px;margin-top:10px;cursor:pointer;">🖨️ Imprimir</button>
+                            </div>
+                        `;
+                    }
+
+                    window.gerarArte = function() {
+                        document.getElementById('areaArte').innerHTML = `
+                            <div style="padding:20px;background:#0a0a0a;border-radius:12px;margin-top:20px;">
+                                <p style="color:#FFD166;">Arte pra Stories em breve! 🚀</p>
+                                <p style="color:#888;font-size:13px;">Por enquanto, tira print da tela e posta</p>
+                            </div>
+                        `;
+                    }
+                }, 1000);
+            }
+
+            // RODAPÉ VIRAL - SÓ APARECE PRA QUEM RECEBE O LINK
+            if (!isDemo && !isCriador) {
                 setTimeout(() => {
                     const rodape = document.createElement('div');
                     rodape.innerHTML = `
                         <div style="text-align:center;margin-top:60px;padding-top:30px;border-top:1px solid rgba(255,77,121,0.2);">
                             <p style="color:#888;font-size:14px;margin-bottom:15px;">Gostou? Crie a sua homenagem também</p>
                             <a href="index.html" style="background:linear-gradient(135deg,#FF4D79,#FF8C42);color:#fff;padding:12px 25px;border-radius:50px;text-decoration:none;font-weight:600;display:inline-block;font-size:14px;">
-                                ❤️ Fazer minha homenagem
+                                ❤ Fazer minha homenagem
                             </a>
                         </div>
                     `;
