@@ -370,7 +370,82 @@
                             </div>
                         `;
                     });
+                // BOTÃO ARTE STORIES NO PAINEL DO CRIADOR
+                    const btnArteCriador = document.createElement('button');
+                    btnArteCriador.innerHTML = '🎨 Baixar Arte pro Stories';
+                    btnArteCriador.style.cssText = 'background:transparent;border:2px solid #FF8C42;color:#FF8C42;padding:15px 35px;border-radius:50px;margin:8px;cursor:pointer;font-weight:700;font-size:16px;width:280px;';
+                    btnArteCriador.onclick = gerarArteStories;
+                    painel.querySelector('div').appendChild(document.createElement('br'));
+                    painel.querySelector('div').appendChild(btnArteCriador);
                 }, 1000);
+            }
+
+            // ARTE STORIES PRA QUEM RECEBE - APARECE NO RODAPÉ VIRAL
+            if (!isDemo && !isCriador) {
+                setTimeout(() => {
+                    const btnArteViral = document.createElement('button');
+                    btnArteViral.innerHTML = '📱 Salvar nos Stories';
+                    btnArteViral.style.cssText = 'background:transparent;border:2px solid #FF4D79;color:#FF4D79;padding:12px 25px;border-radius:50px;margin-top:15px;cursor:pointer;font-weight:600;font-size:14px;';
+                    btnArteViral.onclick = gerarArteStories;
+                    document.querySelector('.card div[style*="border-top"]').appendChild(btnArteViral);
+                }, 2500);
+            }
+
+            // FUNÇÃO QUE GERA ARTE PRA TODO MUNDO
+            function gerarArteStories() {
+                const nomes = document.getElementById('titulo')?.innerText || 'Nosso Amor';
+                const dias = document.getElementById('contador')?.innerText.replace('♥ ','').replace(' de amor ♥','') || '365 dias';
+                const foto = document.querySelector('.fotos img')?.src || '';
+                const link = window.location.href.replace('&criador=true','').replace('?criador=true','');
+                const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(link)}`;
+
+                const janelaArte = window.open('', '_blank', 'width=450,height=800');
+                janelaArte.document.write(`
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <title>Stories - ${nomes}</title>
+                        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+                        <style>
+                            body { margin:0;background:#000;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:'Poppins',sans-serif; }
+                            .arte { width:1080px;height:1920px;transform:scale(0.35);transform-origin:top center;background:linear-gradient(135deg,#1a0a0a 0%,#0a0a0a 50%,#000 100%);position:relative;overflow:hidden; }
+                            .conteudo { position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:space-between;align-items:center;padding:120px 80px;text-align:center;color:#fff; }
+                            .topo { font-size:40px;color:#FFD166;letter-spacing:8px;text-transform:uppercase;font-weight:700; }
+                            .foto { width:600px;height:600px;border-radius:50px;border:8px solid #FF4D79;object-fit:cover;box-shadow:0 30px 80px rgba(255,77,121,0.5); }
+                            .nomes { font-family:'Playfair Display',serif;font-size:120px;font-weight:700;color:#fff;text-shadow:0 0 40px rgba(255,77,121,0.6);line-height:1.1; }
+                            .contador { font-size:70px;background:linear-gradient(135deg,#FF4D79,#FF8C42);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:900;margin:40px 0; }
+                            .qr { background:#fff;padding:30px;border-radius:30px;margin-top:60px; }
+                            .qr p { color:#000;margin-top:20px;font-weight:700;font-size:32px; }
+                            .marca { font-size:28px;color:#666;margin-top:80px; }
+                            .glow { position:absolute;width:800px;height:800px;background:radial-gradient(circle,rgba(255,77,121,0.3) 0%,transparent 70%);top:-200px;left:-200px;filter:blur(60px); }
+                            .glow2 { position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(255,140,66,0.2) 0%,transparent 70%);bottom:-100px;right:-100px;filter:blur(60px); }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="arte">
+                            <div class="glow"></div><div class="glow2"></div>
+                            <div class="conteudo">
+                                <div class="topo">Eterno Amor</div>
+                                ${foto ? `<img src="${foto}" class="foto">` : '<div style="font-size:300px;">❤️</div>'}
+                                <div>
+                                    <div class="nomes">${nomes}</div>
+                                    <div class="contador">${dias}</div>
+                                </div>
+                                <div class="qr">
+                                    <img src="${qrUrl}" width="200" height="200">
+                                    <p>Escaneie e veja nossa história</p>
+                                </div>
+                                <div class="marca">eternoamor.com</div>
+                            </div>
+                        </div>
+                        <div style="position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.8);padding:20px;border-radius:20px;text-align:center;">
+                            <p style="color:#FFD166;margin:0 0 15px 0;font-weight:700;">Tire print da tela acima</p>
+                            <button onclick="window.print()" style="background:linear-gradient(135deg,#FF4D79,#FF8C42);color:#fff;border:none;padding:15px 40px;border-radius:50px;cursor:pointer;font-weight:700;font-size:16px;">💾 Salvar Imagem</button>
+                        </div>
+                    </body>
+                    </html>
+                `);
+                janelaArte.document.close();
             }
 
             // RODAPÉ VIRAL - SÓ APARECE PRA QUEM RECEBE O LINK
