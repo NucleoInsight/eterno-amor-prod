@@ -329,16 +329,19 @@
             btn.disabled = true;
             btn.innerText = 'Salvando...';
 
-            const dados = {
+           const dados = {
                 nomes: document.getElementById('nomes').value,
                 data: document.getElementById('data').value,
                 mensagem: document.getElementById('mensagem').value,
-                musica: document.getElementById('musica').value,
-                foto1: document.getElementById('foto1').value,
-                foto2: document.getElementById('foto2').value,
-                foto3: document.getElementById('foto3').value,
+                musica: document.getElementById('musica')?.value || '',
                 atualizadoEm: serverTimestamp()
             };
+            
+            // SALVA FOTOS DINAMICAMENTE
+            for (let i = 1; i <= 10; i++) {
+                const fotoEl = document.getElementById(`foto${i}`);
+                if (fotoEl) dados[`foto${i}`] = fotoEl.value || '';
+            }
 
             if (!dados.nomes ||!dados.data ||!dados.mensagem) {
                 alert('Preenche pelo menos: Nome, Data e Mensagem');
