@@ -120,52 +120,6 @@
             document.getElementById('pMusica').innerText = musica? 'Música adicionada ✓' : '---';
         }
 
-        // GERADOR DE MENSAGEM INTELIGENTE
-        function gerarMensagem() {
-            const nomesInput = document.getElementById('nomes').value.trim();
-            if (!nomesInput) {
-                alert('Preenche o "Nome do Casal" lá em cima primeiro :)');
-                return;
-            }
-
-            // Aceita: "e", "&", "+", "E" com ou sem espaço
-            let nome1, nome2;
-            if (nomesInput.toLowerCase().includes(' e ')) {
-                [nome1, nome2] = nomesInput.split(/ e /i).map(n => n.trim());
-            } else if (nomesInput.includes('&')) {
-                [nome1, nome2] = nomesInput.split('&').map(n => n.trim());
-            } else if (nomesInput.includes('+')) {
-                [nome1, nome2] = nomesInput.split('+').map(n => n.trim());
-            } else {
-                // Se não tem separador, usa o nome completo como nome1 e "amor" como nome2
-                nome1 = nomesInput;
-                nome2 = 'meu amor';
-            }
-
-            if (!nome1) {
-                alert('Não consegui identificar os nomes. Usa: Gil e Maria');
-                return;
-            }
-
-            const modelo = document.getElementById('modeloMsg').value || 'romantico';
-            const data = document.getElementById('data').value;
-            let anos = '';
-
-            if (data) {
-                const anosJuntos = new Date().getFullYear() - new Date(data).getFullYear();
-                anos = anosJuntos > 0? `${anosJuntos} anos` : 'algum tempo';
-            }
-
-            const mensagens = {
-                romantico: `${nome2}, desde que você entrou na minha vida tudo ganhou cor. ${anos? `Já são ${anos} de nós` : 'Cada dia ao seu lado'} é um presente. Você é meu porto seguro, meu amor pra toda vida. Te amo infinitamente, ${nome1}.`,
-                engracado: `${nome2}, obrigado por aturar minhas manias há ${anos || 'tanto tempo'}. Você é a única pessoa que eu deixo roubar minha batata frita. Que a gente continue se escolhendo todo dia, mesmo brigando pelo cobertor. Te amo, ${nome1}.`,
-                intenso: `${nome2}, você é a melhor parte de mim. ${anos? `Em ${anos}` : 'Desde que te conheci'} eu descobri que amor de verdade existe. Você me transforma, me completa, me faz querer ser melhor. Sou seu pra sempre, ${nome1}.`,
-                curto: `${nome2}, você + eu = pra sempre. Simples assim. Te amo, ${nome1}.`
-            };
-
-            document.getElementById('mensagem').value = mensagens[modelo];
-        }
-
         // ABRE DEMO COM MARCA D'ÁGUA
         function finalizar() {
             const nomes = document.getElementById('nomes').value;
