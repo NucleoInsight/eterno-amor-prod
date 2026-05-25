@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pagamento Confirmado | Eterno Amor</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --rosa: #FF4D79;
+  --preto: #0a0a0a;
+  --gradiente: linear-gradient(135deg, #FF4D79 0%, #FF8C42 100%);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Poppins', sans-serif;
+  background: var(--preto);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+.card {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 20px;
+  padding: 40px 30px;
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(255,77,121,0.2);
+}
+.card h1 {
+  font-size: 2rem;
+  background: var(--gradiente);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 10px;
+}
+.card p { color: #aaa; margin-bottom: 25px; line-height: 1.6; }
+.card label {
+  display: block;
+  text-align: left;
+  margin: 20px 0 8px;
+  font-weight: 600;
+  font-size: 14px;
+}
+.card input {
+  width: 100%;
+  padding: 14px;
+  background: #0a0a0a;
+  border: 2px solid #333;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif;
+}
+.card input:focus { border-color: var(--rosa); outline: none; }
+.btn {
+  width: 100%;
+  padding: 16px;
+  background: var(--gradiente);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 25px;
+  transition: transform 0.2s;
+}
+.btn:hover { transform: translateY(-2px); }
+.plano-tag {
+  display: inline-block;
+  background: rgba(255,77,121,0.2);
+  color: var(--rosa);
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+.info { font-size: 12px; color: #666; margin-top: 20px; }
+</style>
+</head>
+<body>
+<div class="card">
+    <div class="plano-tag" id="planoTag">Plano Completo</div>
+    <h1>Pagamento Confirmado! 🎉</h1>
+    <p>Oba! Seu presente inesquecível tá quase pronto.<br>Preenche abaixo pra liberar em até 2h:</p>
+
+    <label for="nomes">Nome do Casal:</label>
+    <input type="text" id="nomes" placeholder="Ex: Gil e Ane">
+
+    <button onclick="chamarWhats()" class="btn">
+        Liberar Meu Acesso no WhatsApp
+    </button>
+
+    <p class="info">Atendimento humano das 8h às 22h. Tempo médio de entrega: 30min</p>
+</div>
+
+<script>
+const urlParams = new URLSearchParams(window.location.search);
+const plano = urlParams.get('plano') || 'completo';
+const planos = {
+    'essencial': 'Plano Essencial',
+    'completo': 'Plano Completo',
+    'vitalicio': 'Plano Vitalício'
+};
+document.getElementById('planoTag').innerText = planos[plano] || 'Plano Completo';
+
+function chamarWhats() {
+    const nomes = document.getElementById('nomes').value.trim();
+    if(!nomes) {
+        alert('Por favor, digite o nome do casal ❤️');
+        return;
+    }
+
+    const msg = `Oi! Acabei de comprar o Eterno Amor ❤️\n\n*Plano:* ${planos[plano]}\n*Casal:* ${nomes}\n\nQuero liberar meu acesso!`;
+    const link = `https://wa.me/5575998649927?text=${encodeURIComponent(msg)}`;
+    window.open(link, '_blank');
+}
+</script>
+</body>
+</html>
