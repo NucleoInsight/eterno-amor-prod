@@ -117,7 +117,20 @@ header {
 .phone-screen {
   background: var(--gradiente); border-radius: 30px;
   padding: 40px 20px; color: var(--branco); text-align: center; min-height: 500px;
+  position: relative; overflow: hidden;
 }
+.phone-screen::after {
+  content: "DEMONSTRAÇÃO";
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  font-size: 3rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.15);
+  z-index: 1;
+  pointer-events: none;
+}
+.phone-content { position: relative; z-index: 2; }
 .phone-screen h3 { font-size: 2rem; margin-bottom: 10px; }
 .heart-pulse { font-size: 50px; animation: pulse 1.5s infinite; }
 @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
@@ -138,7 +151,7 @@ header {
 /* Pricing */
 .pricing { padding: 100px 0; }
 .pricing-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 60px;
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; margin-top: 60px; max-width: 800px; margin-left: auto; margin-right: auto;
 }
 .price-card {
   background: var(--branco); border: 2px solid #eee; border-radius: 16px;
@@ -218,8 +231,8 @@ footer {
         <img src="https://i.pravatar.cc/40?img=8" style="width:40px;height:40px;border-radius:50%;border:3px solid #fff;margin-left:-10px;">
       </div>
       <div style="text-align:left;">
-        <div style="color:#FFD166;font-weight:700;">+12.847 casais</div>
-        <div style="font-size:14px;color:#555;">já se declararam esse mês</div>
+        <div style="color:#FFD166;font-weight:700;">+127 casais</div>
+        <div style="font-size:14px;color:#555;">já se declararam este mês</div>
       </div>
     </div>
   </div>
@@ -235,7 +248,7 @@ footer {
         <p style="color:#ccc;margin-bottom:20px;font-style:italic;">"Meu namorado chorou quando abriu. Disse que foi o melhor presente da vida dele. Valeu cada centavo."</p>
         <div style="display:flex;align-items:center;gap:12px;">
           <img src="https://i.pravatar.cc/50?img=47" style="width:50px;height:50px;border-radius:50%;">
-          <div><strong style="color:#fff;">Juliana S.</strong><br><span style="color:#888;font-size:13px;">São Paulo, SP</span></div>
+          <div><strong style="color:#fff;">Juliana S.</strong><br><span style="color:#888;font-size:13px;">Feira de Santana, BA</span></div>
         </div>
       </div>
 
@@ -244,7 +257,7 @@ footer {
         <p style="color:#ccc;margin-bottom:20px;font-style:italic;">"Fiz pro aniversário de namoro. Ela postou nos stories e as amigas dela já vieram me perguntar onde fiz."</p>
         <div style="display:flex;align-items:center;gap:12px;">
           <img src="https://i.pravatar.cc/50?img=12" style="width:50px;height:50px;border-radius:50%;">
-          <div><strong style="color:#fff;">Rafael M.</strong><br><span style="color:#888;font-size:13px;">Belo Horizonte, MG</span></div>
+          <div><strong style="color:#fff;">Rafael M.</strong><br><span style="color:#888;font-size:13px;">Salvador, BA</span></div>
         </div>
       </div>
 
@@ -270,12 +283,12 @@ footer {
         <input type="text" id="nome1" placeholder="Seu nome" value="Maria" oninput="atualizarPreview()">
         <input type="text" id="nome2" placeholder="Nome do mozão" value="João" oninput="atualizarPreview()">
         <input type="date" id="dataInicio" value="2023-06-12" oninput="atualizarPreview()">
-        <a href="demo.html" class="btn" style="width:100%;margin-top:10px;">Quero Criar a Minha Completa</a>
+        <a href="#planos" class="btn" style="width:100%;margin-top:10px;">Quero Criar a Minha Completa</a>
         <p style="margin-top:20px;font-size:0.9rem;color:#777;">* Preview atualiza ao vivo. Teste grátis antes de pagar.</p>
       </div>
       <div class="phone-mockup">
         <div class="phone-screen" id="phonePreview">
-          <div style="position:relative;height:100%;display:flex;flex-direction:column;justify-content:space-between;padding:20px 10px;">
+          <div class="phone-content" style="position:relative;height:100%;display:flex;flex-direction:column;justify-content:space-between;padding:20px 10px;">
             <div class="heart-pulse" style="font-size:40px;">♥</div>
             <div>
               <h3 id="previewNomes" style="font-size:1.6rem;margin:10px 0;">Maria & João</h3>
@@ -324,7 +337,7 @@ footer {
         <div class="feature-card">
         <div class="feature-icon">📸</div>
         <h3>Galeria de Fotos</h3>
-        <p>Essencial: 1 foto. Completo: 5 fotos. Vitalício: 10 fotos dos melhores momentos.</p>
+        <p>Completo: 5 fotos. Vitalício: 10 fotos dos melhores momentos.</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">💌</div>
@@ -342,9 +355,9 @@ footer {
 
 <section class="social-proof">
   <div class="container">
-    <h2 style="color:var(--branco);margin-bottom:20px;">+12.847 Casais Já Se Declararam</h2>
+    <h2 style="color:var(--branco);margin-bottom:20px;">+127 Casais Já Se Declararam Este Mês</h2>
     <div class="stats">
-      <div><div class="stat-number" data-target="12847">0</div><div>Homenagens Criadas</div></div>
+      <div><div class="stat-number" data-target="127">0</div><div>Homenagens Criadas</div></div>
       <div><div class="stat-number" data-target="98">0</div><div>% de Aprovação</div></div>
       <div><div class="stat-number" data-target="2">0</div><div>Min pra Ficar Pronto</div></div>
     </div>
@@ -355,47 +368,37 @@ footer {
   <div class="container">
     <h2 class="section-title">Escolha Seu Plano</h2>
     <div class="pricing-grid">
-      <div class="price-card">
-        <h3>Essencial</h3>
-        <div class="price">R$19<span>,90</span></div>
-        <ul class="price-features">
-          <li>1 Página personalizada</li>
-          <li>1 Foto</li>
-          <li>Contador de tempo</li>
-          <li>1 Ano no ar</li>
-          <li>1 Ano no ar</li>
-        </ul>
-        <a href="https://checkout.infinitepay.io/atlivio-servicos/YYbTlRRFgr" class="btn btn-outline" target="_blank">Quero Esse</a>
-      </div>
       <div class="price-card popular">
         <div class="popular-badge">MAIS VENDIDO</div>
         <h3>Completo</h3>
         <div class="price">R$29<span>,90</span></div>
         <ul class="price-features">
-          <li>Tudo do Essencial +</li>
+          <li>Página personalizada</li>
           <li>5 Fotos</li>
           <li>Música personalizada</li>
+          <li>Contador de tempo</li>
           <li>Texto com animação</li>
           <li>Efeitos especiais</li>
+          <li>1 Ano no ar</li>
         </ul>
         <div style="background:rgba(46,125,50,0.1);border:1px solid #2e7d32;padding:15px;border-radius:8px;margin:20px 0;font-size:14px;">
           <strong style="color:#2e7d32;">GARANTIA INCONDICIONAL 7 DIAS</strong><br>
           Se ele(a) não chorar, devolvemos 100% + R$10 pelo transtorno.
         </div>
-        <a href="https://checkout.infinitepay.io/atlivio-servicos/fwSIp3L0o0" class="btn" target="_blank">Quero Esse</a>
+        <a href="https://checkout.infinitepay.io/atlivio-servicos/uzY4DRbOhX" class="btn" target="_blank">Quero Esse</a>
       </div>
       <div class="price-card">
         <h3>Vitalício</h3>
-        <div class="price">R$47<span>,90</span></div>
+        <div class="price">R$47<span>,97</span></div>
         <ul class="price-features">
           <li>Tudo do Completo +</li>
           <li>10 Fotos</li>
-          <li>QR Code exclusivo</li>
+          <li>QR Code exclusivo PDF</li>
           <li>Página pra sempre no ar</li>
           <li>Editar quando quiser</li>
           <li>Certificado digital</li>
         </ul>
-        <a href="https://checkout.infinitepay.io/atlivio-servicos/eqMAvsVarq" class="btn btn-outline" target="_blank">Quero Esse</a>
+        <a href="https://checkout.infinitepay.io/atlivio-servicos/vZymBM2aTu" class="btn btn-outline" target="_blank">Quero Vitalício</a>
       </div>
     </div>
     <p style="text-align:center;margin-top:40px;color:#777;">Pagamento 100% seguro | Garantia de 7 dias ou seu dinheiro de volta</p>
@@ -407,11 +410,11 @@ footer {
     <h2 class="section-title">Dúvidas Frequentes</h2>
     <div class="faq-item">
       <div class="faq-question">Quanto tempo demora pra ficar pronto? <span>+</span></div>
-      <div class="faq-answer">Após o pagamento, você recebe o link pra personalizar na hora. Em 2 minutos sua homenagem tá no ar com QR Code.</div>
+      <div class="faq-answer">Após o pagamento, você chama no WhatsApp e envia fotos + música. Em até 30min sua homenagem tá no ar com link + QR Code PDF.</div>
     </div>
     <div class="faq-item">
       <div class="faq-question">Preciso entender de tecnologia? <span>+</span></div>
-      <div class="faq-answer">Nada. É só preencher os campos, subir as fotos e escolher a música. Tudo intuitivo igual postar no Instagram.</div>
+      <div class="faq-answer">Nada. Você só me manda as fotos e o nome da música no WhatsApp. Eu monto tudo pra você.</div>
     </div>
     <div class="faq-item">
       <div class="faq-question">E se meu amor não gostar? <span>+</span></div>
@@ -419,7 +422,7 @@ footer {
     </div>
     <div class="faq-item">
       <div class="faq-question">A página sai do ar depois de 1 ano? <span>+</span></div>
-      <div class="faq-answer">No plano Essencial e Completo sim. Você pode renovar por R$9,90/ano. No Vitalício fica pra sempre.</div>
+      <div class="faq-answer">No plano Completo sim. Você pode renovar por R$9,90/ano. No Vitalício fica pra sempre.</div>
     </div>
   </div>
 </section>
@@ -428,13 +431,9 @@ footer {
   <div class="container">
     <div class="logo">Eterno<span>Amor</span></div>
     <div class="footer-links">
-      <a href="#">Termos de Uso</a>
-      <a href="#">Política de Privacidade</a>
-      <a href="#">Contato</a>
-      <a href="#">Instagram</a>
+      <a href="https://wa.me/5575998649927?text=Olá! Vim pelo site Eterno Amor" target="_blank">Dúvidas? Chama no WhatsApp</a>
     </div>
-    <p style="opacity:0.6;font-size:0.9rem;">© 2026 Eterno Amor. Todos os direitos reservados.</p>
-    <p style="opacity:0.6;font-size:0.9rem;margin-top:10px;">CNPJ: 00.000.000/0001-00</p>
+    <p style="opacity:0.6;font-size:0.9rem;margin-top:20px;">© 2026 Eterno Amor | Feira de Santana - BA</p>
   </div>
 </footer>
 
@@ -481,22 +480,8 @@ const observer = new IntersectionObserver(entries => {
   });
 });
 stats.forEach(stat => observer.observe(stat));
-// ESCASSEZ - VAGAS LIMITADAS POR DIA
-const vagas = document.createElement('div');
-vagas.innerHTML = `
-  <div style="position:fixed;bottom:20px;left:20px;background:#d32f2f;color:#fff;padding:12px 20px;border-radius:50px;font-weight:600;z-index:999;box-shadow:0 5px 15px rgba(211,47,47,0.4);animation:pulse 2s infinite;">
-    ⚠ Apenas <span id="vagasRestantes">7</span> vagas hoje
-  </div>
-`;
-document.body.appendChild(vagas);
 
-setInterval(() => {
-  const el = document.getElementById('vagasRestantes');
-  let num = parseInt(el.innerText);
-  if (num > 2) el.innerText = num - 1;
-}, 45000);
-
-    function atualizarPreview() {
+function atualizarPreview() {
     const nome1 = document.getElementById('nome1').value || 'Maria';
     const nome2 = document.getElementById('nome2').value || 'João';
     const data = new Date(document.getElementById('dataInicio').value);
