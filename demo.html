@@ -6,23 +6,60 @@
     <title>Degustação Grátis - Eterno Amor</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Poppins', sans-serif; background: #0a0a0a; color: #fff; padding: 20px; margin: 0; }
-    .container { max-width: 700px; margin: 0 auto; }
-    .tarja { background: linear-gradient(135deg, #FF4D79 0%, #FF8C42 100%); color: #000; text-align: center; padding: 12px; font-weight: bold; margin-bottom: 30px; border-radius: 8px; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            padding: 20px;
+            margin: 0;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* ALTERAÇÃO 1: TARJA DIAGONAL DEMONSTRAÇÃO */
+        body.demo-active::before {
+            content: 'DEMONSTRAÇÃO';
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 15vw;
+            font-weight: 700;
+            color: #fff;
+            opacity: 0.08;
+            z-index: 9999;
+            pointer-events: none;
+            user-select: none;
+            white-space: nowrap;
+        }
+
+       .container { max-width: 700px; margin: 0 auto; position: relative; z-index: 1; }
+       .tarja { background: linear-gradient(135deg, #FF4D79 0%, #FF8C42 100%); color: #000; text-align: center; padding: 12px; font-weight: bold; margin-bottom: 30px; border-radius: 8px; }
         h1 { color: #FF4D79; text-align: center; font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 10px; }
-    .sub { text-align: center; color: #ccc; margin-bottom: 40px; }
+       .sub { text-align: center; color: #ccc; margin-bottom: 40px; }
         label { display: block; margin-top: 20px; font-weight: 600; color: #FFD166; }
         input, textarea, select { width: 100%; padding: 14px; margin-top: 8px; border: 2px solid #333; background: #1a1a1a; color: #fff; border-radius: 8px; font-size: 16px; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         input:focus, textarea:focus, select:focus { border-color: #FF4D79; outline: none; }
-    .dica { font-size: 12px; color: #888; margin-top: 5px; }
-    .dica a { color: #FF4D79; text-decoration: none; }
+       .dica { font-size: 12px; color: #888; margin-top: 5px; }
+       .dica a { color: #FF4D79; text-decoration: none; }
         button { background: linear-gradient(135deg, #FF4D79 0%, #FF8C42 100%); color: white; border: none; padding: 18px 35px; margin-top: 30px; border-radius: 50px; font-size: 18px; font-weight: 600; cursor: pointer; width: 100%; transition: transform 0.3s; }
         button:hover { transform: translateY(-3px); }
-    .btn-secundario { background: transparent; border: 2px solid #FF4D79; color: #FF4D79; margin-top: 10px; }
-    .preview-box { background: #1a1a1a; border: 1px solid #333; padding: 25px; border-radius: 12px; margin-top: 30px; }
-    .preview-box h3 { color: #FF4D79; margin-bottom: 15px; font-family: 'Playfair Display', serif; }
-    .grupo-foto { border: 1px dashed #444; padding: 15px; border-radius: 8px; margin-top: 10px; }
-    .contador-demo { font-size: 1.5rem; color: #FF4D79; text-align: center; margin: 20px 0; font-weight: 700; }
+       .btn-secundario { background: transparent; border: 2px solid #FF4D79; color: #FF4D79; margin-top: 10px; }
+       .preview-box { background: #1a1a1a; border: 1px solid #333; padding: 25px; border-radius: 12px; margin-top: 30px; }
+       .preview-box h3 { color: #FF4D79; margin-bottom: 15px; font-family: 'Playfair Display', serif; }
+       .grupo-foto { border: 1px dashed #444; padding: 15px; border-radius: 8px; margin-top: 10px; }
+
+        /* ALTERAÇÃO 2: TIMER COM URGÊNCIA */
+       .contador-demo { font-size: 1.5rem; color: #FFD166; text-align: center; margin: 20px 0; font-weight: 700; }
+       .timer-urgente { color: #d32f2f; animation: pulse 1s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+        /* ALTERAÇÃO 3: BOTÃO PREÇO ÚNICO */
+       .btn-desbloquear {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            font-size: 20px;
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.3);
+        }
     </style>
 </head>
 <body>
@@ -31,6 +68,9 @@
 
         <h1>Sua Homenagem Quase Pronta</h1>
         <p class="sub">Preencha os campos. Quando clicar em salvar, liberamos o link exclusivo após o pagamento.</p>
+
+        <!-- ALTERAÇÃO 2: TIMER DA DEMO -->
+        <div class="contador-demo" id="timerDemo"></div>
 
         <label>Nome do Casal:</label>
         <input type="text" id="nomes" placeholder="Ex: Gil e Maria ou Gil & Maria">
@@ -57,26 +97,23 @@
 
         <div class="grupo-foto">
             <label>Fotos do Casal:</label>
-
             <input type="file" id="uploadFoto1" accept="image/*" style="display:none" onchange="enviarFoto(this, 'foto1')">
             <button type="button" class="btn-secundario" onclick="document.getElementById('uploadFoto1').click()">📷 Adicionar Foto 1</button>
             <input type="hidden" id="foto1">
             <div id="preview1" class="dica"></div>
-
             <input type="file" id="uploadFoto2" accept="image/*" style="display:none" onchange="enviarFoto(this, 'foto2')">
             <button type="button" class="btn-secundario" onclick="document.getElementById('uploadFoto2').click()">📷 Adicionar Foto 2</button>
             <input type="hidden" id="foto2">
             <div id="preview2" class="dica"></div>
-
             <input type="file" id="uploadFoto3" accept="image/*" style="display:none" onchange="enviarFoto(this, 'foto3')">
             <button type="button" class="btn-secundario" onclick="document.getElementById('uploadFoto3').click()">📷 Adicionar Foto 3</button>
             <input type="hidden" id="foto3">
             <div id="preview3" class="dica"></div>
-
             <div class="dica" style="margin-top:15px;">Clique no botão e escolha da sua galeria. Sem complicação.</div>
         </div>
 
-        <button onclick="finalizar()">Salvar e Gerar Meu Link Exclusivo</button>
+        <!-- ALTERAÇÃO 3: BOTÃO COM PREÇO ÚNICO -->
+        <button class="btn-desbloquear" onclick="finalizar()">🔓 Desbloquear por R$29,90</button>
 
         <div class="preview-box">
             <h3>Preview em tempo real:</h3>
@@ -88,6 +125,38 @@
     </div>
 
     <script>
+        // ATIVA TARJA SE FOR DEMO
+        if (window.location.search.includes('demo=true')) {
+            document.body.classList.add('demo-active');
+            iniciarTimerDemo();
+        }
+
+        // ALTERAÇÃO 2: TIMER "SOME PRA SEMPRE"
+        function iniciarTimerDemo() {
+            let tempo = 149; // 2:29 em segundos
+            const timerEl = document.getElementById('timerDemo');
+
+            const intervalo = setInterval(() => {
+                const min = Math.floor(tempo / 60);
+                const seg = tempo % 60;
+                const tempoFormatado = `${String(min).padStart(2, '0')}:${String(seg).padStart(2, '0')}`;
+
+                timerEl.innerHTML = `⏰ Essa demo expira em ${tempoFormatado}. Depois some pra sempre.`;
+
+                if (tempo <= 30) {
+                    timerEl.classList.add('timer-urgente');
+                }
+
+                if (tempo <= 0) {
+                    clearInterval(intervalo);
+                    timerEl.innerHTML = '💔 Demo expirada. Atualize a página para criar nova.';
+                    document.querySelector('.container').style.opacity = '0.3';
+                    document.querySelector('.container').style.pointerEvents = 'none';
+                }
+                tempo--;
+            }, 1000);
+        }
+
         // Preview ao vivo
         document.getElementById('nomes').addEventListener('input', atualizarPreview);
         document.getElementById('data').addEventListener('input', atualizarPreview);
@@ -120,7 +189,6 @@
             document.getElementById('pMusica').innerText = musica? 'Música adicionada ✓' : '---';
         }
 
-        // ABRE DEMO COM MARCA D'ÁGUA + SALVA PRO ADMIN VER
         async function finalizar() {
             const nomes = document.getElementById('nomes').value;
             const data = document.getElementById('data').value;
@@ -142,10 +210,9 @@
                 foto3: document.getElementById('foto3').value,
                 demo: true,
                 criadoEm: new Date().toISOString(),
-                userAgent: navigator.userAgent.substring(0, 100) // Pra você identificar
+                userAgent: navigator.userAgent.substring(0, 100)
             };
 
-            // SALVA NO FIREBASE PRA VOCÊ VER NO ADMIN
             try {
                 const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js');
                 const { getFirestore, doc, setDoc } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
@@ -167,18 +234,14 @@
                 console.log('Erro ao salvar demo:', e);
             }
 
-            // SALVA LOCAL TAMBÉM PRA ABRIR
             localStorage.setItem(idDemo, JSON.stringify(dadosDemo));
-
-            // Abre h.html em modo DEMO
             window.open('h.html?id=' + idDemo + '&demo=true', '_blank');
 
             setTimeout(() => {
-                alert('Prévia aberta! 🔥\n\nReparou na marca d\'água e que a música não toca?\n\nPague qualquer plano pra remover e deixar no ar pra sempre.');
+                alert('Prévia aberta! 🔥\n\nReparou na tarja DEMONSTRAÇÃO?\n\nDesbloqueie por R$29,90 pra remover e deixar no ar pra sempre.');
             }, 500);
         }
 
-        // UPLOAD DE FOTO PRÁTICO
         async function enviarFoto(input, campoId) {
             const file = input.files[0];
             if (!file) return;
@@ -186,14 +249,12 @@
             const preview = document.getElementById('preview' + campoId.slice(-1));
             preview.innerText = 'Enviando foto...';
 
-            // Valida tamanho: 5MB max
             if (file.size > 5 * 1024 * 1024) {
                 alert('Foto muito grande. Máximo 5MB.');
                 preview.innerText = '';
                 return;
             }
 
-            // TENTATIVA 1: IMGUR AUTOMÁTICO
             try {
                 const formData = new FormData();
                 formData.append('image', file);
@@ -216,7 +277,6 @@
                 console.log('Imgur falhou, usando base64');
             }
 
-            // TENTATIVA 2: BASE64 LOCAL - PLANO B
             const reader = new FileReader();
             reader.onload = function(e) {
                 document.getElementById(campoId).value = e.target.result;
@@ -225,21 +285,17 @@
             reader.readAsDataURL(file);
         }
 
-        // SISTEMA DE ESCASSEZ + COOKIE DE RETORNO
         function iniciarEscassez() {
-            // Vagas fake que diminuem
             let vagas = localStorage.getItem('vagasDemo') || 3;
             if (localStorage.getItem('jaVisitou')) {
-                vagas = 1; // Se voltou, só tem 1 vaga
+                vagas = 1;
                 document.getElementById('tarjaEscassez').innerHTML = '⚠ ÚLTIMA CHANCE: Você voltou! Liberamos 1 vaga extra só pra você';
                 document.getElementById('tarjaEscassez').style.background = 'linear-gradient(135deg, #d32f2f 0%, #FF4D79 100%)';
             }
             document.getElementById('vagasHoje').innerText = vagas;
 
-            // Marca que já visitou
             setTimeout(() => localStorage.setItem('jaVisitou', 'true'), 5000);
 
-            // Diminui vagas a cada 30s pra dar urgência
             setInterval(() => {
                 if (vagas > 1) {
                     vagas--;
@@ -252,7 +308,6 @@
             }, 30000);
         }
 
-        // MENSAGENS NÍVEL CINEMA
         function gerarMensagem() {
             const nomesInput = document.getElementById('nomes').value.trim();
             if (!nomesInput) {
@@ -262,11 +317,11 @@
 
             let nome1, nome2;
             if (nomesInput.toLowerCase().includes(' e ')) {
-                [nome1, nome2] = nomesInput.split(/ e /i).map(n => n.trim());
+                [nome1][nome2] = nomesInput.split(/ e /i).map(n => n.trim());
             } else if (nomesInput.includes('&')) {
-                [nome1, nome2] = nomesInput.split('&').map(n => n.trim());
+                [nome1][nome2] = nomesInput.split('&').map(n => n.trim());
             } else if (nomesInput.includes('+')) {
-                [nome1, nome2] = nomesInput.split('+').map(n => n.trim());
+                [nome1][nome2] = nomesInput.split('+').map(n => n.trim());
             } else {
                 nome1 = nomesInput;
                 nome2 = 'amor';
@@ -283,11 +338,8 @@
 
             const mensagens = {
                 romantico: `${nome2}, eu juro que tentei encontrar palavras à altura do que sinto. Mas como explicar que você transformou minha vida em filme? ${anos? `Em ${anos}` : 'Desde o primeiro dia'}, você me ensinou que amor não é sobre promessas... é sobre escolher a mesma pessoa todos os dias. E eu escolheria você em todas as vidas. Obrigado por ser meu 'pra sempre'. Te amo mais que ontem, menos que amanhã. — ${nome1}`,
-
                 engracado: `${nome2}, estatística: 100% dos meus dias ficam melhores depois que você sorri. ${anos? `Já são ${anos}` : 'Todo esse tempo'} aguentando meus memes ruins e meu ronco. Você merece um prêmio. Ou pelo menos metade da minha pizza. Pra sempre. Você é meu match perfeito, minha dupla favorita pro resto da vida. Te amo, sua chata linda. — ${nome1}`,
-
                 intenso: `${nome2}. Você não entrou na minha vida. Você INVADIU. Derrubou todas as minhas defesas, bagunçou meus planos e me fez entender que lar não é lugar... é pessoa. ${anos? `${anos} e eu ainda descubro` : 'Todo dia eu descubro'} um motivo novo pra me apaixonar. Você é minha paz e meu caos favorito. Se isso não for amor, eu não quero saber o que é. Pra sempre seu, ${nome1}.`,
-
                 curto: `${nome2}, você é meu ponto final. Meu 'e viveram felizes'. Meu tudo. ${anos? `${anos} provando que` : 'Provando que'} pra sempre existe. Te amo. — ${nome1}`
             };
 
