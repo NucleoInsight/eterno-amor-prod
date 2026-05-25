@@ -2,56 +2,160 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Demonstração Grátis - Eterno Amor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Degustação Grátis - Eterno Amor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: Arial; background: #1a1a1a; color: #fff; padding: 20px; max-width: 600px; margin: 0 auto; }
-        h1 { color: #ff4d6d; text-align: center; }
-        label { display: block; margin-top: 15px; font-weight: bold; }
-        input, textarea { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #444; background: #2a2a2a; color: #fff; border-radius: 5px; box-sizing: border-box; }
-        button { background: #ff4d6d; color: white; border: none; padding: 15px 30px; margin-top: 20px; border-radius: 5px; font-size: 16px; cursor: pointer; width: 100%; }
-        .tarja { background: #ff4d6d; color: #000; text-align: center; padding: 10px; font-weight: bold; margin-bottom: 20px; border-radius: 5px; }
-        .preview { background: #2a2a2a; padding: 20px; border-radius: 8px; margin-top: 20px; }
+        body { font-family: 'Poppins', sans-serif; background: #0a0a0a; color: #fff; padding: 20px; margin: 0; }
+       .container { max-width: 700px; margin: 0 auto; }
+       .tarja { background: linear-gradient(135deg, #FF4D79 0%, #FF8C42 100%); color: #000; text-align: center; padding: 12px; font-weight: bold; margin-bottom: 30px; border-radius: 8px; }
+        h1 { color: #FF4D79; text-align: center; font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 10px; }
+       .sub { text-align: center; color: #ccc; margin-bottom: 40px; }
+        label { display: block; margin-top: 20px; font-weight: 600; color: #FFD166; }
+        input, textarea, select { width: 100%; padding: 14px; margin-top: 8px; border: 2px solid #333; background: #1a1a1a; color: #fff; border-radius: 8px; font-size: 16px; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        input:focus, textarea:focus, select:focus { border-color: #FF4D79; outline: none; }
+       .dica { font-size: 12px; color: #888; margin-top: 5px; }
+       .dica a { color: #FF4D79; text-decoration: none; }
+        button { background: linear-gradient(135deg, #FF4D79 0%, #FF8C42 100%); color: white; border: none; padding: 18px 35px; margin-top: 30px; border-radius: 50px; font-size: 18px; font-weight: 600; cursor: pointer; width: 100%; transition: transform 0.3s; }
+        button:hover { transform: translateY(-3px); }
+       .btn-secundario { background: transparent; border: 2px solid #FF4D79; color: #FF4D79; margin-top: 10px; }
+       .preview-box { background: #1a1a1a; border: 1px solid #333; padding: 25px; border-radius: 12px; margin-top: 30px; }
+       .preview-box h3 { color: #FF4D79; margin-bottom: 15px; font-family: 'Playfair Display', serif; }
+       .grupo-foto { border: 1px dashed #444; padding: 15px; border-radius: 8px; margin-top: 10px; }
+       .contador-demo { font-size: 1.5rem; color: #FF4D79; text-align: center; margin: 20px 0; font-weight: 700; }
     </style>
 </head>
 <body>
-    <div class="tarja">MODO DEMONSTRAÇÃO - Para salvar e compartilhar, escolha um plano</div>
-    <h1>Crie sua Homenagem Grátis</h1>
-    <p style="text-align:center; color:#ccc;">Preencha tudo e veja como vai ficar. É grátis pra testar.</p>
-    
-    <label>Nome do Casal:</label>
-    <input type="text" id="nomes" placeholder="Ex: Gil e Maria">
-    
-    <label>Data Especial:</label>
-    <input type="date" id="data">
-    
-    <label>Sua Mensagem de Amor:</label>
-    <textarea id="mensagem" rows="4" placeholder="Escreva sua declaração..."></textarea>
-    
-    <label>Link da Música do YouTube:</label>
-    <input type="url" id="musica" placeholder="https://youtube.com/...">
-    
-    <label>Link da Foto 1:</label>
-    <input type="url" id="foto1" placeholder="Cole o link da imagem ou use imgur.com">
-    
-    <button onclick="desbloquear()">Salvar e Compartilhar Minha Homenagem</button>
+    <div class="container">
+        <div class="tarja">🎁 MODO DEGUSTAÇÃO - Monte tudo grátis. Pague só pra salvar e compartilhar</div>
 
-    <div class="preview">
-        <h3>Preview ao vivo:</h3>
-        <p><strong>Casal:</strong> <span id="prevNomes">---</span></p>
-        <p><strong>Data:</strong> <span id="prevData">---</span></p>
+        <h1>Sua Homenagem Quase Pronta</h1>
+        <p class="sub">Preencha os campos. Quando clicar em salvar, liberamos o link exclusivo após o pagamento.</p>
+
+        <label>Nome do Casal:</label>
+        <input type="text" id="nomes" placeholder="Ex: Gil e Maria">
+
+        <label>Data que começaram:</label>
+        <input type="date" id="data">
+
+        <label>Sua Mensagem de Amor:</label>
+        <select id="modeloMsg" onchange="gerarMensagem()">
+            <option value="">Escolha um modelo ou escreva a sua</option>
+            <option value="romantico">Romântico Clássico</option>
+            <option value="engracado">Divertido e Leve</option>
+            <option value="intenso">Intenso e Profundo</option>
+            <option value="curto">Curto e Direto</option>
+        </select>
+        <textarea id="mensagem" rows="5" placeholder="Ou escreva sua própria declaração aqui..."></textarea>
+        <button type="button" class="btn-secundario" onclick="gerarMensagem()">✨ Gerar Mensagem Automática</button>
+        <div class="dica">Preenche os nomes lá em cima que eu crio uma mensagem pra você</div>
+
+        <label>Música de Vocês no YouTube:</label>
+        <input type="url" id="musica" placeholder="https://youtube.com/watch?v=...">
+        <div class="dica">A música toca sozinha, sem anúncios. Copia o link do YouTube</div>
+
+        <div class="grupo-foto">
+            <label>Foto 1 - Principal:</label>
+            <input type="url" id="foto1" placeholder="Cole o link da imagem">
+
+            <label>Foto 2:</label>
+            <input type="url" id="foto2" placeholder="Cole o link da imagem">
+
+            <label>Foto 3:</label>
+            <input type="url" id="foto3" placeholder="Cole o link da imagem">
+            <div class="dica">Não sabe pegar link? <a href="https://imgur.com/upload" target="_blank">Clique aqui, suba as fotos no Imgur</a> e cole os links. É grátis e leva 10s.</div>
+        </div>
+
+        <button onclick="finalizar()">Salvar e Gerar Meu Link Exclusivo</button>
+
+        <div class="preview-box">
+            <h3>Preview em tempo real:</h3>
+            <p><strong>Casal:</strong> <span id="pNomes">---</span></p>
+            <p><strong>Juntos há:</strong> <span id="pTempo">---</span></p>
+            <div class="contador-demo" id="pContador"></div>
+            <p><strong>Música:</strong> <span id="pMusica">---</span></p>
+        </div>
     </div>
 
     <script>
-        document.getElementById('nomes').addEventListener('input', e => {
-            document.getElementById('prevNomes').innerText = e.target.value || '---';
-        });
-        document.getElementById('data').addEventListener('input', e => {
-            document.getElementById('prevData').innerText = e.target.value || '---';
-        });
-        
-        function desbloquear() {
-            alert('Sua homenagem tá linda! 🔥\n\nPara salvar e receber o link exclusivo com QR Code, escolha um dos nossos planos.');
+        // Preview ao vivo
+        document.getElementById('nomes').addEventListener('input', atualizarPreview);
+        document.getElementById('data').addEventListener('input', atualizarPreview);
+        document.getElementById('musica').addEventListener('input', atualizarPreview);
+
+        function atualizarPreview() {
+            const nomes = document.getElementById('nomes').value || '---';
+            const data = document.getElementById('data').value;
+            const musica = document.getElementById('musica').value;
+
+            document.getElementById('pNomes').innerText = nomes;
+
+            if (data) {
+                const inicio = new Date(data);
+                const agora = new Date();
+                let anos = agora.getFullYear() - inicio.getFullYear();
+                let meses = agora.getMonth() - inicio.getMonth();
+                let dias = agora.getDate() - inicio.getDate();
+
+                if (dias < 0) { meses--; dias += 30; }
+                if (meses < 0) { anos--; meses += 12; }
+
+                document.getElementById('pTempo').innerText = `${anos} anos, ${meses} meses e ${dias} dias`;
+                document.getElementById('pContador').innerText = `♥ ${Math.floor((agora - inicio) / (1000 * 60 * 60 * 24))} dias de amor ♥`;
+            } else {
+                document.getElementById('pTempo').innerText = '---';
+                document.getElementById('pContador').innerText = '';
+            }
+
+            document.getElementById('pMusica').innerText = musica? 'Música adicionada ✓' : '---';
+        }
+
+        // GERADOR DE MENSAGEM
+        function gerarMensagem() {
+            const nomes = document.getElementById('nomes').value;
+            if (!nomes ||!nomes.includes(' e ')) {
+                alert('Preenche o "Nome do Casal" lá em cima no formato: Nome e Nome');
+                return;
+            }
+
+            const [nome1, nome2] = nomes.split(' e ').map(n => n.trim());
+            const modelo = document.getElementById('modeloMsg').value;
+            const data = document.getElementById('data').value;
+            let anos = '';
+
+            if (data) {
+                const anosJuntos = new Date().getFullYear() - new Date(data).getFullYear();
+                anos = anosJuntos > 0? `${anosJuntos} anos` : 'algum tempo';
+            }
+
+            const mensagens = {
+                romantico: `${nome2}, desde que você entrou na minha vida tudo ganhou cor. ${anos? `Já são ${anos} de nós` : 'Cada dia ao seu lado'} é um presente. Você é meu porto seguro, meu amor pra toda vida. Te amo infinitamente, ${nome1}.`,
+                engracado: `${nome2}, obrigado por aturar minhas manias há ${anos || 'tanto tempo'}. Você é a única pessoa que eu deixo roubar minha batata frita. Que a gente continue se escolhendo todo dia, mesmo brigando pelo cobertor. Te amo, ${nome1}.`,
+                intenso: `${nome2}, você é a melhor parte de mim. ${anos? `Em ${anos}` : 'Desde que te conheci'} eu descobri que amor de verdade existe. Você me transforma, me completa, me faz querer ser melhor. Sou seu pra sempre, ${nome1}.`,
+                curto: `${nome2}, você + eu = pra sempre. Simples assim. Te amo, ${nome1}.`
+            };
+
+            document.getElementById('mensagem').value = mensagens[modelo] || mensagens.romantico;
+        }
+
+        // TRAVA NA HORA DE SALVAR - PRA VOCÊ USAR DE GRAÇA É SÓ TROCAR ISSO
+        function finalizar() {
+            const nomes = document.getElementById('nomes').value;
+            const data = document.getElementById('data').value;
+            const mensagem = document.getElementById('mensagem').value;
+
+            if (!nomes ||!data ||!mensagem) {
+                alert('Preenche pelo menos: Nome do Casal, Data e Mensagem pra testar :)');
+                return;
+            }
+
+            // MODO CLIENTE NORMAL - TRAVA E MANDA PROS PLANOS
+            alert(`Ficou perfeito, ${nomes}! 🔥\n\nSua homenagem está pronta pra ser salva.\n\nPara gerar o link exclusivo + QR Code + deixar no ar, escolha um dos nossos planos.`);
             window.location.href = '/eterno-amor-prod/#planos';
+
+            // MODO DONO - DESCOMENTA ESSA LINHA E COMENTA AS 2 DE CIMA PRA LIBERAR GRÁTIS
+            // const idTeste = 'gil' + Date.now();
+            // window.location.href = `editor.html?id=${idTeste}`;
         }
     </script>
 </body>
