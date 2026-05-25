@@ -143,17 +143,17 @@
                 ...dadosPlano.limites
             };
 
-            // AJUSTA PELO PLANO
+            // AJUSTA PELO PLANO - VALORES FINAIS
             if (dadosPlano.plano === 'essencial') {
-                limites.fotos = 3;
+                limites.fotos = 1;
                 limites.musica = false;
                 limites.edicao = false;
             } else if (dadosPlano.plano === 'completo') {
-                limites.fotos = 15;
+                limites.fotos = 3;
                 limites.musica = true;
                 limites.edicao = false;
             } else if (dadosPlano.plano === 'vitalicio') {
-                limites.fotos = 15;
+                limites.fotos = 10;
                 limites.musica = true;
                 limites.edicao = true;
             }
