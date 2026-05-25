@@ -300,23 +300,27 @@
                     `;
                     document.querySelector('.card').after(painel);
 
-                    window.copiarLinkHomenagem = function() {
+                    document.getElementById('btnCopiarLink').addEventListener('click', function() {
                         const link = window.location.href.replace('&criador=true','').replace('?criador=true','');
-                        const nomes = document.getElementById('nomesCasais')?.innerText || 'nossa história';
+                        const nomes = document.getElementById('titulo')?.innerText || 'nossa história';
                         const textoPronto = `*Fiz uma surpresa pra você* ❤️\n\nClica aqui pra ver: ${link}\n\n_Espero que goste..._`;
                         
                         navigator.clipboard.writeText(textoPronto).then(() => {
                             alert('Texto copiado! ✅\n\nJá colei tudo formatado pra você.\nÉ só abrir o WhatsApp e colar.');
                         });
-                    }
+                    });
 
-                   window.gerarQRCode = function() {
+                    document.getElementById('btnGerarQR').addEventListener('click', function() {
                         const link = window.location.href.replace('&criador=true','').replace('?criador=true','');
-                        const nomes = document.getElementById('nomes').innerText || 'Seu Amor';
+                        const nomes = document.getElementById('titulo')?.innerText || 'Seu Amor';
                         const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=${encodeURIComponent(link)}`;
                         
-                        // Abre janela nova SÓ com QR + Arte pra imprimir
                         const janelaImpressao = window.open('', '_blank', 'width=600,height=700');
+                        if (!janelaImpressao) {
+                            alert('Seu navegador bloqueou a janela. Permita pop-ups e tente novamente.');
+                            return;
+                        }
+                        
                         janelaImpressao.document.write(`
                             <!DOCTYPE html>
                             <html>
@@ -324,54 +328,15 @@
                                 <title>QR Code - ${nomes}</title>
                                 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
                                 <style>
-                                    body { 
-                                        margin: 0; 
-                                        padding: 40px; 
-                                        font-family: 'Poppins', sans-serif;
-                                        background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
-                                        color: #fff;
-                                        text-align: center;
-                                    }
-                                    .card-qr {
-                                        background: #1a1a1a;
-                                        border: 2px solid #FF4D79;
-                                        border-radius: 24px;
-                                        padding: 40px 30px;
-                                        max-width: 400px;
-                                        margin: 0 auto;
-                                        box-shadow: 0 20px 60px rgba(255,77,121,0.3);
-                                    }
-                                    h1 { 
-                                        font-family: 'Playfair Display', serif;
-                                        color: #FFD166; 
-                                        font-size: 2.2rem;
-                                        margin-bottom: 10px;
-                                    }
-                                    .sub { color: #ccc; margin-bottom: 30px; font-size: 14px; }
-                                    .qr-box {
-                                        background: #fff;
-                                        padding: 20px;
-                                        border-radius: 16px;
-                                        display: inline-block;
-                                        margin: 20px 0;
-                                    }
-                                    .qr-box img { display: block; }
-                                    .instrucao { 
-                                        color: #FF4D79; 
-                                        font-weight: 600; 
-                                        margin-top: 25px;
-                                        font-size: 16px;
-                                    }
-                                    .footer { 
-                                        margin-top: 30px; 
-                                        font-size: 12px; 
-                                        color: #666; 
-                                    }
-                                    @media print {
-                                        body { background: #fff; color: #000; }
-                                        .card-qr { border: 3px solid #FF4D79; box-shadow: none; }
-                                        .no-print { display: none; }
-                                    }
+                                    body { margin:0;padding:40px;font-family:'Poppins',sans-serif;background:linear-gradient(135deg,#1a1a1a 0%,#0a0a0a 100%);color:#fff;text-align:center; }
+                                    .card-qr { background:#1a1a1a;border:2px solid #FF4D79;border-radius:24px;padding:40px 30px;max-width:400px;margin:0 auto;box-shadow:0 20px 60px rgba(255,77,121,0.3); }
+                                    h1 { font-family:'Playfair Display',serif;color:#FFD166;font-size:2.2rem;margin-bottom:10px; }
+                                    .sub { color:#ccc;margin-bottom:30px;font-size:14px; }
+                                    .qr-box { background:#fff;padding:20px;border-radius:16px;display:inline-block;margin:20px 0; }
+                                    .qr-box img { display:block; }
+                                    .instrucao { color:#FF4D79;font-weight:600;margin-top:25px;font-size:16px; }
+                                    .footer { margin-top:30px;font-size:12px;color:#666; }
+                                    @media print { body { background:#fff;color:#000; } .card-qr { border:3px solid #FF4D79;box-shadow:none; } .no-print { display:none; } }
                                 </style>
                             </head>
                             <body>
@@ -380,7 +345,7 @@
                                     <h1>${nomes}</h1>
                                     <p class="sub">Escaneie para ver nossa homenagem</p>
                                     <div class="qr-box">
-                                        <img src="${qrUrl}" width="300" height="300">
+                                        <img src="${qrUrl}" width="300" height="300" onerror="this.src='https://via.placeholder.com/300/FF4D79/FFFFFF?text=QR+Code'">
                                     </div>
                                     <p class="instrucao">Aponte a câmera do celular</p>
                                     <div class="footer">Eterno Amor • eternoamor.com</div>
@@ -399,8 +364,7 @@
                                 <p style="color:#888;font-size:13px;margin-top:8px;">Uma nova janela abriu com a arte pronta pra imprimir.</p>
                             </div>
                         `;
-                    }
-
+                    });
                 }, 1000);
             }
 
