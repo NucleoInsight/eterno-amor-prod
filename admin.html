@@ -283,11 +283,28 @@
             }
         }
 
-        window.copiarLink = function(id) {
+                window.copiarLink = function(id, plano, nomes) {
             const link = `https://nucleoinsight.github.io/eterno-amor-prod/editor.html?id=${id}`;
-            navigator.clipboard.writeText(link).then(() => {
-                alert('Link copiado!\n\n' + link);
-            });
+            const nomePlano = plano.toUpperCase();
+            const nomeCliente = nomes || 'você';
+            
+            let texto = `*Eterno Amor | Acesso Liberado* 💝\n\n` +
+                       `Olá ${nomeCliente}! Seu *presente especial* está pronto!\n\n` +
+                       `*Plano:* ${nomePlano}\n` +
+                       `*Seu link exclusivo:*\n${link}\n\n` +
+                       `👉 *Como usar:*\n` +
+                       `1. Clique no link\n` +
+                       `2. Preencha com as fotos e música de vocês\n` +
+                       `3. Salve e surpreenda quem você ama\n\n`;
+            
+            if (plano === 'vitalicio') {
+                texto += `*Bônus Vitalício:* Você ganhou *QR Code exclusivo* pra imprimir! ✨\n\n`;
+            }
+            
+            texto += `_Link válido por 7 dias. Dúvidas? Chama aqui!_\n\n*Eterno Amor*`;
+            
+            navigator.clipboard.writeText(texto);
+            alert('✅ Texto pro WhatsApp copiado!\n\nJá tá formatado com negrito. É só colar.');
         }
         
         window.bloquear = async function(id) {
