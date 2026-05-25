@@ -87,6 +87,7 @@
         const urlParams = new URLSearchParams(window.location.search);
         const id = urlParams.get('id');
         const isDemo = urlParams.get('demo') === 'true' || id?.startsWith('demo-');
+        const isCriador = urlParams.get('criador') === 'true';
 
         async function carregar() {
             let dados;
