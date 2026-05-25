@@ -192,39 +192,28 @@
             document.getElementById('senha').value = '';
         }
 
-        window.liberarAcesso = async function() {
+       window.liberarAcesso = async function() {
             const nomes = document.getElementById('nomeLiberar').value.trim();
+            const plano = document.getElementById('planoLiberar').value;
+            const msg = document.getElementById('msgStatus');
+
             if (!nomes) {
                 msg.innerText = 'Digite o nome do casal';
                 msg.className = 'status erro';
                 msg.classList.remove('oculto');
                 return;
             }
+
+            // Gera ID automático do nome
             let id = nomes.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
             
-            const docExistente = await getDoc(doc(db, 'liberados', id));
-            if (docExistente.exists()) {
-                id = id + '-' + Date.now().toString().slice(-4);
-            }
-            const plano = document.getElementById('planoLiberar').value;
-            const msg = document.getElementById('msgStatus');
-
-            if (!id) {
-                msg.innerText = 'Digite um ID';
-                msg.className = 'status erro';
-                msg.classList.remove('oculto');
-                return;
-            }
-
-            // Valida formato do ID
-            if (!/^[a-z0-9-]+$/.test(id)) {
-                msg.innerText = 'ID só pode ter letras minúsculas, números e traço';
-                msg.className = 'status erro';
-                msg.classList.remove('oculto');
-                return;
-            }
-
             try {
+                // Checa se já existe e adiciona sufixo se precisar
+                const docExistente = await getDoc(doc(db, 'liberados', id));
+                if (docExistente.exists()) {
+                    id = id + '-' + Date.now().toString().slice(-4);
+                }
+
                 const limites = {
                     essencial: { fotos: 1, musica: false, qr: false },
                     completo: { fotos: 5, musica: true, qr: false },
@@ -235,13 +224,14 @@
                     plano: plano,
                     limites: limites[plano],
                     liberadoEm: serverTimestamp(),
-                    ativo: true
+                    ativo: true,
+                    nomes: nomes
                 });
 
-                msg.innerText = `✓ ID ${id} liberado no plano ${plano.toUpperCase()}`;
+                msg.innerText = `✓ ${nomes} liberado!\nLink: editor.html?id=${id}`;
                 msg.className = 'status ok';
                 msg.classList.remove('oculto');
-                document.getElementById('idLiberar').value = '';
+                document.getElementById('nomeLiberar').value = '';
                 carregarLiberados();
                 
                 setTimeout(() => msg.classList.add('oculto'), 4000);
