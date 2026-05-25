@@ -308,7 +308,10 @@
                     `;
                     document.querySelector('.card').after(painel);
 
-                    document.getElementById('btnCopiarLink').addEventListener('click', function() {
+                                        document.getElementById('btnEditar').addEventListener('click', function() {
+                        window.location.href = 'editor.html?id=' + id;
+                    });
+
                         const link = window.location.href.replace('&criador=true','').replace('?criador=true','');
                         const nomes = document.getElementById('titulo')?.innerText || 'nossa história';
                         const textoPronto = `*Fiz uma surpresa pra você* ❤️\n\nClica aqui pra ver: ${link}\n\n_Espero que goste..._`;
