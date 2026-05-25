@@ -224,7 +224,45 @@
                     fotosHtml += `<img src="${dados[`foto${i}`]}">`;
                 }
             }
-            document.getElementById('fotos').innerHTML = fotosHtml;
+                        document.getElementById('fotos').innerHTML = fotosHtml;
+            
+            // CARROSSEL AUTOMÁTICO NÍVEL 1
+            const imgs = document.querySelectorAll('.fotos img');
+            if(imgs.length > 0) {
+                let atual = 0;
+                let pausado = false;
+                imgs[0].classList.add('ativo');
+                
+                // Contador "1 de 5"
+                if(imgs.length > 1) {
+                    const contador = document.createElement('div');
+                    contador.className = 'fotos-contador';
+                    contador.innerText = `1 de ${imgs.length}`;
+                    document.getElementById('fotos').appendChild(contador);
+                    
+                    const dica = document.createElement('div');
+                    dica.className = 'fotos-dica';
+                    dica.innerText = 'Toque nas fotos para pausar';
+                    document.getElementById('fotos').after(dica);
+                }
+                
+                function trocarFoto() {
+                    if(pausado || imgs.length <= 1) return;
+                    imgs[atual].classList.remove('ativo');
+                    atual = (atual + 1) % imgs.length;
+                    imgs[atual].classList.add('ativo');
+                    document.querySelector('.fotos-contador').innerText = `${atual + 1} de ${imgs.length}`;
+                }
+                
+                // Troca a cada 3.5s
+                let intervalo = setInterval(trocarFoto, 3500);
+                
+                // Pausa no toque
+                document.getElementById('fotos').addEventListener('click', () => {
+                    pausado =!pausado;
+                    document.querySelector('.fotos-dica').innerText = pausado? 'Pausado - Toque para continuar' : 'Toque nas fotos para pausar';
+                });
+            }
 
            if (!isDemo && dados.musica) {
                 const videoId = dados.musica.match(/(?:v=|\/)([a-zA-Z0-9_-]{11})/)?.[1];
