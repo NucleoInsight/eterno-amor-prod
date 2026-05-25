@@ -209,10 +209,10 @@
                     id = id + '-' + Date.now().toString().slice(-4);
                 }
 
-                const limites = {
-                    essencial: { fotos: 1, musica: false, qr: false },
-                    completo: { fotos: 5, musica: true, qr: false },
-                    vitalicio: { fotos: 10, musica: true, qr: true }
+                  const limites = {
+                    essencial: { fotos: 1, musica: false, qr: false, edicao: false },
+                    completo: { fotos: 5, musica: true, qr: false, edicao: false },
+                    vitalicio: { fotos: 10, musica: true, qr: true, edicao: true }
                 };
 
                 await setDoc(doc(db, 'liberados', id), {
