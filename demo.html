@@ -7,22 +7,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Poppins', sans-serif; background: #0a0a0a; color: #fff; padding: 20px; margin: 0; }
-       .container { max-width: 700px; margin: 0 auto; }
-       .tarja { background: linear-gradient(135deg, #FF4D79 0%, #FF8C42 100%); color: #000; text-align: center; padding: 12px; font-weight: bold; margin-bottom: 30px; border-radius: 8px; }
+      .container { max-width: 700px; margin: 0 auto; }
+      .tarja { background: linear-gradient(135deg, #FF4D79 0%, #FF8C42 100%); color: #000; text-align: center; padding: 12px; font-weight: bold; margin-bottom: 30px; border-radius: 8px; }
         h1 { color: #FF4D79; text-align: center; font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 10px; }
-       .sub { text-align: center; color: #ccc; margin-bottom: 40px; }
+      .sub { text-align: center; color: #ccc; margin-bottom: 40px; }
         label { display: block; margin-top: 20px; font-weight: 600; color: #FFD166; }
         input, textarea, select { width: 100%; padding: 14px; margin-top: 8px; border: 2px solid #333; background: #1a1a1a; color: #fff; border-radius: 8px; font-size: 16px; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         input:focus, textarea:focus, select:focus { border-color: #FF4D79; outline: none; }
-       .dica { font-size: 12px; color: #888; margin-top: 5px; }
-       .dica a { color: #FF4D79; text-decoration: none; }
+      .dica { font-size: 12px; color: #888; margin-top: 5px; }
+      .dica a { color: #FF4D79; text-decoration: none; }
         button { background: linear-gradient(135deg, #FF4D79 0%, #FF8C42 100%); color: white; border: none; padding: 18px 35px; margin-top: 30px; border-radius: 50px; font-size: 18px; font-weight: 600; cursor: pointer; width: 100%; transition: transform 0.3s; }
         button:hover { transform: translateY(-3px); }
-       .btn-secundario { background: transparent; border: 2px solid #FF4D79; color: #FF4D79; margin-top: 10px; }
-       .preview-box { background: #1a1a1a; border: 1px solid #333; padding: 25px; border-radius: 12px; margin-top: 30px; }
-       .preview-box h3 { color: #FF4D79; margin-bottom: 15px; font-family: 'Playfair Display', serif; }
-       .grupo-foto { border: 1px dashed #444; padding: 15px; border-radius: 8px; margin-top: 10px; }
-       .contador-demo { font-size: 1.5rem; color: #FF4D79; text-align: center; margin: 20px 0; font-weight: 700; }
+      .btn-secundario { background: transparent; border: 2px solid #FF4D79; color: #FF4D79; margin-top: 10px; }
+      .preview-box { background: #1a1a1a; border: 1px solid #333; padding: 25px; border-radius: 12px; margin-top: 30px; }
+      .preview-box h3 { color: #FF4D79; margin-bottom: 15px; font-family: 'Playfair Display', serif; }
+      .grupo-foto { border: 1px dashed #444; padding: 15px; border-radius: 8px; margin-top: 10px; }
+      .contador-demo { font-size: 1.5rem; color: #FF4D79; text-align: center; margin: 20px 0; font-weight: 700; }
     </style>
 </head>
 <body>
@@ -33,13 +33,14 @@
         <p class="sub">Preencha os campos. Quando clicar em salvar, liberamos o link exclusivo após o pagamento.</p>
 
         <label>Nome do Casal:</label>
-        <input type="text" id="nomes" placeholder="Ex: Gil e Maria">
+        <input type="text" id="nomes" placeholder="Ex: Gil e Maria ou Gil & Maria">
+        <div class="dica">Pode ser: Gil e Maria, Gil & Maria, Gil + Maria</div>
 
         <label>Data que começaram:</label>
         <input type="date" id="data">
 
         <label>Sua Mensagem de Amor:</label>
-        <select id="modeloMsg" onchange="gerarMensagem()">
+        <select id="modeloMsg">
             <option value="">Escolha um modelo ou escreva a sua</option>
             <option value="romantico">Romântico Clássico</option>
             <option value="engracado">Divertido e Leve</option>
@@ -48,7 +49,7 @@
         </select>
         <textarea id="mensagem" rows="5" placeholder="Ou escreva sua própria declaração aqui..."></textarea>
         <button type="button" class="btn-secundario" onclick="gerarMensagem()">✨ Gerar Mensagem Automática</button>
-        <div class="dica">Preenche os nomes lá em cima que eu crio uma mensagem pra você</div>
+        <div class="dica">Preenche o nome do casal acima que eu crio uma mensagem pra você</div>
 
         <label>Música de Vocês no YouTube:</label>
         <input type="url" id="musica" placeholder="https://youtube.com/watch?v=...">
@@ -110,16 +111,34 @@
             document.getElementById('pMusica').innerText = musica? 'Música adicionada ✓' : '---';
         }
 
-        // GERADOR DE MENSAGEM
+        // GERADOR DE MENSAGEM INTELIGENTE
         function gerarMensagem() {
-            const nomes = document.getElementById('nomes').value;
-            if (!nomes ||!nomes.includes(' e ')) {
-                alert('Preenche o "Nome do Casal" lá em cima no formato: Nome e Nome');
+            const nomesInput = document.getElementById('nomes').value.trim();
+            if (!nomesInput) {
+                alert('Preenche o "Nome do Casal" lá em cima primeiro :)');
                 return;
             }
 
-            const [nome1, nome2] = nomes.split(' e ').map(n => n.trim());
-            const modelo = document.getElementById('modeloMsg').value;
+            // Aceita: "e", "&", "+", "E" com ou sem espaço
+            let nome1, nome2;
+            if (nomesInput.toLowerCase().includes(' e ')) {
+                [nome1, nome2] = nomesInput.split(/ e /i).map(n => n.trim());
+            } else if (nomesInput.includes('&')) {
+                [nome1, nome2] = nomesInput.split('&').map(n => n.trim());
+            } else if (nomesInput.includes('+')) {
+                [nome1, nome2] = nomesInput.split('+').map(n => n.trim());
+            } else {
+                // Se não tem separador, usa o nome completo como nome1 e "amor" como nome2
+                nome1 = nomesInput;
+                nome2 = 'meu amor';
+            }
+
+            if (!nome1) {
+                alert('Não consegui identificar os nomes. Usa: Gil e Maria');
+                return;
+            }
+
+            const modelo = document.getElementById('modeloMsg').value || 'romantico';
             const data = document.getElementById('data').value;
             let anos = '';
 
@@ -135,10 +154,10 @@
                 curto: `${nome2}, você + eu = pra sempre. Simples assim. Te amo, ${nome1}.`
             };
 
-            document.getElementById('mensagem').value = mensagens[modelo] || mensagens.romantico;
+            document.getElementById('mensagem').value = mensagens[modelo];
         }
 
-        // TRAVA NA HORA DE SALVAR - PRA VOCÊ USAR DE GRAÇA É SÓ TROCAR ISSO
+        // TRAVA NA HORA DE SALVAR
         function finalizar() {
             const nomes = document.getElementById('nomes').value;
             const data = document.getElementById('data').value;
@@ -149,13 +168,8 @@
                 return;
             }
 
-            // MODO CLIENTE NORMAL - TRAVA E MANDA PROS PLANOS
             alert(`Ficou perfeito, ${nomes}! 🔥\n\nSua homenagem está pronta pra ser salva.\n\nPara gerar o link exclusivo + QR Code + deixar no ar, escolha um dos nossos planos.`);
             window.location.href = '/eterno-amor-prod/#planos';
-
-            // MODO DONO - DESCOMENTA ESSA LINHA E COMENTA AS 2 DE CIMA PRA LIBERAR GRÁTIS
-            // const idTeste = 'gil' + Date.now();
-            // window.location.href = `editor.html?id=${idTeste}`;
         }
     </script>
 </body>
