@@ -101,35 +101,36 @@
                     return;
                 }
 
-                // MARCA D'ÁGUA NÍVEL PREMIUM
+                               // ATIVA TARJA DIAGONAL DEMONSTRAÇÃO
+                document.body.classList.add('demo-active');
+
+                // TARJA TOPO COM TEXTO NOVO
                 const tarja = document.createElement('div');
-                tarja.innerHTML = `
-                    <div style="font-size:14px;opacity:0.9;">VISUALIZAÇÃO BLOQUEADA</div>
-                    <div style="font-size:22px;margin:5px 0;">Restam <span id="countDemo">02:59</span> para expirar</div>
-                    <div style="font-size:12px;opacity:0.8;">Pague para salvar pra sempre + remover marca d'água</div>
-                `;
-                tarja.style.cssText = 'position:fixed;top:0;left:0;width:100%;background:linear-gradient(90deg,#d32f2f,#FF4D79);color:#fff;text-align:center;padding:20px;font-weight:900;z-index:99999;box-shadow:0 5px 30px rgba(0,0,0,0.5);';
+                tarja.id = 'timerDemo';
+                tarja.style.cssText = 'position:fixed;top:0;left:0;width:100%;background:linear-gradient(90deg,#d32f2f,#FF4D79);color:#fff;text-align:center;padding:20px;font-weight:900;z-index:99999;box-shadow:0 5px 30px rgba(0,0,0,0.5);font-size:18px;';
                 document.body.prepend(tarja);
 
-                // COUNTDOWN DE 3 MINUTOS
+                // COUNTDOWN DE 3 MINUTOS COM TEXTO NOVO
                 let tempo = 179;
-                const countEl = document.getElementById('countDemo');
                 const timer = setInterval(() => {
                     tempo--;
                     const min = Math.floor(tempo / 60).toString().padStart(2, '0');
                     const seg = (tempo % 60).toString().padStart(2, '0');
-                    countEl.innerText = `${min}:${seg}`;
+                    tarja.innerHTML = `⏰ Essa demo expira em ${min}:${seg}. Depois some pra sempre.`;
+                    if (tempo <= 30) {
+                        tarja.style.animation = 'pulse 1s infinite';
+                    }
                     if (tempo <= 0) {
                         clearInterval(timer);
-                        document.body.innerHTML = '<div style="text-align:center;padding:50px;color:#fff;"><h1 style="color:#d32f2f;">⏰ Demo Expirada</h1><p>Sua prévia de 3 minutos acabou.</p><a href="index.html#planos" style="background:#FF4D79;color:#fff;padding:15px 30px;border-radius:50px;text-decoration:none;font-weight:700;display:inline-block;margin-top:20px;">Pagar R$19 e Recuperar</a></div>';
+                        document.body.innerHTML = '<div style="text-align:center;padding:50px;color:#fff;"><h1 style="color:#d32f2f;">💔 Demo Expirada</h1><p>Sua prévia acabou.</p><a href="index.html#planos" style="background:#25D366;color:#fff;padding:15px 30px;border-radius:50px;text-decoration:none;font-weight:700;display:inline-block;margin-top:20px;">Desbloquear por R$29,90</a></div>';
                     }
                 }, 1000);
 
-                // BOTÃO COMPRAR ULTRA PREMIUM
+                // BOTÃO PREÇO ÚNICO
                 const btn = document.createElement('a');
                 btn.href = 'index.html#planos';
-                btn.innerHTML = '🔓 Desbloquear Agora - R$19 <span style="text-decoration:line-through;opacity:0.6;margin-left:10px;">R$47</span>';
-                btn.style.cssText = 'position:fixed;bottom:25px;left:50%;transform:translateX(-50%);background:#fff;color:#d32f2f;padding:20px 40px;border-radius:50px;font-weight:900;text-decoration:none;z-index:99999;animation:pulse 1.5s infinite;box-shadow:0 8px 30px rgba(255,255,255,0.3);font-size:18px;';
+                btn.innerHTML = '🔓 Desbloquear por R$29,90';
+                btn.style.cssText = 'position:fixed;bottom:25px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;padding:20px 40px;border-radius:50px;font-weight:900;text-decoration:none;z-index:99999;animation:pulse 1.5s infinite;box-shadow:0 8px 30px rgba(37,211,102,0.3);font-size:20px;';
                 document.body.appendChild(btn);
 
                 const style = document.createElement('style');
