@@ -159,19 +159,59 @@
             document.getElementById('telaEditor').classList.remove('oculto');
             document.getElementById('nomePlano').innerText = dadosPlano.plano.toUpperCase();
 
-            // Limita fotos pelo plano
-            const limite = dadosPlano.limites.fotos;
-            document.getElementById('limiteFotos').innerText = `(Máx: ${limite} foto${limite > 1? 's' : ''})`;
+            // DEFINE LIMITES PADRÃO SE NÃO VIER DO FIREBASE
+            const limites = {
+                fotos: 3,
+                musica: false,
+                edicao: false,
+                ...dadosPlano.limites
+            };
 
-            if (limite < 2) document.getElementById('blocoFoto2').style.display = 'none';
-            if (limite < 3) document.getElementById('blocoFoto3').style.display = 'none';
+            // AJUSTA PELO PLANO
+            if (dadosPlano.plano === 'essencial') {
+                limites.fotos = 3;
+                limites.musica = false;
+                limites.edicao = false;
+            } else if (dadosPlano.plano === 'completo') {
+                limites.fotos = 15;
+                limites.musica = true;
+                limites.edicao = false;
+            } else if (dadosPlano.plano === 'vitalicio') {
+                limites.fotos = 15;
+                limites.musica = true;
+                limites.edicao = true;
+            }
 
-            // Bloqueia música se não tiver no plano
-            if (!dadosPlano.limites.musica) {
+            // APLICA LIMITES NA TELA
+            document.getElementById('limiteFotos').innerText = `(Máx: ${limites.fotos} foto${limites.fotos > 1 ? 's' : ''})`;
+            
+            // GERA BLOCOS DE FOTO DINÂMICOS
+            const containerFotos = document.querySelector('.grupo-foto');
+            let htmlFotos = `<label>Fotos do Casal: <span id="limiteFotos">(Máx: ${limites.fotos} foto${limites.fotos > 1 ? 's' : ''})</span></label>`;
+            
+            for (let i = 1; i <= limites.fotos && i <= 15; i++) {
+                htmlFotos += `
+                    <div id="blocoFoto${i}" style="margin-top:10px;">
+                        <input type="file" id="uploadFoto${i}" accept="image/*" style="display:none" onchange="enviarFoto(this, 'foto${i}')">
+                        <button type="button" class="btn-secundario" onclick="document.getElementById('uploadFoto${i}').click()">📷 Adicionar Foto ${i}</button>
+                        <input type="hidden" id="foto${i}">
+                        <div id="preview${i}" class="dica"></div>
+                    </div>
+                `;
+            }
+            htmlFotos += '<div class="dica" style="margin-top:15px;">Clique no botão e escolha da sua galeria.</div>';
+            containerFotos.innerHTML = htmlFotos;
+
+            // BLOQUEIA MÚSICA SE NÃO TIVER NO PLANO
+            if (!limites.musica) {
                 document.getElementById('campoMusica').style.display = 'none';
             }
 
-            // Carrega dados se já existir
+            // AVISO DE EDIÇÃO PRO VITALÍCIO
+            if (!limites.edicao && dadosPlano.plano !== 'vitalicio') {
+                document.getElementById('btnSalvar').innerText = 'Salvar e Publicar (sem edição depois)';
+            }
+
             carregarDadosSalvos();
         }
 
