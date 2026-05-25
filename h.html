@@ -304,16 +304,15 @@
                     `;
                     document.querySelector('.card').after(painel);
 
-                    // FUNÇÕES DO PAINEL
                     window.copiarLinkHomenagem = function() {
-                        const link = window.location.href.replace('&criador=true','');
+                        const link = window.location.href.replace('&criador=true','').replace('?criador=true','');
                         navigator.clipboard.writeText(link).then(() => {
                             alert('Link copiado! ✅\n\nManda no WhatsApp pro seu amor:\n' + link);
                         });
                     }
 
                     window.gerarQRCode = function() {
-                        const link = window.location.href.replace('&criador=true','');
+                        const link = window.location.href.replace('&criador=true','').replace('?criador=true','');
                         const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(link)}`;
                         document.getElementById('areaQR').innerHTML = `
                             <div style="padding:20px;background:#0a0a0a;border-radius:12px;margin-top:20px;">
