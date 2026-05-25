@@ -285,7 +285,7 @@
             reader.readAsDataURL(file);
         }
 
-        function iniciarEscassez() {
+                function iniciarEscassez() {
             let vagas = localStorage.getItem('vagasDemo') || 3;
             if (localStorage.getItem('jaVisitou')) {
                 vagas = 1;
@@ -308,7 +308,7 @@
             }, 30000);
         }
 
-                function gerarMensagem() {
+        function gerarMensagem() {
             const nomesInput = document.getElementById('nomes').value.trim();
             if (!nomesInput) {
                 alert('Escreve o nome do casal primeiro, amor 😍');
@@ -344,6 +344,37 @@
             };
 
             document.getElementById('mensagem').value = mensagens[modelo];
+        }
+
+        iniciarEscassez();
+
+        // BLOQUEIO LEVE - SÓ ATIVA NA DEMO
+        if (window.location.search.includes('demo=true')) {
+            document.addEventListener('contextmenu', e => {
+                e.preventDefault();
+                alert('Função desabilitada na demonstração 🔒');
+            });
+
+            document.addEventListener('keydown', e => {
+                if(e.key === 'PrintScreen') {
+                    navigator.clipboard.writeText('Desbloqueie por R$29,90 pra remover proteção 😉').catch(()=>{});
+                    alert('Prints bloqueados na demo. Desbloqueie pra salvar.');
+                }
+                if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I') || (e.ctrlKey && e.key === 'u')) {
+                    e.preventDefault();
+                    alert('Código protegido 🔒');
+                }
+            });
+
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) {
+                    setTimeout(() => {
+                        if (!document.hidden) {
+                            alert('Voltou? A demo ainda tá aqui. Mas some em alguns minutos...');
+                        }
+                    }, 100);
+                }
+            });
         }
 
         iniciarEscassez();
