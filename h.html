@@ -44,14 +44,54 @@
             font-size: 1.2rem; line-height: 2; color: #e0e0e0; margin: 40px 0;
             font-family: 'Cormorant Garamond', serif; font-style: italic;
         }
-    .fotos { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin: 40px 0; }
-    .fotos img {
-            width: 140px; height: 140px; object-fit: cover; border-radius: 20px;
-            border: 3px solid rgba(255,77,121,0.5);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transition: transform 0.3s;
-        }
-    .fotos img:hover { transform: scale(1.05); }
+      .fotos { 
+        position: relative; 
+        width: 100%; 
+        max-width: 400px; 
+        height: 400px; 
+        margin: 40px auto; 
+        overflow: hidden; 
+        border-radius: 20px;
+    }
+   .fotos img {
+        position: absolute;
+        width: 100%; 
+        height: 100%; 
+        object-fit: cover; 
+        border-radius: 20px;
+        border: 3px solid rgba(255,77,121,0.5);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        opacity: 0; 
+        transition: opacity 1.2s ease-in-out, transform 0.3s;
+        left: 0;
+        top: 0;
+    }
+   .fotos img.ativo { 
+        opacity: 1; 
+        z-index: 2;
+    }
+   .fotos img:hover { transform: scale(1.02); }
+   .fotos-contador {
+        position: absolute;
+        bottom: 15px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0,0,0,0.7);
+        color: #FFD166;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 600;
+        z-index: 3;
+        backdrop-filter: blur(10px);
+    }
+   .fotos-dica {
+        text-align: center;
+        color: #888;
+        font-size: 12px;
+        margin-top: -25px;
+        margin-bottom: 40px;
+    }
     .musica { margin-top: 30px; position: relative; }
     .erro { text-align: center; padding: 50px; }
     </style>
