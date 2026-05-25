@@ -312,9 +312,10 @@
                         window.location.href = 'editor.html?id=' + id;
                     });
 
+                                            document.getElementById('btnCopiarLink').addEventListener('click', function() {
                         const link = window.location.href.replace('&criador=true','').replace('?criador=true','');
                         const nomes = document.getElementById('titulo')?.innerText || 'nossa história';
-                        const textoPronto = `*Fiz uma surpresa pra você* ❤️\n\nClica aqui pra ver: ${link}\n\n_Espero que goste..._`;
+                        const textoPronto = `*Fiz uma surpresa pra você* ❤\n\nClica aqui pra ver: ${link}\n\n_Espero que goste..._`;
                         
                         navigator.clipboard.writeText(textoPronto).then(() => {
                             alert('Texto copiado! ✅\n\nJá colei tudo formatado pra você.\nÉ só abrir o WhatsApp e colar.');
