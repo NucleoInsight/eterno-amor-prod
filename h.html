@@ -275,6 +275,22 @@
         }
 
         carregar();
+            
+            // RODAPÉ VIRAL - SÓ APARECE SE NÃO FOR DEMO
+            if (!isDemo) {
+                setTimeout(() => {
+                    const rodape = document.createElement('div');
+                    rodape.innerHTML = `
+                        <div style="text-align:center;margin-top:60px;padding-top:30px;border-top:1px solid rgba(255,77,121,0.2);">
+                            <p style="color:#888;font-size:14px;margin-bottom:15px;">Gostou? Crie a sua homenagem também</p>
+                            <a href="index.html" style="background:linear-gradient(135deg,#FF4D79,#FF8C42);color:#fff;padding:12px 25px;border-radius:50px;text-decoration:none;font-weight:600;display:inline-block;font-size:14px;">
+                                ❤️ Fazer minha homenagem
+                            </a>
+                        </div>
+                    `;
+                    document.querySelector('.card').appendChild(rodape);
+                }, 2000);
+            }
     </script>
 </body>
 </html>
