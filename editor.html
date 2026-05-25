@@ -131,10 +131,11 @@
             document.getElementById('telaErro').classList.remove('oculto');
         }
 
-        function montarTela() {
+          function montarTela() {
+            document.getElementById('telaErro').classList.add('oculto');
             document.getElementById('telaEditor').classList.remove('oculto');
             document.getElementById('nomePlano').innerText = dadosPlano.plano.toUpperCase();
-
+              
             // DEFINE LIMITES PADRÃO SE NÃO VIER DO FIREBASE
             const limites = {
                 fotos: 3,
