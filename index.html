@@ -266,10 +266,12 @@ footer {
     <h2 class="section-title">Teste Agora Como Fica</h2>
     <div class="demo-grid">
       <div class="demo-form">
-        <h3 style="margin-bottom:20px;">Veja como fica na prática:</h3>
-        <p style="margin-bottom:30px;color:#555;">Sua homenagem personalizada com fotos, música e contador ao vivo.</p>
-        <a href="demo.html" class="btn" style="width:100%;">Quero Criar a Minha Completa</a>
-        <p style="margin-top:20px;font-size:0.9rem;color:#777;">Demora 2 minutos. Teste grátis antes de pagar.</p>
+        <h3>Digite o nome do casal:</h3>
+        <input type="text" id="nome1" placeholder="Seu nome" value="Maria" oninput="atualizarPreview()">
+        <input type="text" id="nome2" placeholder="Nome do mozão" value="João" oninput="atualizarPreview()">
+        <input type="date" id="dataInicio" value="2023-06-12" oninput="atualizarPreview()">
+        <a href="demo.html" class="btn" style="width:100%;margin-top:10px;">Quero Criar a Minha Completa</a>
+        <p style="margin-top:20px;font-size:0.9rem;color:#777;">* Preview atualiza ao vivo. Teste grátis antes de pagar.</p>
       </div>
       <div class="phone-mockup">
         <div class="phone-screen" id="phonePreview">
@@ -507,6 +509,28 @@ setInterval(() => {
   let num = parseInt(el.innerText);
   if (num > 2) el.innerText = num - 1;
 }, 45000);
+
+    function atualizarPreview() {
+    const nome1 = document.getElementById('nome1').value || 'Maria';
+    const nome2 = document.getElementById('nome2').value || 'João';
+    const data = new Date(document.getElementById('dataInicio').value);
+    
+    document.getElementById('previewNomes').innerText = nome1 + ' & ' + nome2;
+    
+    const agora = new Date();
+    const diff = agora - data;
+    const anos = Math.floor(diff / (1000 * 60 * 60 * 24 * 365));
+    const meses = Math.floor((diff % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24 * 30));
+    
+    let textoTempo = '';
+    if (anos > 0) textoTempo += anos + ' ano' + (anos > 1 ? 's' : '');
+    if (meses > 0) textoTempo += (anos > 0 ? ', ' : '') + meses + ' mes' + (meses > 1 ? 'es' : '');
+    if (textoTempo === '') textoTempo = 'alguns dias';
+    
+    document.getElementById('previewTempo').innerText = textoTempo;
+    document.querySelector('#phonePreview p[style*="font-size:0.7rem"]').innerText = 'Desde ' + data.toLocaleDateString('pt-BR');
+}
+atualizarPreview();
 </script>
 
 </body>
