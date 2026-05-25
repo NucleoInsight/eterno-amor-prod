@@ -210,7 +210,6 @@ footer {
       <div class="countdown-item"><div class="countdown-number" id="minutes">00</div><div class="countdown-label">Min</div></div>
       <div class="countdown-item"><div class="countdown-number" id="seconds">00</div><div class="countdown-label">Seg</div></div>
     </div>
-    <!-- MUDANÇA AQUI: Botão agora leva pra demo.html -->
     <a href="demo.html" class="btn">Ver Demonstração Grátis</a>
   </div>
 </section>
@@ -224,8 +223,8 @@ footer {
         <input type="text" id="nome1" placeholder="Seu nome" value="Maria">
         <input type="text" id="nome2" placeholder="Nome do mozão" value="João">
         <input type="date" id="dataInicio" value="2023-06-12">
-        <button class="btn" onclick="atualizarPreview()">Atualizar Preview</button>
-        <p style="margin-top:20px;font-size:0.9rem;color:#777;">* Esta é apenas uma demonstração. Na versão final você adiciona fotos, música e texto personalizado.</p>
+        <a href="demo.html" class="btn" style="width:100%;margin-top:10px;">Quero Criar a Minha Completa</a>
+        <p style="margin-top:20px;font-size:0.9rem;color:#777;">* Clique acima pra adicionar fotos, música e texto personalizado na degustação grátis.</p>
       </div>
       <div class="phone-mockup">
         <div class="phone-screen" id="phonePreview">
@@ -289,7 +288,6 @@ footer {
   </div>
 </section>
 
-<!-- MUDANÇA AQUI: Adicionei id="planos" pra demo.html conseguir rolar até aqui -->
 <section class="pricing" id="planos">
   <div class="container">
     <h2 class="section-title">Escolha Seu Plano</h2>
@@ -304,7 +302,6 @@ footer {
           <li>QR Code</li>
           <li>1 Ano no ar</li>
         </ul>
-        <!-- MUDANÇA AQUI: Trocar pelo link da InfinitePay do Eterno Amor Essencial -->
         <a href="LINK_CHECKOUT_ESSENCIAL" class="btn btn-outline">Quero Esse</a>
       </div>
       <div class="price-card popular">
@@ -319,7 +316,6 @@ footer {
           <li>Efeitos especiais</li>
           <li>Domínio: eternoamor.com/casal</li>
         </ul>
-        <!-- MUDANÇA AQUI: Trocar pelo link da InfinitePay do Eterno Amor Completo -->
         <a href="LINK_CHECKOUT_COMPLETO" class="btn">Quero Esse</a>
       </div>
       <div class="price-card">
@@ -332,7 +328,6 @@ footer {
           <li>Certificado digital</li>
           <li>Suporte prioritário</li>
         </ul>
-        <!-- MUDANÇA AQUI: Trocar pelo link da InfinitePay do Eterno Amor Vitalício -->
         <a href="LINK_CHECKOUT_VITALICIO" class="btn btn-outline">Quero Esse</a>
       </div>
     </div>
@@ -389,7 +384,7 @@ const countdown = setInterval(() => {
   if (distance < 0) clearInterval(countdown);
 }, 1000);
 
-// Demo interativa
+// Demo interativa do widget
 function atualizarPreview() {
   const nome1 = document.getElementById("nome1").value || "Nome 1";
   const nome2 = document.getElementById("nome2").value || "Nome 2";
