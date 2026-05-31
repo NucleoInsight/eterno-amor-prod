@@ -182,6 +182,53 @@ footer {
 .footer-links a { color: var(--branco); text-decoration: none; opacity: 0.8; }
 .footer-links a:hover { opacity: 1; }
 
+/* Tarja Sazonal do Dia dos Namorados */
+.tarja-sazonal {
+  background: linear-gradient(90deg, #E63965 0%, #FF4D79 50%, #FF8C42 100%);
+  color: #ffffff;
+  text-align: center;
+  padding: 10px 20px;
+  font-weight: 700;
+  font-size: 14px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1001;
+  box-shadow: 0 4px 15px rgba(255, 77, 121, 0.3);
+  display: block; /* Mude para none se quiser esconder depois de Junho */
+}
+.tarja-sazonal span {
+  background: #FFFFFF;
+  color: #E63965;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-left: 10px;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+/* Header ajustado para não ficar embaixo da tarja sazonal */
+header {
+  padding: 20px 0;
+  position: fixed;
+  width: 100%;
+  top: 41px; /* Empurrado para baixo por causa da tarja */
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+/* Hero ajustado para compensar o topo maior */
+.hero {
+  padding: 200px 0 100px;
+  background: var(--cinza);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
 /* Responsive */
 @media (max-width: 968px) {
   .demo-grid, .features-grid, .pricing-grid { grid-template-columns: 1fr; }
@@ -189,6 +236,8 @@ footer {
   .price-card.popular { transform: scale(1); }
   .countdown { gap: 10px; }
   .countdown-item { min-width: 70px; padding: 15px 10px; }
+  header { top: 62px; } /* Ajuste fino do topo no mobile */
+  .hero { padding: 220px 0 100px; }
 }
 </style>
 </head>
