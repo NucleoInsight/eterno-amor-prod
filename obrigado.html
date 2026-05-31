@@ -148,7 +148,19 @@ function chamarWhats() {
         return;
     }
 
-    const msg = `Oi! Acabei de comprar o Eterno Amor ❤️\n\n*Plano:* ${planos[plano]}\n*Casal:* ${nomes}\n\nQuero liberar meu acesso!`;
+   const msg = `Oi! Acabei de comprar o Eterno Amor ❤️\n\n*Plano:* ${planos[plano]}\n*Casal:* ${nomes}\n\nQuero liberar meu acesso!`;
+    const link = `https://wa.me/5575998649927?text=${encodeURIComponent(msg)}`;
+    window.open(link, '_blank');
+}
+
+function solicitarUpgrade(tipoUpgrade) {
+    const nomes = document.getElementById('nomes').value.trim();
+    if(!nomes) {
+        alert('Por favor, digite o nome do casal ❤️');
+        return;
+    }
+
+    const msg = `Oi! Acabei de comprar o Eterno Amor ❤️\n\n*Plano comprado originalmente:* ${planos[plano]}\n*Casal:* ${nomes}\n\n🔥 *ADICIONAL COMPLEMENTAR:* ${tipoUpgrade}.\n\nMe envia o Pix para a taxa extra e vamos liberar o acesso!`;
     const link = `https://wa.me/5575998649927?text=${encodeURIComponent(msg)}`;
     window.open(link, '_blank');
 }
