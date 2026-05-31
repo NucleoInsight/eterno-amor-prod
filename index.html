@@ -535,22 +535,62 @@ const observer = new IntersectionObserver(entries => {
 });
 stats.forEach(stat => observer.observe(stat));
 
-    function atualizarPreview() {
+// Função automática para esconder a tarja após o Dia dos Namorados (12/06/2026)
+function controlarTarjaSazonal() {
+    const agora = new Date();
+    // Cria a data limite: 12 de Junho de 2026 às 23:59:59
+    const dataLimite = new Date(2026, 5, 12, 23, 59, 59); 
+    const tarja = document.getElementById('tarjaNamorados');
+    
+    if (tarja) {
+        if (agora > dataLimite) {
+            tarja.style.display = 'none';
+            // Remove o recuo do topo do header para voltar ao visual padrão do ano todo
+            document.querySelector('header').style.top = '0px';
+            document.querySelector('.hero').style.padding = '160px 0 100px';
+        }
+    }
+}
+controlarTarjaSazonal();
+
+function atualizarPreview() {
     const nome1 = document.getElementById('nome1').value || 'Maria';
     const nome2 = document.getElementById('nome2').value || 'João';
-    const data = new Date(document.getElementById('dataInicio').value);
+    
+    const dataInput = document.getElementById('dataInicio').value;
+    if (!dataInput) return;
+
+    // CORREÇÃO DO BUG DO FUSO HORÁRIO: Divide o texto do input evitando distorção de datas
+    const [anoInput, mesInput, diaInput] = dataInput.split('-');
+    const data = new Date(anoInput, mesInput - 1, diaInput);
     
     document.getElementById('previewNomes').innerText = nome1 + ' & ' + nome2;
     
     const agora = new Date();
-    const diff = agora - data;
-    const anos = Math.floor(diff / (1000 * 60 * 60 * 24 * 365));
-    const meses = Math.floor((diff % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24 * 30));
+    
+    // CORREÇÃO DO BUG DO CÁLCULO DE MESES: Usando objetos nativos de data em vez de matemática aproximada
+    let anos = agora.getFullYear() - data.getFullYear();
+    let meses = agora.getMonth() - data.getMonth();
+    let dias = agora.getDate() - data.getDate();
+
+    if (dias < 0) {
+        meses--;
+    }
+    if (meses < 0) {
+        anos--;
+        meses += 12;
+    }
     
     let textoTempo = '';
-    if (anos > 0) textoTempo += anos + ' ano' + (anos > 1 ? 's' : '');
-    if (meses > 0) textoTempo += (anos > 0 ? ', ' : '') + meses + ' mes' + (meses > 1 ? 'es' : '');
-    if (textoTempo === '') textoTempo = 'alguns dias';
+    if (anos > 0) {
+        textoTempo += anos + ' ano' + (anos > 1 ? 's' : '');
+    }
+    if (meses > 0) {
+        textoTempo += (anos > 0 ? ', ' : '') + meses + ' mes' + (meses > 1 ? 'es' : '');
+    }
+    if (textoTempo === '') {
+        textoTempo = 'alguns dias';
+    }
     
     document.getElementById('previewTempo').innerText = textoTempo;
     document.querySelector('#phonePreview p[style*="font-size:0.7rem"]').innerText = 'Desde ' + data.toLocaleDateString('pt-BR');
