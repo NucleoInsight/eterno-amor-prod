@@ -535,19 +535,27 @@ const observer = new IntersectionObserver(entries => {
 });
 stats.forEach(stat => observer.observe(stat));
 
-// Função automática para esconder a tarja após o Dia dos Namorados (12/06/2026)
+// Função com janela de tempo inteligente: Ativa de 15 de Maio a 12 de Junho em QUALQUER ano
 function controlarTarjaSazonal() {
     const agora = new Date();
-    // Cria a data limite: 12 de Junho de 2026 às 23:59:59
-    const dataLimite = new Date(2026, 5, 12, 23, 59, 59); 
+    const mesAtual = agora.getMonth(); // Janeiro é 0, Maio é 4, Junho é 5
+    const diaAtual = agora.getDate();
     const tarja = document.getElementById('tarjaNamorados');
     
     if (tarja) {
-        if (agora > dataLimite) {
+        // Regra: Mostrar APENAS se estiver entre 15 de Maio (mês 4, dia 15) e 12 de Junho (mês 5, dia 12)
+        const iniciouCampanha = (mesAtual === 4 && diaAtual >= 15);
+        const terminouCampanha = (mesAtual === 5 && diaAtual > 12) || (mesAtual > 5) || (mesAtual < 4);
+        
+        // Se a campanha já passou do prazo ou ainda não começou, esconde a tarja
+        if (terminouCampanha || !iniciouCampanha) {
             tarja.style.display = 'none';
-            // Remove o recuo do topo do header para voltar ao visual padrão do ano todo
+            // Remove o recuo do topo do header e volta ao design padrão
             document.querySelector('header').style.top = '0px';
             document.querySelector('.hero').style.padding = '160px 0 100px';
+        } else {
+            // Caso esteja dentro da janela, garante que ela fique visível
+            tarja.style.display = 'block';
         }
     }
 }
