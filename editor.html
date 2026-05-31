@@ -303,6 +303,14 @@
                 const docSnap = await getDoc(docRef);
                 if (docSnap.exists()) {
                     const d = docSnap.data();
+
+                    // TRAVA DE SEGURANÇA: Se já foi publicado e NÃO for o plano vitalício, bloqueia a edição
+                    if (d.publicado === true && dadosPlano.plano !== 'vitalicio') {
+                        document.getElementById('telaEditor').classList.add('oculto');
+                        document.getElementById('telaBloqueioEdicao').classList.remove('oculto');
+                        return;
+                    }
+
                     document.getElementById('nomes').value = d.nomes || '';
                     document.getElementById('data').value = d.data || '';
                     document.getElementById('mensagem').value = d.mensagem || '';
@@ -329,7 +337,8 @@
                 data: document.getElementById('data').value,
                 mensagem: document.getElementById('mensagem').value,
                 musica: document.getElementById('musica')?.value || '',
-                atualizadoEm: serverTimestamp()
+                atualizadoEm: serverTimestamp(),
+                publicado: true // Grava a marcação de publicado no banco de dados
             };
             
             // SALVA FOTOS DINAMICAMENTE
@@ -338,7 +347,7 @@
                 if (fotoEl) dados[`foto${i}`] = fotoEl.value || '';
             }
 
-            if (!dados.nomes ||!dados.data ||!dados.mensagem) {
+            if (!dados.nomes || !dados.data || !dados.mensagem) {
                 alert('Preenche pelo menos: Nome, Data e Mensagem');
                 btn.disabled = false;
                 btn.innerText = 'Salvar e Publicar Homenagem';
@@ -355,7 +364,6 @@
                 btn.innerText = 'Salvar e Publicar Homenagem';
             }
         }
-
         verificarAcesso();
     </script>
 </body>
