@@ -94,9 +94,33 @@ body {
     <label for="nomes">Nome do Casal:</label>
     <input type="text" id="nomes" placeholder="Ex: Gil e Ane">
 
-    <button onclick="chamarWhats()" class="btn">
+   <button onclick="chamarWhats()" class="btn">
         Liberar Meu Acesso no WhatsApp
     </button>
+
+    <div style="margin-top: 30px; padding-top: 20px; border-top: 1px dashed #333; text-align: left;">
+        <h3 style="font-size: 15px; color: #FFD166; margin-bottom: 15px; text-align: center; font-weight: 600;">🎁 Complete seu pedido (Opcional):</h3>
+        
+        <div style="background: #222; border: 1px solid #333; padding: 12px; border-radius: 10px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; gap: 10px;">
+            <div style="flex: 1;">
+                <div style="font-size: 13px; font-weight: 700; color: #fff;">Mudar para o Plano Vitalício ✨</div>
+                <div style="font-size: 11px; color: #888;">Página para sempre no ar + 10 fotos + edições livres.</div>
+            </div>
+            <button onclick="solicitarUpgrade('Quero fazer o Upgrade para o plano VITALÍCIO por apenas + R$ 20')" style="background: #2e7d32; color: #fff; border: none; padding: 8px 12px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap;">
+                + R$ 20
+            </button>
+        </div>
+
+        <div style="background: #222; border: 1px solid #333; padding: 12px; border-radius: 10px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; gap: 10px;">
+            <div style="flex: 1;">
+                <div style="font-size: 13px; font-weight: 700; color: #fff;">Montagem Premium pela nossa Equipe 🧑‍💻</div>
+                <div style="font-size: 11px; color: #888;">Sem complicação. Você manda as fotos no Whats e nós montamos tudo.</div>
+            </div>
+            <button onclick="solicitarUpgrade('Quero contratar o serviço de MONTAGEM PREMIUM por apenas + R$ 15')" style="background: #2e7d32; color: #fff; border: none; padding: 8px 12px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap;">
+                + R$ 15
+            </button>
+        </div>
+    </div>
 
     <div style="background: rgba(255, 140, 66, 0.1); border: 1px solid #FF8C42; padding: 12px; border-radius: 8px; margin-top: 20px; text-align: center; font-size: 13px; color: #FF8C42; font-weight: 600;">
         ⚠️ ATENÇÃO AO HORÁRIO DE LIBERAÇÃO:<br>
