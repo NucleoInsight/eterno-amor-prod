@@ -313,7 +313,7 @@
             alert('✅ Texto pro WhatsApp copiado!\n\nJá tá formatado com negrito. É só colar.');
         }
         
-        window.bloquear = async function(id) {
+       window.bloquear = async function(id) {
             if (!confirm(`Bloquear o ID ${id}? O cliente vai perder acesso.`)) return;
             
             try {
@@ -321,6 +321,33 @@
                 carregarLiberados();
             } catch (e) {
                 alert('Erro ao bloquear: ' + e.message);
+            }
+        }
+
+        window.alterarPlano = async function(id, nomes) {
+            const novoPlano = prompt(`Alterar o plano de "${nomes || id}" para qual?\n\nDigite exatamente: essencial, completo ou vitalicio`);
+            if (!novoPlano || !['essencial', 'completo', 'vitalicio'].includes(novoPlano)) {
+                alert('Alteração cancelada ou nome do plano digitado incorretamente.');
+                return;
+            }
+
+            const limites = {
+                essencial: { fotos: 1, musica: false, qr: false, edicao: false },
+                completo: { fotos: 5, musica: true, qr: false, edicao: false },
+                vitalicio: { fotos: 10, musica: true, qr: true, edicao: true }
+            };
+
+            try {
+                // Atualiza o documento do cliente com o novo plano e os novos limites
+                await setDoc(doc(db, 'liberados', id), {
+                    plano: novoPlano,
+                    limites: limites[novoPlano]
+                }, { merge: true });
+
+                alert(`✓ Plano de ${id} atualizado com sucesso para ${novoPlano.toUpperCase()}!`);
+                carregarLiberados();
+            } catch (e) {
+                alert('Erro ao alterar plano: ' + e.message);
             }
         }
     </script>
