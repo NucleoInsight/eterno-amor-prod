@@ -270,9 +270,12 @@
                                 <span style="color:#888;font-size:12px;">Liberado em ${data}</span><br>
                                 <span style="color:#FFD166;font-size:11px;">${dados.limites.fotos} fotos | ${dados.limites.musica ? 'Música' : 'S/Música'} | ${dados.limites.qr ? 'QR' : 'S/QR'} | ${dados.limites.edicao ? 'Editável' : 'Fixo'}</span>
                             </div>
-                            <div>
+                            <div style="display: flex; flex-direction: column; gap: 5px; align-items: flex-end;">
                                 <button class="btn-copiar" onclick="copiarLink('${doc.id}', '${dados.plano}', '${dados.nomes || ''}')">📋 Copiar WhatsApp</button>
-                                <button onclick="bloquear('${doc.id}')">Bloquear</button>
+                                <div style="display: flex; gap: 5px;">
+                                    <button onclick="alterarPlano('${doc.id}', '${dados.nomes || ''}')" style="background: #b57c1e; font-size: 12px; padding: 6px 10px; margin: 0; width: auto;">⚙️ Mudar Plano</button>
+                                    <button onclick="bloquear('${doc.id}')" style="font-size: 12px; padding: 6px 10px; margin: 0; width: auto;">Bloquear</button>
+                                </div>
                             </div>
                         </div>
                     `;
