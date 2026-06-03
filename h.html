@@ -233,26 +233,50 @@
             document.getElementById('mensagem').innerText = dados.mensagem;
 
             const inicio = new Date(dados.data);
-            const configsContador = {
-                maternidade: { emoji: '👶', texto: 'dias de puro amor e gratidão' },
-                amizade: { emoji: '⭐', texto: 'dias da melhor dupla do mundo' },
-                luto: { emoji: '🕊️', texto: 'dias guardados com carinho na memória' },
-                pet: { emoji: '🐾', texto: 'dias enchendo nossa vida de alegria' },
-                aniversario: { emoji: '🎂', texto: 'dias espalhando luz no mundo' },
-                casamento: { emoji: '💍', texto: 'dias do nosso sim para sempre' },
-                viagem: { emoji: '✈️', texto: 'dias colecionando memórias pelo mundo' },
-                conquista: { emoji: '🎓', texto: 'dias de muito orgulho e vitória' },
-                marketing: { emoji: '🚀', texto: 'dias de sucesso absoluto' }
+            
+            // SISTEMA DE ESTILOS E PALETAS DE CORES DINÂMICAS POR TEMA
+            const designTemas = {
+                casal: { emoji: '♥', texto: 'dias de amor', fundo: 'radial-gradient(ellipse at top, #1a0a0a 0%, #0a0a0a 50%, #000 100%)', borda: 'rgba(255,77,121,0.3)', gradienteTxt: 'linear-gradient(135deg, #FF4D79 0%, #FF8C42 100%)', glow: 'rgba(255,77,121,0.2)' },
+                maternidade: { emoji: '👶', texto: 'dias de puro amor e gratidão', fundo: 'radial-gradient(ellipse at top, #0f1c24 0%, #070f14 50%, #000 100%)', borda: 'rgba(100,181,246,0.3)', gradienteTxt: 'linear-gradient(135deg, #64B5F6 0%, #B39DDB 100%)', glow: 'rgba(100,181,246,0.2)' },
+                amizade: { emoji: '⭐', texto: 'dias da melhor dupla do mundo', fundo: 'radial-gradient(ellipse at top, #1c1a10 0%, #0d0c07 50%, #000 100%)', borda: 'rgba(255,209,102,0.3)', gradienteTxt: 'linear-gradient(135deg, #FFD166 0%, #FF8C42 100%)', glow: 'rgba(255,209,102,0.2)' },
+                luto: { emoji: '🕊️', texto: 'dias guardados com carinho na memória', fundo: 'radial-gradient(ellipse at top, #1c1c1c 0%, #0f0f0f 50%, #050505 100%)', borda: 'rgba(200,200,200,0.3)', gradienteTxt: 'linear-gradient(135deg, #e0e0e0 0%, #888888 100%)', glow: 'rgba(250,250,250,0.05)' },
+                pet: { emoji: '🐾', texto: 'dias enchendo nossa vida de alegria', fundo: 'radial-gradient(ellipse at top, #141c15 0%, #0a0f0b 50%, #000 100%)', borda: 'rgba(129,199,132,0.3)', gradienteTxt: 'linear-gradient(135deg, #81C784 0%, #FFD166 100%)', glow: 'rgba(129,199,132,0.2)' },
+                aniversario: { emoji: '🎂', texto: 'dias espalhando luz no mundo', fundo: 'radial-gradient(ellipse at top, #1e1124 0%, #0f0812 50%, #000 100%)', borda: 'rgba(186,104,200,0.3)', gradienteTxt: 'linear-gradient(135deg, #BA68C8 0%, #FF4D79 100%)', glow: 'rgba(186,104,200,0.2)' },
+                casamento: { emoji: '💍', texto: 'dias do nosso sim para sempre', fundo: 'radial-gradient(ellipse at top, #242015 0%, #12100a 50%, #000 100%)', borda: 'rgba(255,215,0,0.3)', gradienteTxt: 'linear-gradient(135deg, #FFD166 0%, #f4e1a3 100%)', glow: 'rgba(255,215,0,0.15)' },
+                viagem: { emoji: '✈️', texto: 'dias colecionando memórias pelo mundo', fundo: 'radial-gradient(ellipse at top, #0f2424 0%, #071212 50%, #000 100%)', borda: 'rgba(77,208,225,0.3)', gradienteTxt: 'linear-gradient(135deg, #4DD0E1 0%, #81C784 100%)', glow: 'rgba(77,208,225,0.2)' },
+                conquista: { emoji: '🎓', texto: 'dias de muito orgulho e vitória', fundo: 'radial-gradient(ellipse at top, #111625 0%, #080b12 50%, #000 100%)', borda: 'rgba(79,195,247,0.3)', gradienteTxt: 'linear-gradient(135deg, #4FC3F7 0%, #3F51B5 100%)', glow: 'rgba(79,195,247,0.2)' }
             };
 
-            const modoAtual = dados.plano || 'completo';
-            const config = configsContador[modoAtual] || { emoji: '♥', texto: 'dias de amor' };
+            const temaAtivo = dados.tema || 'casal';
+            const config = designTemas[temaAtivo] || designTemas['casal'];
+
+            // Aplicação imediata das cores customizadas do tema selecionado na tela do cliente
+            document.body.style.background = config.fundo;
+            const elementoCard = document.querySelector('.card');
+            if (elementoCard) {
+                elementoCard.style.borderColor = config.borda;
+                elementoCard.style.boxShadow = `0 20px 60px ${config.glow}, inset 0 1px 0 rgba(255,255,255,0.1)`;
+                
+                // Atualiza dinamicamente a cor da borda das imagens no carrossel do tema
+                const estiloImagens = document.createElement('style');
+                estiloImagens.innerHTML = `.fotos img { border-color: ${config.borda} !important; } .card::before { background: ${config.gradienteTxt} !important; }`;
+                document.head.appendChild(estiloImagens);
+            }
+
+            const elementoContador = document.getElementById('contador');
+            if (elementoContador) {
+                elementoContador.style.background = config.gradienteTxt;
+                elementoContador.style.webkitBackgroundClip = 'text';
+                elementoContador.style.webkitTextFillColor = 'transparent';
+            }
 
             setInterval(() => {
                 const agora = new Date();
                 const diff = agora - inicio;
                 const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
-                document.getElementById('contador').innerText = `${config.emoji} ${dias} ${config.texto} ${config.emoji}`;
+                if (elementoContador) {
+                    elementoContador.innerText = `${config.emoji} ${dias} ${config.texto} ${config.emoji}`;
+                }
             }, 1000);
 
             let fotosHtml = '';
