@@ -411,14 +411,15 @@
                 if (docSnap.exists()) {
                     const d = docSnap.data();
 
-                    // TRAVA DE SEGURANÇA: Se já foi publicado, permite a edição livre nos planos vitalício, marketing e em todos os novos modos especiais
-                    const planosEditaveis = ['vitalicio', 'marketing', 'maternidade', 'amizade', 'luto', 'pet', 'aniversario', 'casamento', 'viagem', 'conquista'];
-                    if (d.publicado === true && !planosEditaveis.includes(dadosPlano.plano)) {
+                   // TRAVA DE SEGURANÇA INTELIGENTE: Se já foi publicado, checa de forma segura se o plano ou o tema dão direito a reedição
+                    let planoVerificar = dadosPlano.plano || 'essencial';
+                    const planosLivres = ['vitalicio', 'marketing', 'maternidade', 'amizade', 'luto', 'pet', 'aniversario', 'casamento', 'viagem', 'conquista'];
+                    
+                    if (d.publicado === true && planoVerificar !== 'vitalicio' && planoVerificar !== 'marketing' && !planosLivres.includes(planoVerificar)) {
                         document.getElementById('telaEditor').classList.add('oculto');
                         document.getElementById('telaBloqueioEdicao').classList.remove('oculto');
                         return;
                     }
-
                     document.getElementById('nomes').value = d.nomes || '';
                     document.getElementById('data').value = d.data || '';
                     document.getElementById('mensagem').value = d.mensagem || '';
