@@ -636,10 +636,120 @@ function atualizarPreview() {
         textoTempo = 'alguns dias';
     }
     
-    document.getElementById('previewTempo').innerText = textoTempo;
+   document.getElementById('previewTempo').innerText = textoTempo;
     document.querySelector('#phonePreview p[style*="font-size:0.7rem"]').innerText = 'Desde ' + data.toLocaleDateString('pt-BR');
 }
 atualizarPreview();
+
+// SISTEMA INTELIGENTE DE MUDANÇA DE TEMA DINÂMICO VIA URL
+function aplicarModoSazonalPagina() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const modo = urlParams.get('modo');
+    if (!modo) return;
+
+    const bancoModos = {
+        maternidade: {
+            tarja: '👶 ESPECIAL DIA DAS MÃES: Eternize a história de amor mais pura que existe!',
+            titulo: 'O Presente Mais Emocionante<br><span>Para a Mãe Mais Especial do Mundo</span>',
+            subtitulo: 'Surpreenda sua mãe ou a mãe dos seus filhos com uma página exclusiva. Uma linda linha do tempo com fotos, música emocionante e o contador de dias desde o nascimento.',
+            formTitulo: 'Digite o nome da mãe e filho(a):',
+            placeholder1: 'Nome da Mãe',
+            placeholder2: 'Nome do Filho(a)',
+            faq1_q: 'Como funciona para o Dia das Mães?',
+            faq1_a: 'Igual ao plano padrão, mas o layout final remove corações românticos e foca em termos de família, exibindo um contador com emoji de bebê.',
+            previewCoracao: '👶'
+        },
+        pet: {
+            tarja: '🐾 ESPAÇO PET: Guarde para sempre as melhores memórias do seu parceiro de patas!',
+            titulo: 'Uma Homenagem Eterna<br><span>Para o Seu Melhor Amigo Peludo</span>',
+            subtitulo: 'Crie uma página exclusiva com a história do seu pet, fotos dos momentos mais divertidos, música e o contador de tempo desde que ele chegou para alegrar a sua vida.',
+            formTitulo: 'Digite o nome do dono & pet:',
+            placeholder1: 'Seu Nome',
+            placeholder2: 'Nome do Pet',
+            faq1_q: 'Posso fazer como memorial para um pet que partiu?',
+            faq1_a: 'Sim, o modo pet se adapta tanto para celebrar a vida do seu bichinho atual quanto para deixar guardada uma linda lembrança eterna dele.',
+            previewCoracao: '🐾'
+        },
+        luto: {
+            tarja: '🕊️ MEMORIAL ETERNO: Transforme a dor da saudade em uma lembrança eterna.',
+            titulo: 'Um Espaço de Amor e Respeito<br><span>Para Quem Deixou Saudades Eternas</span>',
+            subtitulo: 'Crie um memorial digital privado para manter vivas as fotos, histórias, músicas prediletas e as recordações de quem você ama e que agora descansa em paz.',
+            formTitulo: 'Preencha os dados do memorial:',
+            placeholder1: 'Sua Homenagem',
+            placeholder2: 'Nome de Quem Partiu',
+            faq1_q: 'O link fica no ar para sempre?',
+            faq1_a: 'Sim, para o modo Memorial nós recomendamos fortemente a ativação no Plano Vitalício para garantir que a página nunca saia do ar.',
+            previewCoracao: '🕊️'
+        },
+        amizade: {
+            tarja: '⭐ DIA DO AMIGO: Mostre para sua metade de alma o quanto ela é importante!',
+            titulo: 'A Página Oficial da Internet<br><span>Para a Sua Melhor Dupla de Aventuras</span>',
+            subtitulo: 'Surpreenda seu melhor amigo ou amiga com uma página personalizada. Guarde as fotos dos micos, viagens, a trilha sonora oficial de vocês e o contador da amizade.',
+            formTitulo: 'Digite o nome da dupla de amigos:',
+            placeholder1: 'Seu Nome',
+            placeholder2: 'Nome do Amigo(a)',
+            faq1_q: 'As fotos podem ser trocadas?',
+            faq1_a: 'Se você liberar no plano com suporte à edição (Vitalício), sim! Você e seu amigo podem atualizar as fotos e músicas quando quiserem.',
+            previewCoracao: '⭐'
+        },
+        aniversario: {
+            tarja: '🎂 ANIVERSÁRIO DE VIDA: O presente que não quebra, não murcha e emociona de verdade!',
+            titulo: 'Uma Linha do Tempo Linda<br><span>Para Celebrar Mais Um Ano de Vida</span>',
+            subtitulo: 'Faça uma surpresa inesquecível de aniversário para pais, filhos ou amigos. Uma página dedicada a contar a história, rever fotos antigas e celebrar essa data especial.',
+            formTitulo: 'Preencha o aniversariante:',
+            placeholder1: 'Sua Mensagem',
+            placeholder2: 'Nome do Aniversariante',
+            faq1_q: 'Como entrego no dia do aniversário?',
+            faq1_a: 'Você pode enviar o link às 00h no WhatsApp ou imprimir a nossa tag exclusiva com o QR Code para entregar junto com um bolo ou presente físico.',
+            previewCoracao: '🎂'
+        },
+        casamento: {
+            tarja: '💍 BODAS E CASAMENTOS: Eternize a data em que o felizes para sempre começou.',
+            titulo: 'A História do Nosso "Sim"<br><span>Guardada de Forma Perfeita na Internet</span>',
+            subtitulo: 'Eternize o dia do seu casamento ou comemore suas Bodas de forma única. Coloque fotos do grande dia, a música da entrada dos noivos e o contador do casamento em tempo real.',
+            formTitulo: 'Digite o nome dos noivos:',
+            placeholder1: 'Nome do Noivo/Noiva',
+            placeholder2: 'Nome do Cônjuge',
+            faq1_q: 'Dá para colocar o QR Code nas mesas do casamento?',
+            faq1_a: 'Sim! Muitos casais imprimem o QR Code gerado pelo nosso painel e colocam nas mesas para os convidados escanearem e lerem a história na hora da festa.',
+            previewCoracao: '💍'
+        }
+    };
+
+    const config = bancoModos[modo];
+    if (!config) return;
+
+    // Aplica as alterações de texto de forma cirúrgica na tela do index.html
+    const txtTarja = document.getElementById('textoTarja');
+    const titPrincipal = document.getElementById('tituloPrincipal');
+    const subPrincipal = document.getElementById('subtituloPrincipal');
+    const formH3 = document.querySelector('.demo-form h3');
+    const inp1 = document.getElementById('nome1');
+    const inp2 = document.getElementById('nome2');
+    const previewEmoji = document.querySelector('.heart-pulse');
+
+    if (txtTarja) txtTarja.innerText = config.tarja;
+    if (titPrincipal) titPrincipal.innerHTML = config.titulo;
+    if (subPrincipal) subPrincipal.innerText = config.subtitulo;
+    if (formH3) formH3.innerText = config.formTitulo;
+    if (inp1) inp1.placeholder = config.placeholder1;
+    if (inp2) inp2.placeholder = config.placeholder2;
+    if (previewEmoji) previewEmoji.innerText = config.previewCoracao;
+
+    // Altera dinamicamente a primeira pergunta do FAQ para encaixar no contexto
+    const primeiraPergunta = document.querySelector('.faq-question');
+    const primeiraResposta = document.querySelector('.faq-answer');
+    if (primeiraPergunta) primeiraPergunta.innerHTML = config.faq1_q + ' <span>+</span>';
+    if (primeiraResposta) primeiraResposta.innerText = config.faq1_a;
+
+    // Força a atualização do mockup do telefone na tela com os novos nomes placeholder
+    if (inp1 && inp2) {
+        inp1.value = config.placeholder1;
+        inp2.value = config.placeholder2;
+        atualizarPreview();
+    }
+}
+aplicarModoSazonalPagina();
 </script>
 
 </body>
