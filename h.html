@@ -419,8 +419,8 @@
 
         carregar();
             
-            // PAINEL DO CRIADOR - SÓ QUEM ACABOU DE CRIAR VÊ
-            if (isCriador && !isDemo) {
+            // PAINEL DO CRIADOR - SÓ QUEM ACABOU DE CRIAR VÊ (TRAVA SE FOR PLANO MARKETING)
+            if (isCriador && !isDemo && dados.plano !== 'marketing') {
                 setTimeout(() => {
                     const painel = document.createElement('div');
                     painel.innerHTML = `
