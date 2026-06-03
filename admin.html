@@ -332,8 +332,8 @@
         }
 
         window.alterarPlano = async function(id, nomes) {
-            const novoPlano = prompt(`Alterar o plano de "${nomes || id}" para qual?\n\nDigite exatamente: essencial, completo ou vitalicio`);
-            if (!novoPlano || !['essencial', 'completo', 'vitalicio'].includes(novoPlano)) {
+            const novoPlano = prompt(`Alterar o plano de "${nomes || id}" para qual?\n\nDigite exatamente: essencial, completo, vitalicio ou marketing`);
+            if (!novoPlano || !['essencial', 'completo', 'vitalicio', 'marketing'].includes(novoPlano)) {
                 alert('Alteração cancelada ou nome do plano digitado incorretamente.');
                 return;
             }
@@ -341,7 +341,8 @@
             const limites = {
                 essencial: { fotos: 1, musica: false, qr: false, edicao: false },
                 completo: { fotos: 5, musica: true, qr: false, edicao: false },
-                vitalicio: { fotos: 10, musica: true, qr: true, edicao: true }
+                vitalicio: { fotos: 10, musica: true, qr: true, edicao: true },
+                marketing: { fotos: 10, musica: true, qr: true, edicao: true } // Libera tudo para a sua página de divulgação ficar linda
             };
 
             try {
