@@ -183,7 +183,7 @@
                     if (e.key === 'PrintScreen') {
                         document.body.style.filter = 'blur(20px)';
                         setTimeout(() => document.body.style.filter = 'none', 2000);
-                        alert('Proteção ativa 🔒\n\nPague para salvar sem marca d\'água');
+                        alert('Proteção active 🔒\n\nPague para salvar sem marca d\'água');
                     }
                 });
 
@@ -191,6 +191,8 @@
                     e.preventDefault();
                     alert('🔒 Conteúdo protegido\n\nRemova as limitações por R$19');
                 });
+
+                window.dados = dados;
 
             } else {
                 // MODO NORMAL - PEGA DO FIREBASE
@@ -202,7 +204,10 @@
                         document.getElementById('conteudo').innerHTML = '<div class="erro"><h1>Homenagem não encontrada</h1><p>Verifique o link ou entre em contato.</p></div>';
                         return;
                     }
-                    dados = docSnap.data();
+                    
+                    // Vincula os dados diretamente na janela global para os scripts externos lerem sem travar
+                    window.dados = docSnap.data();
+                    dados = window.dados;
 
                     // Consulta a coleção de liberados para saber qual é o plano real e o tema deste ID
                     const libRef = doc(db, 'liberados', id);
@@ -221,6 +226,8 @@
                         dados.tema = dados.plano;
                         dados.plano = 'vitalicio';
                     }
+                    
+                    window.dados = dados;
                 } catch (e) {
                     document.getElementById('conteudo').innerHTML = '<div class="erro"><h1>Erro ao carregar</h1></div>';
                     return;
