@@ -167,16 +167,16 @@
             // USA LIMITES QUE VÊM DO FIREBASE - ADMIN É A FONTE DA VERDADE
             const limites = dadosPlano.limites || { fotos: 1, musica: false, qr: false, edicao: false };
 
-            // Configuração inteligente das instruções textuais baseada no TEMA ativo de forma independente do plano
+          // Configuração inteligente das instruções textuais baseada no TEMA ativo de forma independente do plano
             const labelsModos = {
-                maternidade: { titulo: 'Nome da Mãe e Filho(a):', data: 'Data de Nascimento:', placeholder: 'Ex: Maria e Levy', dica: 'Pode ser: Mãe e Filho, Pais e Filhos...', labelFotos: 'Fotos do Filho(a) ou Família:' },
-                amizade: { titulo: 'Nome dos Amigos:', data: 'Data do Início da Amizade:', placeholder: 'Ex: Ana e Beatriz', dica: 'Pode ser: Nome dos amigos ou da dupla', labelFotos: 'Fotos de Vocês:' },
-                luto: { titulo: 'Nome de Quem Deixou Saudades:', data: 'Data de Nascimento ou Partida:', placeholder: 'Ex: Vovô Carlos', dica: 'Pode ser o nome de quem você deseja homenagear', labelFotos: 'Fotos de Lembrança:' },
-                pet: { titulo: 'Nome do Dono & do Bichinho:', data: 'Data que o Pet chegou na sua vida:', placeholder: 'Ex: Gil e Rex', dica: 'Pode ser: Nome do pet ou dono e pet', labelFotos: 'Fotos do seu Pet:' },
-                aniversario: { titulo: 'Nome do Aniversariante:', data: 'Data de Nascimento:', placeholder: 'Ex: Lucas 15 Anos', dica: 'Pode ser o nome do aniversariante ou data especial', labelFotos: 'Fotos das Recordações:' },
-                casamento: { titulo: 'Nome dos Noivos/Casal:', data: 'Data do Casamento/Bodas:', placeholder: 'Ex: Gil e Maria', dica: 'Pode ser: Noivos, Casal ou Bodas de Prata/Ouro', labelFotos: 'Fotos do Grande Dia:' },
-                viagem: { titulo: 'Destino ou Nome dos Viajantes:', data: 'Data da Viagem:', placeholder: 'Ex: Eurotrip 2026', dica: 'Pode ser o destino da viagem ou os integrantes', labelFotos: 'Fotos da Aventura:' },
-                conquista: { titulo: 'Nome do Conquistador/Formando:', data: 'Data da Conquista/Formatura:', placeholder: 'Ex: Dra. Amanda - OAB', dica: 'Pode ser: Nome do formando, aprovação ou conquista', labelFotos: 'Fotos da Vitória:' }
+                maternidade: { titulo: 'Nome da Mãe e Filho(a):', data: 'Data de Nascimento:', placeholder: 'Ex: Maria e Levy', dica: '⚠️ Coloque SEU nome primeiro para a mensagem automática ser gerada corretamente.', labelFotos: 'Fotos do Filho(a) ou Família:' },
+                amizade: { titulo: 'Nome dos Amigos:', data: 'Data do Início da Amizade:', placeholder: 'Ex: Ana e Beatriz', dica: '⚠️ Coloque SEU nome primeiro para a mensagem automática ser gerada corretamente.', labelFotos: 'Fotos de Vocês:' },
+                luto: { titulo: 'Nome de Quem Deixou Saudades:', data: 'Data de Nascimento ou Partida:', placeholder: 'Ex: Vovô Carlos', dica: 'Escreva o nome de quem você deseja homenagear nesta página.', labelFotos: 'Fotos de Lembrança:' },
+                pet: { titulo: 'Nome do Dono & do Bichinho:', data: 'Data que o Pet chegou na sua vida:', placeholder: 'Ex: Gil e Rex', dica: '⚠️ Coloque SEU nome primeiro e o do Pet depois (Ex: Gil e Rex) para a mensagem fazer sentido.', labelFotos: 'Fotos do seu Pet:' },
+                aniversario: { titulo: 'Nome do Aniversariante:', data: 'Data de Nascimento:', placeholder: 'Ex: Lucas 15 Anos', dica: 'Escreva o nome de quem está fazendo aniversário.', labelFotos: 'Fotos das Recordações:' },
+                casamento: { titulo: 'Nome dos Noivos/Casal:', data: 'Data do Casamento/Bodas:', placeholder: 'Ex: Gil e Maria', dica: '⚠️ Coloque SEU nome primeiro para a mensagem automática ser gerada corretamente.', labelFotos: 'Fotos do Grande Dia:' },
+                viagem: { titulo: 'Destino ou Nome dos Viajantes:', data: 'Data da Viagem:', placeholder: 'Ex: Eurotrip 2026', dica: 'Escreva o destino ou o nome de quem viajou.', labelFotos: 'Fotos da Aventura:' },
+                conquista: { titulo: 'Nome do Conquistador/Formando:', data: 'Data da Conquista/Formatura:', placeholder: 'Ex: Dra. Amanda - OAB', dica: 'Escreva o nome de quem alcançou essa grande vitória.', labelFotos: 'Fotos da Vitória:' }
             };
 
             let textoLabelFotos = 'Fotos do Casal:';
