@@ -377,40 +377,40 @@
         }
 
        window.alterarPlano = async function(id, nomes) {
-            const listaPlanos = ['essencial', 'completo', 'vitalicio', 'marketing', 'maternidade', 'amizade', 'luto', 'pet', 'aniversario', 'casamento', 'viagem', 'conquista'];
+            const listaPlanos = ['essencial', 'completo', 'vitalicio', 'marketing'];
+            const listaTemas = ['casal', 'maternidade', 'amizade', 'luto', 'pet', 'aniversario', 'casamento', 'viagem', 'conquista'];
+            
             const novoPlano = prompt(`Alterar o plano de "${nomes || id}" para qual?\n\nOpções válidas:\n${listaPlanos.join(', ')}`);
             if (!novoPlano || !listaPlanos.includes(novoPlano)) {
-                alert('Alteração cancelada ou nome do plano digitado incorretamente.');
+                alert('Alteração cancelada ou plano incorreto.');
                 return;
             }
 
-            // Definição inteligente de limites por plano/modo
+            const novoTema = prompt(`Alterar o tema de "${nomes || id}" para qual?\n\nOpções válidas:\n${listaTemas.join(', ')}`);
+            if (!novoTema || !listaTemas.includes(novoTema)) {
+                alert('Alteração cancelada ou tema incorreto.');
+                return;
+            }
+
             const limites = {
                 essencial: { fotos: 1, musica: false, qr: false, edicao: false },
                 completo: { fotos: 5, musica: true, qr: false, edicao: false },
                 vitalicio: { fotos: 10, musica: true, qr: true, edicao: true },
-                marketing: { fotos: 10, musica: true, qr: true, edicao: true },
-                maternidade: { fotos: 10, musica: true, qr: true, edicao: true },
-                amizade: { fotos: 10, musica: true, qr: true, edicao: true },
-                luto: { fotos: 10, musica: true, qr: true, edicao: true },
-                pet: { fotos: 10, musica: true, qr: true, edicao: true },
-                aniversario: { fotos: 10, musica: true, qr: true, edicao: true },
-                casamento: { fotos: 10, musica: true, qr: true, edicao: true },
-                viagem: { fotos: 10, musica: true, qr: true, edicao: true },
-                conquista: { fotos: 10, musica: true, qr: true, edicao: true }
+                marketing: { fotos: 10, musica: true, qr: true, edicao: true }
             };
 
             try {
-                // Atualiza o documento do cliente com o novo plano e os novos limites
+                // Atualiza o documento do cliente com o novo plano, tema e limites
                 await setDoc(doc(db, 'liberados', id), {
                     plano: novoPlano,
+                    tema: novoTema,
                     limites: limites[novoPlano]
                 }, { merge: true });
 
-                alert(`✓ Plano de ${id} atualizado com sucesso para ${novoPlano.toUpperCase()}!`);
+                alert(`✓ Cadastro de ${id} atualizado com sucesso! Plano: ${novoPlano.toUpperCase()} | Tema: ${novoTema.toUpperCase()}`);
                 carregarLiberados();
             } catch (e) {
-                alert('Erro ao alterar plano: ' + e.message);
+                alert('Erro ao alterar cadastro: ' + e.message);
             }
         }
     </script>
