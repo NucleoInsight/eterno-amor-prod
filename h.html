@@ -204,11 +204,22 @@
                     }
                     dados = docSnap.data();
 
-                    // Consulta a coleção de liberados para saber qual é o plano real deste ID
+                    // Consulta a coleção de liberados para saber qual é o plano real e o tema deste ID
                     const libRef = doc(db, 'liberados', id);
                     const libSnap = await getDoc(libRef);
                     if (libSnap.exists()) {
-                        dados.plano = libSnap.data().plano;
+                        dados.plano = libSnap.data().plano || 'essencial';
+                        dados.tema = libSnap.data().tema || 'casal';
+                    } else {
+                        dados.plano = dados.plano || 'essencial';
+                        dados.tema = dados.tema || 'casal';
+                    }
+
+                    // TRATAMENTO DE SEGURANÇA PARA REGISTROS ANTIGOS (LEGADOS) DO SEU BANCO DE DADOS
+                    const listaTemasLegado = ['maternidade', 'amizade', 'luto', 'pet', 'aniversario', 'casamento', 'viagem', 'conquista'];
+                    if (listaTemasLegado.includes(dados.plano)) {
+                        dados.tema = dados.plano;
+                        dados.plano = 'vitalicio';
                     }
                 } catch (e) {
                     document.getElementById('conteudo').innerHTML = '<div class="erro"><h1>Erro ao carregar</h1></div>';
