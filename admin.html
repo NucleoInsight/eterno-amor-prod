@@ -290,46 +290,51 @@
             }
         }
 
-                window.copiarLink = function(id, plano, nomes) {
+            window.copiarLink = function(id, plano, nomes) {
             const link = `https://nucleoinsight.github.io/eterno-amor-prod/editor.html?id=${id}`;
+            const linkVisualizacao = `https://nucleoinsight.github.io/eterno-amor-prod/h.html?id=${id}`;
             const nomePlano = plano.toUpperCase();
             const nomeCliente = nomes || 'você';
             
-            let texto = `*Eterno Amor | Acesso Liberado* 💝\n\n` +
-                       `Olá ${nomeCliente}! Seu *presente especial* está pronto!\n\n` +
-                       `*Plano:* ${nomePlano}\n` +
-                       `*Seu link exclusivo:*\n${link}\n\n` +
-                       `👉 *Como usar:*\n` +
-                       `1. Clique no link\n` +
-                       `2. Preencha com as fotos e música de vocês\n` +
-                       `3. Salve e surpreenda quem você ama\n\n`;
+            let texto = '';
             
-            texto += `*QR Code exclusivo* pra imprimir e colar no presente 🎁\n`;
-            
-            if (plano === 'vitalicio') {
-                texto += `*Página pra sempre no ar* + pode *editar quando quiser* ✨\n\n`;
-            } else if (plano === 'completo') {
-                texto += `Música que toca sozinha + até *5 fotos* dos melhores momentos 🎵\n\n`;
-            } else if (plano === 'essencial') {
-                texto += `Página personalizada com contador de tempo juntos 💝\n\n`;
+            // Lógica específica para o plano de Marketing
+            if (plano === 'marketing') {
+                texto = `*Eterno Amor | Link de Divulgação Pronto!* 🚀\n\n` +
+                        `Seu link de marketing com foco em vendas foi gerado com sucesso!\n\n` +
+                        `*ID:* ${id}\n` +
+                        `*Link para Editar:* ${link}\n` +
+                        `*Link Final (Visualização):* ${linkVisualizacao}\n\n` +
+                        `Espalhe esse link final em parcerias e QR Codes para capturar novos clientes! 🔥`;
+            } else {
+                // Lógica original para os planos normais de clientes
+                texto = `*Eterno Amor | Acesso Liberado* 💝\n\n` +
+                        `Olá ${nomeCliente}! Seu *presente especial* está pronto!\n\n` +
+                        `*Plano:* ${nomePlano}\n` +
+                        `*Seu link exclusivo:*\n${link}\n\n` +
+                        `👉 *Como usar:*\n` +
+                        `1. Clique no link\n` +
+                        `2. Preencha com as fotos e música de vocês\n` +
+                        `3. Salve e surpreenda quem você ama\n\n`;
+                
+                texto += `*QR Code exclusivo* pra imprimir e colar no presente 🎁\n`;
+                
+                if (plano === 'vitalicio') {
+                    texto += `*Página pra sempre no ar* + pode *editar quando quiser* ✨\n\n`;
+                } else if (plano === 'completo') {
+                    texto += `Música que toca sozinha + até *5 fotos* dos melhores momentos 🎵\n\n`;
+                } else if (plano === 'essencial') {
+                    texto += `Página personalizada com contador de tempo juntos 💝\n\n`;
+                }
+                
+                texto += `_Link válido por 7 dias. Dúvidas? Chama aqui!_\n\n*Eterno Amor*`;
             }
-            
-            texto += `_Link válido por 7 dias. Dúvidas? Chama aqui!_\n\n*Eterno Amor*`;
             
             navigator.clipboard.writeText(texto);
             alert('✅ Texto pro WhatsApp copiado!\n\nJá tá formatado com negrito. É só colar.');
         }
-        
-       window.bloquear = async function(id) {
-            if (!confirm(`Bloquear o ID ${id}? O cliente vai perder acesso.`)) return;
-            
-            try {
-                await deleteDoc(doc(db, 'liberados', id));
-                carregarLiberados();
-            } catch (e) {
-                alert('Erro ao bloquear: ' + e.message);
-            }
-        }
+
+        window.bloquear = async function(id) {
 
        window.alterarPlano = async function(id, nomes) {
             const novoPlano = prompt(`Alterar o plano de "${nomes || id}" para qual?\n\nDigite exatamente: essencial, completo, vitalicio ou marketing`);
