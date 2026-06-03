@@ -148,17 +148,48 @@
             document.getElementById('telaErro').classList.remove('oculto');
         }
 
-          function montarTela() {
+         function montarTela() {
             document.getElementById('telaErro').classList.add('oculto');
             document.getElementById('telaEditor').classList.remove('oculto');
             document.getElementById('nomePlano').innerText = dadosPlano.plano.toUpperCase();
               
             // USA LIMITES QUE VÊM DO FIREBASE - ADMIN É A FONTE DA VERDADE
             const limites = dadosPlano.limites || { fotos: 1, musica: false, qr: false, edicao: false };
+
+            // Configuração inteligente das instruções textuais baseada no plano ativo
+            const labelsModos = {
+                maternidade: { titulo: 'Nome da Mãe e Filho(a):', data: 'Data de Nascimento:', placeholder: 'Ex: Maria e Levy', dica: 'Pode ser: Mãe e Filho, Pais e Filhos...', labelFotos: 'Fotos do Filho(a) ou Família:' },
+                amizade: { titulo: 'Nome dos Amigos:', data: 'Data do Início da Amizade:', placeholder: 'Ex: Ana e Beatriz', dica: 'Pode ser: Nome dos amigos ou da dupla', labelFotos: 'Fotos de Vocês:' },
+                luto: { titulo: 'Nome de Quem Deixou Saudades:', data: 'Data de Nascimento ou Partida:', placeholder: 'Ex: Vovô Carlos', dica: 'Pode ser o nome de quem você deseja homenagear', labelFotos: 'Fotos de Lembrança:' },
+                pet: { titulo: 'Nome do Dono & do Bichinho:', data: 'Data que o Pet chegou na sua vida:', placeholder: 'Ex: Gil e Rex', dica: 'Pode ser: Nome do pet ou dono e pet', labelFotos: 'Fotos do seu Pet:' },
+                aniversario: { titulo: 'Nome do Aniversariante:', data: 'Data de Nascimento:', placeholder: 'Ex: Lucas 15 Anos', dica: 'Pode ser o nome do aniversariante ou data especial', labelFotos: 'Fotos das Recordações:' },
+                casamento: { titulo: 'Nome dos Noivos/Casal:', data: 'Data do Casamento/Bodas:', placeholder: 'Ex: Gil e Maria', dica: 'Pode ser: Noivos, Casal ou Bodas de Prata/Ouro', labelFotos: 'Fotos do Grande Dia:' },
+                viagem: { titulo: 'Destino ou Nome dos Viajantes:', data: 'Data da Viagem:', placeholder: 'Ex: Eurotrip 2026', dica: 'Pode ser o destino da viagem ou os integrantes', labelFotos: 'Fotos da Aventura:' },
+                conquista: { titulo: 'Nome do Conquistador/Formando:', data: 'Data da Conquista/Formatura:', placeholder: 'Ex: Dra. Amanda - OAB', dica: 'Pode ser: Nome do formando, aprovação ou conquista', labelFotos: 'Fotos da Vitória:' }
+            };
+
+            const modoAtual = dadosPlano.plano;
+            let textoLabelFotos = 'Fotos do Casal:';
+
+            if (labelsModos[modoAtual]) {
+                const config = labelsModos[modoAtual];
+                
+                // Captura e altera dinamicamente os textos dos labels do HTML
+                const labelNome = document.querySelector('label[for="nomes"]') || document.getElementsByTagName('label')[1];
+                const labelData = document.querySelector('label[for="data"]') || document.getElementsByTagName('label')[2];
+                const inputNomes = document.getElementById('nomes');
+                const divDica = document.querySelector('.dica');
+
+                if (labelNome) labelNome.innerText = config.titulo;
+                if (labelData) labelData.innerText = config.data;
+                if (inputNomes) inputNomes.placeholder = config.placeholder;
+                if (divDica) divDica.innerText = config.dica;
+                textoLabelFotos = config.labelFotos;
+            }
               
-                       // GERA BLOCOS DE FOTO DINÂMICOS
+            // GERA BLOCOS DE FOTO DINÂMICOS
             const containerFotos = document.querySelector('.grupo-foto');
-            let htmlFotos = `<label>Fotos do Casal: <span id="limiteFotos">(Máx: ${limites.fotos} foto${limites.fotos > 1 ? 's' : ''})</span></label>`;
+            let htmlFotos = `<label>${textoLabelFotos} <span id="limiteFotos">(Máx: ${limites.fotos} foto${limites.fotos > 1 ? 's' : ''})</span></label>`;
             
             for (let i = 1; i <= limites.fotos && i <= 15; i++) {
                 htmlFotos += `
@@ -178,8 +209,9 @@
                 document.getElementById('campoMusica').style.display = 'none';
             }
 
-            // AVISO DE EDIÇÃO PRO VITALÍCIO
-            if (!limites.edicao && dadosPlano.plano !== 'vitalicio') {
+            // AVISO DE EDIÇÃO PRO VITALÍCIO OU SE FOR PLANO EDITÁVEL
+            const planosEditaveis = ['vitalicio', 'marketing', 'maternidade', 'amizade', 'luto', 'pet', 'aniversario', 'casamento', 'viagem', 'conquista'];
+            if (!limites.edicao && !planosEditaveis.includes(dadosPlano.plano)) {
                 document.getElementById('btnSalvar').innerText = 'Salvar e Publicar (sem edição depois)';
             }
 
