@@ -527,9 +527,12 @@
                 }, 1000);
             }
 
-            // ARTE STORIES PRA QUEM RECEBE - APARECE NO RODAPÉ VIRAL
+            // ARTE STORIES PRA QUEM RECEBE - SÓ APARECE SE NÃO FOR LINK DE MARKETING
             if (!isDemo && !isCriador) {
                 setTimeout(() => {
+                    // Se for plano marketing, não cria o botão de Stories para o visitante
+                    if (dados.plano === 'marketing') return;
+
                     const btnArteViral = document.createElement('button');
                     btnArteViral.innerHTML = '📱 Salvar nos Stories';
                     btnArteViral.style.cssText = 'background:transparent;border:2px solid #FF4D79;color:#FF4D79;padding:12px 25px;border-radius:50px;margin-top:15px;cursor:pointer;font-weight:600;font-size:14px;';
