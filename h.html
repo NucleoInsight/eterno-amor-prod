@@ -694,8 +694,8 @@
                 janelaArte.document.close();
             }
 
-           // RODAPÉ VIRAL - CONTROLA SE É CLIENTE OU MARKETING
-            if (!isDemo && !isCriador) {
+          // RODAPÉ VIRAL - CONTROLA SE É CLIENTE OU MARKETING (IGNORA CRIADOR SE FOR PLANO MARKETING)
+            if (!isDemo && (!isCriador || dados.plano === 'marketing')) {
                 setTimeout(() => {
                     const rodape = document.createElement('div');
                     
