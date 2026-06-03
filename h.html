@@ -222,9 +222,27 @@
             document.getElementById('mensagem').innerText = dados.mensagem;
 
             const inicio = new Date(dados.data);
-            const agora = new Date();
-            const dias = Math.floor((agora - inicio) / (1000 * 60 * 60 * 24));
-            document.getElementById('contador').innerText = `♥ ${dias} dias de amor ♥`;
+            const configsContador = {
+                maternidade: { emoji: '👶', texto: 'dias de puro amor e gratidão' },
+                amizade: { emoji: '⭐', texto: 'dias da melhor dupla do mundo' },
+                luto: { emoji: '🕊️', texto: 'dias guardados com carinho na memória' },
+                pet: { emoji: '🐾', texto: 'dias enchendo nossa vida de alegria' },
+                aniversario: { emoji: '🎂', texto: 'dias espalhando luz no mundo' },
+                casamento: { emoji: '💍', texto: 'dias do nosso sim para sempre' },
+                viagem: { emoji: '✈️', texto: 'dias colecionando memórias pelo mundo' },
+                conquista: { emoji: '🎓', texto: 'dias de muito orgulho e vitória' },
+                marketing: { emoji: '🚀', texto: 'dias de sucesso absoluto' }
+            };
+
+            const modoAtual = dados.plano || 'completo';
+            const config = configsContador[modoAtual] || { emoji: '♥', texto: 'dias de amor' };
+
+            setInterval(() => {
+                const agora = new Date();
+                const diff = agora - inicio;
+                const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+                document.getElementById('contador').innerText = `${config.emoji} ${dias} ${config.texto} ${config.emoji}`;
+            }, 1000);
 
             let fotosHtml = '';
             for (let i = 1; i <= 10; i++) {
