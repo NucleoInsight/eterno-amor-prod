@@ -628,18 +628,35 @@
                 janelaArte.document.close();
             }
 
-            // RODAPÉ VIRAL - SÓ APARECE PRA QUEM RECEBE O LINK
+           // RODAPÉ VIRAL - CONTROLA SE É CLIENTE OU MARKETING
             if (!isDemo && !isCriador) {
                 setTimeout(() => {
                     const rodape = document.createElement('div');
-                    rodape.innerHTML = `
-                        <div style="text-align:center;margin-top:60px;padding-top:30px;border-top:1px solid rgba(255,77,121,0.2);">
-                            <p style="color:#888;font-size:14px;margin-bottom:15px;">Gostou? Crie a sua homenagem também</p>
-                            <a href="index.html" style="background:linear-gradient(135deg,#FF4D79,#FF8C42);color:#fff;padding:12px 25px;border-radius:50px;text-decoration:none;font-weight:600;display:inline-block;font-size:14px;">
-                                ❤ Fazer minha homenagem
-                            </a>
-                        </div>
-                    `;
+                    
+                    if (dados.plano === 'marketing') {
+                        // Se o plano for MARKETING: Esconde ferramentas de cliente e mostra copy agressiva de vendas
+                        rodape.innerHTML = `
+                            <div style="text-align:center;margin-top:60px;padding-top:30px;border-top:1px solid rgba(255,77,121,0.2);">
+                                <h3 style="color:#FFD166;font-family:'Cormorant Garamond',serif;font-size:1.8rem;margin-bottom:10px;">💝 Gostou dessa surpresa emocionante?</h3>
+                                <p style="color:#ccc;font-size:14px;max-width:500px;margin:0 auto 20px;line-height:1.6;">
+                                    Imagine criar uma página exclusiva e personalizada como esta para a pessoa que você ama, com a história de vocês, suas melhores fotos, música de fundo e até um QR Code exclusivo!
+                                </p>
+                                <a href="index.html" style="background:linear-gradient(135deg,#FF4D79,#FF8C42);color:#fff;padding:15px 35px;border-radius:50px;text-decoration:none;font-weight:700;display:inline-block;font-size:16px;box-shadow:0 5px 15px rgba(255,77,121,0.4);animation:pulse 1.5s infinite;">
+                                    👉 CRIAR UMA PÁGINA IGUAL A ESTA
+                                </a>
+                            </div>
+                        `;
+                    } else {
+                        // Se for PLANO NORMAL (Essencial, Completo, Vitalício): Mantém o rodapé leve original
+                        rodape.innerHTML = `
+                            <div style="text-align:center;margin-top:60px;padding-top:30px;border-top:1px solid rgba(255,77,121,0.2);">
+                                <p style="color:#888;font-size:14px;margin-bottom:15px;">Gostou? Crie a sua homenagem também</p>
+                                <a href="index.html" style="background:linear-gradient(135deg,#FF4D79,#FF8C42);color:#fff;padding:12px 25px;border-radius:50px;text-decoration:none;font-weight:600;display:inline-block;font-size:14px;">
+                                    ❤ Fazer minha homenagem
+                                </a>
+                            </div>
+                        `;
+                    }
                     document.querySelector('.card').appendChild(rodape);
                 }, 2000);
             }
