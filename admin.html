@@ -344,18 +344,28 @@
             }
         }
 
-        window.alterarPlano = async function(id, nomes) {
-            const novoPlano = prompt(`Alterar o plano de "${nomes || id}" para qual?\n\nDigite exatamente: essencial, completo, vitalicio ou marketing`);
-            if (!novoPlano || !['essencial', 'completo', 'vitalicio', 'marketing'].includes(novoPlano)) {
+       window.alterarPlano = async function(id, nomes) {
+            const listaPlanos = ['essencial', 'completo', 'vitalicio', 'marketing', 'maternidade', 'amizade', 'luto', 'pet', 'aniversario', 'casamento', 'viagem', 'conquista'];
+            const novoPlano = prompt(`Alterar o plano de "${nomes || id}" para qual?\n\nOpções válidas:\n${listaPlanos.join(', ')}`);
+            if (!novoPlano || !listaPlanos.includes(novoPlano)) {
                 alert('Alteração cancelada ou nome do plano digitado incorretamente.');
                 return;
             }
 
+            // Definição inteligente de limites por plano/modo
             const limites = {
                 essencial: { fotos: 1, musica: false, qr: false, edicao: false },
                 completo: { fotos: 5, musica: true, qr: false, edicao: false },
                 vitalicio: { fotos: 10, musica: true, qr: true, edicao: true },
-                marketing: { fotos: 10, musica: true, qr: true, edicao: true } // Libera tudo para a sua página de divulgação ficar linda
+                marketing: { fotos: 10, musica: true, qr: true, edicao: true },
+                maternidade: { fotos: 10, musica: true, qr: true, edicao: true },
+                amizade: { fotos: 10, musica: true, qr: true, edicao: true },
+                luto: { fotos: 10, musica: true, qr: true, edicao: true },
+                pet: { fotos: 10, musica: true, qr: true, edicao: true },
+                aniversario: { fotos: 10, musica: true, qr: true, edicao: true },
+                casamento: { fotos: 10, musica: true, qr: true, edicao: true },
+                viagem: { fotos: 10, musica: true, qr: true, edicao: true },
+                conquista: { fotos: 10, musica: true, qr: true, edicao: true }
             };
 
             try {
