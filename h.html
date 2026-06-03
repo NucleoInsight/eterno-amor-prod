@@ -546,20 +546,22 @@
                 }, 1000);
             }
 
-            // ARTE STORIES PRA QUEM RECEBE - SÓ APARECE SE NÃO FOR LINK DE MARKETING
+            // ARTE STORIES PRA QUEM RECEBE - SÓ APARECE SE NÃO FOR LINK DE MARKETING OU OUTROS MODOS ESPECIAIS
             if (!isDemo && !isCriador) {
                 setTimeout(() => {
-                    // Se for plano marketing, não cria o botão de Stories para o visitante
-                    if (dados.plano === 'marketing') return;
+                    // Esconde o botão de Stories se for link de marketing ou se for modo luto
+                    if (dados.plano === 'marketing' || dados.plano === 'luto') return;
 
                     const btnArteViral = document.createElement('button');
-                    btnArteViral.innerHTML = '📱 Salvar nos Stories';
+                    btnArteViral.innerHTML = dados.plano === 'pet' ? '🐾 Salvar nos Stories' : dados.plano === 'maternidade' ? '👶 Salvar nos Stories' : '📱 Salvar nos Stories';
                     btnArteViral.style.cssText = 'background:transparent;border:2px solid #FF4D79;color:#FF4D79;padding:12px 25px;border-radius:50px;margin-top:15px;cursor:pointer;font-weight:600;font-size:14px;';
                     btnArteViral.onclick = gerarArteStories;
-                    document.querySelector('.card div[style*="border-top"]').appendChild(btnArteViral);
+                    
+                    // Garante a inserção segura no card mesmo que o rodapé mude
+                    const containerAlvo = document.querySelector('.card');
+                    if (containerAlvo) containerAlvo.appendChild(btnArteViral);
                 }, 2500);
             }
-
             // FUNÇÃO QUE GERA ARTE PRA TODO MUNDO
            function gerarArteStories() {
                 const nomes = document.getElementById('titulo')?.innerText || 'Nosso Amor';
