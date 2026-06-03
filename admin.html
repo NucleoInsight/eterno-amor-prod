@@ -295,26 +295,39 @@
             const nomePlano = plano.toUpperCase();
             const nomeCliente = nomes || 'você';
             
-            let texto = `*Eterno Amor | Acesso Liberado* 💝\n\n` +
-                       `Olá ${nomeCliente}! Seu *presente especial* está pronto!\n\n` +
-                       `*Plano:* ${nomePlano}\n` +
-                       `*Seu link exclusivo:*\n${link}\n\n` +
-                       `👉 *Como usar:*\n` +
-                       `1. Clique no link\n` +
-                       `2. Preencha com as fotos e música de vocês\n` +
-                       `3. Salve e surpreenda quem você ama\n\n`;
-            
-            texto += `*QR Code exclusivo* pra imprimir e colar no presente 🎁\n`;
-            
-            if (plano === 'vitalicio') {
-                texto += `*Página pra sempre no ar* + pode *editar quando quiser* ✨\n\n`;
-            } else if (plano === 'completo') {
-                texto += `Música que toca sozinha + até *5 fotos* dos melhores momentos 🎵\n\n`;
-            } else if (plano === 'essencial') {
-                texto += `Página personalizada com contador de tempo juntos 💝\n\n`;
+            let texto = '';
+
+            if (plano === 'marketing') {
+                texto = `*Eterno Amor | Link de Divulgação Pronto!* 🚀\n\n` +
+                        `Seu link estratégico focado em atração e vendas foi gerado com sucesso!\n\n` +
+                        `*Plano:* ${nomePlano}\n` +
+                        `*Link para Alimentar/Editar (Painel):*\n${link}\n\n` +
+                        `*Link de Visualização Final (Público):*\nhttps://nucleoinsight.github.io/eterno-amor-prod/h.html?id=${id}\n\n` +
+                        `👉 *Como usar:*\n` +
+                        `Use o link para alimentar com uma história real ou fictícia marcante. O link final esconderá os botões de criador e exibirá a nossa copy de vendas com redirecionamento direto! 🔥\n\n` +
+                        `*Eterno Amor*`;
+            } else {
+                texto = `*Eterno Amor | Acesso Liberado* 💝\n\n` +
+                        `Olá ${nomeCliente}! Seu *presente especial* está pronto!\n\n` +
+                        `*Plano:* ${nomePlano}\n` +
+                        `*Seu link exclusivo:*\n${link}\n\n` +
+                        `👉 *Como usar:*\n` +
+                        `1. Clique no link\n` +
+                        `2. Preencha com as fotos e música de vocês\n` +
+                        `3. Salve e surpreenda quem você ama\n\n`;
+                
+                texto += `*QR Code exclusivo* pra imprimir e colar no presente 🎁\n`;
+                
+                if (plano === 'vitalicio') {
+                    texto += `*Página pra sempre no ar* + pode *editar quando quiser* ✨\n\n`;
+                } else if (plano === 'completo') {
+                    texto += `Música que toca sozinha + até *5 fotos* dos melhores momentos 🎵\n\n`;
+                } else if (plano === 'essencial') {
+                    texto += `Página personalizada com contador de tempo juntos 💝\n\n`;
+                }
+                
+                texto += `_Link válido por 7 dias. Dúvidas? Chama aqui!_\n\n*Eterno Amor*`;
             }
-            
-            texto += `_Link válido por 7 dias. Dúvidas? Chama aqui!_\n\n*Eterno Amor*`;
             
             navigator.clipboard.writeText(texto);
             alert('✅ Texto pro WhatsApp copiado!\n\nJá tá formatado com negrito. É só colar.');
