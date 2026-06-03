@@ -288,19 +288,30 @@
                 });
                 document.getElementById('vendasHoje').innerText = vendasHoje;
 
-                let html = '';
+               let html = '';
                 querySnapshot.forEach((doc) => {
                     const dados = doc.data();
                     const data = dados.liberadoEm? new Date(dados.liberadoEm.seconds * 1000).toLocaleDateString('pt-BR') : 'agora';
+                    
+                    // Tratamento e proteção para mapear links e cadastros antigos do seu banco de dados
+                    let planoExibir = dados.plano || 'essencial';
+                    let temaExibir = dados.tema || 'casal';
+                    
+                    const listaTemasLegado = ['maternidade', 'amizade', 'luto', 'pet', 'aniversario', 'casamento', 'viagem', 'conquista'];
+                    if (listaTemasLegado.includes(planoExibir)) {
+                        temaExibir = planoExibir;
+                        planoExibir = 'vitalicio'; // Trata registros legados com as ferramentas completas liberadas
+                    }
+
                     html += `
                         <div class="item-liberado">
                             <div>
-                                <strong>${doc.id}</strong> <span class="tag">${dados.plano}</span><br>
+                                <strong>${doc.id}</strong> <span class="tag">${planoExibir.toUpperCase()}</span> <span class="tag" style="background:#FF8C42;">${temaExibir.toUpperCase()}</span><br>
                                 <span style="color:#888;font-size:12px;">Liberado em ${data}</span><br>
-                                <span style="color:#FFD166;font-size:11px;">${dados.limites.fotos} fotos | ${dados.limites.musica ? 'Música' : 'S/Música'} | ${dados.limites.qr ? 'QR' : 'S/QR'} | ${dados.limites.edicao ? 'Editável' : 'Fixo'}</span>
+                                <span style="color:#FFD166;font-size:11px;">${dados.limites?.fotos || 1} fotos | ${dados.limites?.musica ? 'Música' : 'S/Música'} | ${dados.limites?.qr ? 'QR' : 'S/QR'} | ${dados.limites?.edicao ? 'Editável' : 'Fixo'}</span>
                             </div>
                             <div style="display: flex; flex-direction: column; gap: 5px; align-items: flex-end;">
-                                <button class="btn-copiar" onclick="copiarLink('${doc.id}', '${dados.plano}', '${dados.nomes || ''}')">📋 Copiar WhatsApp</button>
+                                <button class="btn-copiar" onclick="copiarLink('${doc.id}', '${planoExibir}', '${dados.nomes || ''}')">📋 Copiar WhatsApp</button>
                                 <div style="display: flex; gap: 5px;">
                                     <button onclick="alterarPlano('${doc.id}', '${dados.nomes || ''}')" style="background: #b57c1e; font-size: 12px; padding: 6px 10px; margin: 0; width: auto;">⚙️ Mudar Plano</button>
                                     <button onclick="bloquear('${doc.id}')" style="font-size: 12px; padding: 6px 10px; margin: 0; width: auto;">Bloquear</button>
