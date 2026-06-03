@@ -151,12 +151,23 @@
          function montarTela() {
             document.getElementById('telaErro').classList.add('oculto');
             document.getElementById('telaEditor').classList.remove('oculto');
-            document.getElementById('nomePlano').innerText = dadosPlano.plano.toUpperCase();
+            
+            // Tratamento de segurança para links e cadastros antigos (legados) do banco de dados
+            let planoAtual = dadosPlano.plano || 'essencial';
+            let temaAtual = dadosPlano.tema || 'casal';
+            
+            const listaTemasLegado = ['maternidade', 'amizade', 'luto', 'pet', 'aniversario', 'casamento', 'viagem', 'conquista'];
+            if (listaTemasLegado.includes(planoAtual)) {
+                temaAtual = planoAtual;
+                planoAtual = 'vitalicio';
+            }
+            
+            document.getElementById('nomePlano').innerText = planoAtual.toUpperCase();
               
             // USA LIMITES QUE VÊM DO FIREBASE - ADMIN É A FONTE DA VERDADE
             const limites = dadosPlano.limites || { fotos: 1, musica: false, qr: false, edicao: false };
 
-            // Configuração inteligente das instruções textuais baseada no plano ativo
+            // Configuração inteligente das instruções textuais baseada no TEMA ativo de forma independente do plano
             const labelsModos = {
                 maternidade: { titulo: 'Nome da Mãe e Filho(a):', data: 'Data de Nascimento:', placeholder: 'Ex: Maria e Levy', dica: 'Pode ser: Mãe e Filho, Pais e Filhos...', labelFotos: 'Fotos do Filho(a) ou Família:' },
                 amizade: { titulo: 'Nome dos Amigos:', data: 'Data do Início da Amizade:', placeholder: 'Ex: Ana e Beatriz', dica: 'Pode ser: Nome dos amigos ou da dupla', labelFotos: 'Fotos de Vocês:' },
@@ -168,11 +179,10 @@
                 conquista: { titulo: 'Nome do Conquistador/Formando:', data: 'Data da Conquista/Formatura:', placeholder: 'Ex: Dra. Amanda - OAB', dica: 'Pode ser: Nome do formando, aprovação ou conquista', labelFotos: 'Fotos da Vitória:' }
             };
 
-            const modoAtual = dadosPlano.plano;
             let textoLabelFotos = 'Fotos do Casal:';
 
-            if (labelsModos[modoAtual]) {
-                const config = labelsModos[modoAtual];
+            if (labelsModos[temaAtual]) {
+                const config = labelsModos[temaAtual];
                 
                 // Captura e altera dinamicamente os textos dos labels do HTML
                 const labelNome = document.querySelector('label[for="nomes"]') || document.getElementsByTagName('label')[1];
@@ -187,7 +197,7 @@
                 textoLabelFotos = config.labelFotos;
             }
               
-            // GERA BLOCOS DE FOTO DINÂMICOS
+            // GERA BLOCOS DE FOTO DINÂMICOS BASEADO NO LIMITE DO PLANO COMPRADO
             const containerFotos = document.querySelector('.grupo-foto');
             let htmlFotos = `<label>${textoLabelFotos} <span id="limiteFotos">(Máx: ${limites.fotos} foto${limites.fotos > 1 ? 's' : ''})</span></label>`;
             
@@ -204,14 +214,13 @@
             htmlFotos += '<div class="dica" style="margin-top:15px;">Clique no botão e escolha da sua galeria.</div>';
             containerFotos.innerHTML = htmlFotos;
 
-            // BLOQUEIA MÚSICA SE NÃO TIVER NO PLANO
+            // BLOQUEIA MÚSICA SE NÃO TIVER NO PLANO COMPRADO
             if (!limites.musica) {
                 document.getElementById('campoMusica').style.display = 'none';
             }
 
-            // AVISO DE EDIÇÃO PRO VITALÍCIO OU SE FOR PLANO EDITÁVEL
-            const planosEditaveis = ['vitalicio', 'marketing', 'maternidade', 'amizade', 'luto', 'pet', 'aniversario', 'casamento', 'viagem', 'conquista'];
-            if (!limites.edicao && !planosEditaveis.includes(dadosPlano.plano)) {
+            // AVISO DE EDIÇÃO BASEADO UNICAMENTE NO CONTROLE DE LIMITES DO PLANO
+            if (!limites.edicao && planoAtual !== 'vitalicio' && planoAtual !== 'marketing') {
                 document.getElementById('btnSalvar').innerText = 'Salvar e Publicar (sem edição depois)';
             }
 
