@@ -147,8 +147,9 @@
         }
 
         window.liberarDemo = async function(idDemo, nomes) {
-            const plano = prompt(`Liberar "${nomes}" em qual plano?\n\nDigite: essencial, completo ou vitalicio`);
-            if (!plano || !['essencial','completo','vitalicio'].includes(plano)) return;
+            const listaPlanos = ['essencial', 'completo', 'vitalicio', 'marketing', 'maternidade', 'amizade', 'luto', 'pet', 'aniversario', 'casamento', 'viagem', 'conquista'];
+            const plano = prompt(`Liberar "${nomes}" em qual plano?\n\nOpções válidas:\n${listaPlanos.join(', ')}`);
+            if (!plano || !listaPlanos.includes(plano)) return;
             
             // Gera slug do nome
             let id = nomes.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
@@ -159,10 +160,19 @@
                 id = id + '-' + Date.now().toString().slice(-4);
             }
 
-              const limites = {
-                essencial: { fotos: 1, musica: false, qr: true, edicao: false },
-                completo: { fotos: 5, musica: true, qr: true, edicao: false },
-                vitalicio: { fotos: 10, musica: true, qr: true, edicao: true }
+            const limites = {
+                essencial: { fotos: 1, musica: false, qr: false, edicao: false },
+                completo: { fotos: 5, musica: true, qr: false, edicao: false },
+                vitalicio: { fotos: 10, musica: true, qr: true, edicao: true },
+                marketing: { fotos: 10, musica: true, qr: true, edicao: true },
+                maternidade: { fotos: 10, musica: true, qr: true, edicao: true },
+                amizade: { fotos: 10, musica: true, qr: true, edicao: true },
+                luto: { fotos: 10, musica: true, qr: true, edicao: true },
+                pet: { fotos: 10, musica: true, qr: true, edicao: true },
+                aniversario: { fotos: 10, musica: true, qr: true, edicao: true },
+                casamento: { fotos: 10, musica: true, qr: true, edicao: true },
+                viagem: { fotos: 10, musica: true, qr: true, edicao: true },
+                conquista: { fotos: 10, musica: true, qr: true, edicao: true }
             };
 
             await setDoc(doc(db, 'liberados', id), {
@@ -176,7 +186,7 @@
             // Apaga da fila de demos
             await deleteDoc(doc(db, 'demos', idDemo));
             
-            alert(`Liberado!\n\nEnvie pro cliente:\nhttps://nucleoinsight.github.io/eterno-amor-prod/editor.html?id=${id}`);
+            alert(`✓ Demo liberada com sucesso!\n\nLink para o cliente:\nhttps://nucleoinsight.github.io/eterno-amor-prod/editor.html?id=${id}`);
             carregarDemos();
             carregarLiberados();
         }
