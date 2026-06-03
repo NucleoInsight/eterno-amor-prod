@@ -463,6 +463,19 @@
                 return;
             }
 
+            // Mapeamento e tratamento de segurança para salvar temas e planos separados
+            let planoSalvar = dadosPlano?.plano || 'essencial';
+            let temaSalvar = dadosPlano?.tema || 'casal';
+            
+            const listaTemasLegado = ['maternidade', 'amizade', 'luto', 'pet', 'aniversario', 'casamento', 'viagem', 'conquista'];
+            if (listaTemasLegado.includes(planoSalvar)) {
+                temaSalvar = planoSalvar;
+                planoSalvar = 'vitalicio';
+            }
+
+            dados.plano = planoSalvar;
+            dados.tema = temaSalvar;
+
             try {
                 await setDoc(doc(db, 'homenagens', id), dados, { merge: true });
                 alert(`Homenagem publicada! 🎉\n\nLink final: h.html?id=${id}`);
