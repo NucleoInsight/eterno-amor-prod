@@ -202,6 +202,13 @@
                         return;
                     }
                     dados = docSnap.data();
+
+                    // Consulta a coleção de liberados para saber qual é o plano real deste ID
+                    const libRef = doc(db, 'liberados', id);
+                    const libSnap = await getDoc(libRef);
+                    if (libSnap.exists()) {
+                        dados.plano = libSnap.data().plano;
+                    }
                 } catch (e) {
                     document.getElementById('conteudo').innerHTML = '<div class="erro"><h1>Erro ao carregar</h1></div>';
                     return;
