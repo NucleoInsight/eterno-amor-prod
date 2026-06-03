@@ -128,10 +128,11 @@
         const id = urlParams.get('id');
         const isDemo = urlParams.get('demo') === 'true' || id?.startsWith('demo-');
         const isCriador = urlParams.get('criador') === 'true';
+        
+        // Deixa a variável dados global para que o rodapé consiga lê-la sem dar erro
+        let dados = { plano: 'completo' }; 
 
         async function carregar() {
-            let dados;
-
             if (isDemo) {
                 // MODO DEMO - PEGA DO LOCALSTORAGE
                 dados = JSON.parse(localStorage.getItem(id));
