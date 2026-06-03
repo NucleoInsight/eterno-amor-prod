@@ -304,8 +304,8 @@
                 if (docSnap.exists()) {
                     const d = docSnap.data();
 
-                    // TRAVA DE SEGURANÇA: Se já foi publicado e NÃO for o plano vitalício, bloqueia a edição
-                    if (d.publicado === true && dadosPlano.plano !== 'vitalicio') {
+                    // TRAVA DE SEGURANÇA: Se já foi publicado e NÃO for o plano vitalício ou marketing, bloqueia a edição
+                    if (d.publicado === true && dadosPlano.plano !== 'vitalicio' && dadosPlano.plano !== 'marketing') {
                         document.getElementById('telaEditor').classList.add('oculto');
                         document.getElementById('telaBloqueioEdicao').classList.remove('oculto');
                         return;
