@@ -308,9 +308,14 @@
             }
         }
 
-                window.copiarLink = function(id, plano, nomes) {
+               window.copiarLink = function(id, plano, nomes) {
             const link = `https://nucleoinsight.github.io/eterno-amor-prod/editor.html?id=${id}`;
-            const nomePlano = plano.toUpperCase();
+            const mapasPlanos = { 
+                essencial: 'ESSENCIAL', completo: 'COMPLETO', vitalicio: 'VITALÍCIO', marketing: 'MARKETING',
+                maternidade: 'MATERNIDADE', amizade: 'AMIZADE', luto: 'MEMORIAL', pet: 'PET',
+                aniversario: 'ANIVERSÁRIO', casamento: 'CASAMENTO/BODAS', viagem: 'DIÁRIO DE VIAGEM', conquista: 'CONQUISTA'
+            };
+            const nomePlano = mapasPlanos[plano] || plano.toUpperCase();
             const nomeCliente = nomes || 'você';
             
             let texto = '';
@@ -331,17 +336,17 @@
                         `*Seu link exclusivo:*\n${link}\n\n` +
                         `👉 *Como usar:*\n` +
                         `1. Clique no link\n` +
-                        `2. Preencha com as fotos e música de vocês\n` +
+                        `2. Preencha com as fotos, música e informações\n` +
                         `3. Salve e surpreenda quem você ama\n\n`;
                 
-                texto += `*QR Code exclusivo* pra imprimir e colar no presente 🎁\n`;
+                texto += `*QR Code exclusivo* pra imprimir e usar 🎁\n`;
                 
-                if (plano === 'vitalicio') {
-                    texto += `*Página pra sempre no ar* + pode *editar quando quiser* ✨\n\n`;
+                if (plano === 'essencial') {
+                    texto += `Página personalizada com contador de tempo exclusivo 💝\n\n`;
                 } else if (plano === 'completo') {
                     texto += `Música que toca sozinha + até *5 fotos* dos melhores momentos 🎵\n\n`;
-                } else if (plano === 'essencial') {
-                    texto += `Página personalizada com contador de tempo juntos 💝\n\n`;
+                } else {
+                    texto += `*Página pra sempre no ar* + pode *editar quando quiser* ✨\n\n`;
                 }
                 
                 texto += `_Link válido por 7 dias. Dúvidas? Chama aqui!_\n\n*Eterno Amor*`;
