@@ -218,10 +218,11 @@
        window.liberarAcesso = async function() {
             const nomes = document.getElementById('nomeLiberar').value.trim();
             const plano = document.getElementById('planoLiberar').value;
+            const tema = document.getElementById('temaLiberar').value;
             const msg = document.getElementById('msgStatus');
 
             if (!nomes) {
-                msg.innerText = 'Digite o nome do casal';
+                msg.innerText = 'Digite o nome de identificação';
                 msg.className = 'status erro';
                 msg.classList.remove('oculto');
                 return;
@@ -237,23 +238,16 @@
                     id = id + '-' + Date.now().toString().slice(-4);
                 }
 
-                  const limites = {
+                const limites = {
                     essencial: { fotos: 1, musica: false, qr: false, edicao: false },
                     completo: { fotos: 5, musica: true, qr: false, edicao: false },
                     vitalicio: { fotos: 10, musica: true, qr: true, edicao: true },
-                    marketing: { fotos: 10, musica: true, qr: true, edicao: true },
-                    maternidade: { fotos: 10, musica: true, qr: true, edicao: true },
-                    amizade: { fotos: 10, musica: true, qr: true, edicao: true },
-                    luto: { fotos: 10, musica: true, qr: true, edicao: true },
-                    pet: { fotos: 10, musica: true, qr: true, edicao: true },
-                    aniversario: { fotos: 10, musica: true, qr: true, edicao: true },
-                    casamento: { fotos: 10, musica: true, qr: true, edicao: true },
-                    viagem: { fotos: 10, musica: true, qr: true, edicao: true },
-                    conquista: { fotos: 10, musica: true, qr: true, edicao: true }
+                    marketing: { fotos: 10, musica: true, qr: true, edicao: true }
                 };
 
                 await setDoc(doc(db, 'liberados', id), {
                     plano: plano,
+                    tema: tema,
                     limites: limites[plano],
                     liberadoEm: serverTimestamp(),
                     ativo: true,
