@@ -181,20 +181,25 @@
 
             let textoLabelFotos = 'Fotos do Casal:';
 
+            // Captura os elementos de texto da tela para atualizar dinamicamente
+            const labelNome = document.querySelector('label[for="nomes"]') || document.getElementsByTagName('label')[1];
+            const labelData = document.querySelector('label[for="data"]') || document.getElementsByTagName('label')[2];
+            const inputNomes = document.getElementById('nomes');
+            const divDica = document.querySelector('.dica');
+
             if (labelsModos[temaAtual]) {
                 const config = labelsModos[temaAtual];
-                
-                // Captura e altera dinamicamente os textos dos labels do HTML
-                const labelNome = document.querySelector('label[for="nomes"]') || document.getElementsByTagName('label')[1];
-                const labelData = document.querySelector('label[for="data"]') || document.getElementsByTagName('label')[2];
-                const inputNomes = document.getElementById('nomes');
-                const divDica = document.querySelector('.dica');
-
                 if (labelNome) labelNome.innerText = config.titulo;
                 if (labelData) labelData.innerText = config.data;
                 if (inputNomes) inputNomes.placeholder = config.placeholder;
-                if (divDica) divDica.innerText = config.dica;
+                if (divDica) divDica.innerHTML = config.dica;
                 textoLabelFotos = config.labelFotos;
+            } else {
+                // Configuração padrão para o modo casal tradicional
+                if (labelNome) labelNome.innerText = 'Nome de vocês dois:';
+                if (inputNomes) inputNomes.placeholder = 'Ex: Gil e Maria';
+                if (divDica) divDica.innerHTML = '⚠️ Coloque SEU nome primeiro para a mensagem automática ser gerada corretamente.';
+                textoLabelFotos = 'Fotos do Casal:';
             }
               
             // GERA BLOCOS DE FOTO DINÂMICOS BASEADO NO LIMITE DO PLANO COMPRADO
