@@ -174,6 +174,48 @@
             }, 1000);
         }
 
+        // FUNÇÃO QUE ATUALIZA OS TÍTULOS E TEXTOS DA TELA DA DEMO DE ACORDO COM O TEMA SELECIONADO
+        function montarTela() {
+            const selectTema = document.getElementById('temaAtivo');
+            const temaAtual = selectTema ? selectTema.value : 'casal';
+
+            const labelsModos = {
+                maternidade: { titulo: 'Nome da Mãe e Filho(a):', data: 'Data de Nascimento:', placeholder: 'Ex: Maria e Levy', dica: '⚠️ Coloque SEU nome primeiro para a mensagem automática ser gerada corretamente.', labelFotos: 'Fotos do Filho(a) ou Família:' },
+                amizade: { titulo: 'Nome dos Amigos:', data: 'Data do Início da Amizade:', placeholder: 'Ex: Ana e Beatriz', dica: '⚠️ Coloque SEU nome primeiro para a mensagem automática ser gerada corretamente.', labelFotos: 'Fotos de Vocês:' },
+                luto: { titulo: 'Nome de Quem Deixou Saudades:', data: 'Data de Nascimento ou Partida:', placeholder: 'Ex: Vovô Carlos', dica: 'Escreva o nome de quem você deseja homenagear nesta página.', labelFotos: 'Fotos de Lembrança:' },
+                pet: { titulo: 'Nome do Dono & do Bichinho:', data: 'Data que o Pet chegou na sua vida:', placeholder: 'Ex: Gil e Rex', dica: '⚠️ Coloque SEU nome primeiro e o do Pet depois (Ex: Gil e Rex) para a mensagem fazer sentido.', labelFotos: 'Fotos do seu Pet:' },
+                aniversario: { titulo: 'Nome do Aniversariante:', data: 'Data de Nascimento:', placeholder: 'Ex: Lucas 15 Anos', dica: 'Escreva o nome de quem está fazendo aniversário.', labelFotos: 'Fotos das Recordações:' },
+                casamento: { titulo: 'Nome dos Noivos/Casal:', data: 'Data do Casamento/Bodas:', placeholder: 'Ex: Gil e Maria', dica: '⚠️ Coloque SEU nome primeiro para a mensagem automática ser gerada corretamente.', labelFotos: 'Fotos do Grande Dia:' },
+                viagem: { titulo: 'Destino ou Nome dos Viajantes:', data: 'Data da Viagem:', placeholder: 'Ex: Eurotrip 2026', dica: 'Escreva o destino ou o nome de quem viajou.', labelFotos: 'Fotos da Aventura:' },
+                conquista: { titulo: 'Nome do Conquistador/Formando:', data: 'Data da Conquista/Formatura:', placeholder: 'Ex: Dra. Amanda - OAB', dica: 'Escreva o nome de quem alcançou essa grande vitória.', labelFotos: 'Fotos da Vitória:' }
+            };
+
+            const labelNome = document.getElementById('labelNome');
+            const labelData = document.querySelector('label[for="data"]');
+            const inputNomes = document.getElementById('nomes');
+            const divDica = document.getElementById('dicaNome');
+            const labelFotos = document.querySelector('.grupo-foto label');
+
+            if (labelsModos[temaAtual]) {
+                const config = labelsModos[temaAtual];
+                if (labelNome) labelNome.innerText = config.titulo;
+                if (labelData) labelData.innerText = config.data;
+                if (inputNomes) inputNomes.placeholder = config.placeholder;
+                if (divDica) divDica.innerHTML = config.dica;
+                if (labelFotos) labelFotos.innerText = config.labelFotos;
+            } else {
+                if (labelNome) labelNome.innerText = 'Nome de vocês dois:';
+                if (labelData) labelData.innerText = 'Data que começaram:';
+                if (inputNomes) inputNomes.placeholder = 'Ex: Gil e Maria';
+                if (divDica) divDica.innerHTML = 'Pode ser: Gil e Maria, Gil & Maria, Gil + Maria';
+                if (labelFotos) labelFotos.innerText = 'Fotos do Casal:';
+            }
+            atualizarPreview();
+        }
+
+        // TORNA A FUNÇÃO MONTARELA ENXERGÁVEL PELO MENU HTML
+        window.montarTela = montarTela;
+
         // Preview ao vivo
         document.getElementById('nomes').addEventListener('input', atualizarPreview);
         document.getElementById('data').addEventListener('input', atualizarPreview);
