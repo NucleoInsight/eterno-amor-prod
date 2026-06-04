@@ -575,6 +575,12 @@
             let planoSalvar = dadosPlano?.plano || 'essencial';
             let temaSalvar = dadosPlano?.tema || 'casal';
             
+            // CAPTURA O TEMA ATUALIZADO DO SELETOR DA TELA ANTES DE GRAVAR NO FIREBASE
+            const selectTemaSalvar = document.getElementById('temaAtivo');
+            if (selectTemaSalvar && selectTemaSalvar.value) {
+                temaSalvar = selectTemaSalvar.value;
+            }
+            
             const listaTemasLegado = ['maternidade', 'amizade', 'luto', 'pet', 'aniversario', 'casamento', 'viagem', 'conquista'];
             if (listaTemasLegado.includes(planoSalvar)) {
                 temaSalvar = planoSalvar;
