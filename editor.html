@@ -181,6 +181,18 @@
             }
             
             document.getElementById('nomePlano').innerText = planoAtual.toUpperCase();
+
+            // VERIFICA SE O PLANO DÁ DIREITO À SELEÇÃO DE TEMAS E EXIBE O MENU
+            if (planoAtual === 'completo' || planoAtual === 'vitalicio' || planoAtual === 'marketing') {
+                const containerTema = document.getElementById('containerTema');
+                if (containerTema) {
+                    containerTema.classList.remove('oculto');
+                }
+                const selectTema = document.getElementById('temaAtivo');
+                if (selectTema) {
+                    selectTema.value = temaAtual;
+                }
+            }
               
             // USA LIMITES QUE VÊM DO FIREBASE - ADMIN É A FONTE DA VERDADE
             const limites = dadosPlano.limites || { fotos: 1, musica: false, qr: false, edicao: false };
