@@ -254,13 +254,16 @@
                 document.getElementById('campoMusica').style.display = 'none';
             }
 
-            // AVISO DE EDIÇÃO BASEADO UNICAMENTE NO CONTROLE DE LIMITES DO PLANO
+            // AVISO DE EDIÇÃO BASEADO UNICAMENTE DO CONTROLE DE LIMITES DO PLANO
             if (!limites.edicao && planoAtual !== 'vitalicio' && planoAtual !== 'marketing') {
                 document.getElementById('btnSalvar').innerText = 'Salvar e Publicar (sem edição depois)';
             }
 
             carregarDadosSalvos();
         }
+
+        // PONTE QUE LIBERA A FUNÇÃO PARA O MENU HTML ENXERGAR SEM BLOQUEIO DO NAVEGADOR
+        window.montarTela = montarTela;
 
         // Preview ao vivo
         document.getElementById('nomes').addEventListener('input', atualizarPreview);
