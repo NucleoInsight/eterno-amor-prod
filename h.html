@@ -209,12 +209,13 @@
                     window.dados = docSnap.data();
                     dados = window.dados;
 
-                    // Consulta a coleção de liberados para saber qual é o plano real e o tema deste ID
+                   // Consulta a coleção de liberados para saber qual é o plano real, mas aceita o tema do cliente primeiro
                     const libRef = doc(db, 'liberados', id);
                     const libSnap = await getDoc(libRef);
                     if (libSnap.exists()) {
                         dados.plano = libSnap.data().plano || 'essencial';
-                        dados.tema = libSnap.data().tema || 'casal';
+                        // SE JÁ EXISTIR UM TEMA SALVO PELO CLIENTE NA HOMENAGEM, MANTÉM O DELE. SE NÃO, PEGA O DO ADMIN.
+                        dados.tema = dados.tema || libSnap.data().tema || 'casal';
                     } else {
                         dados.plano = dados.plano || 'essencial';
                         dados.tema = dados.tema || 'casal';
