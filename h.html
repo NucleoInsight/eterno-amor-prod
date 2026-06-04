@@ -237,10 +237,21 @@
 
             // RENDERIZA
             document.getElementById('titulo').innerText = dados.nomes;
-            document.getElementById('dataTexto').innerText = new Date(dados.data).toLocaleDateString('pt-BR', {day:'2-digit',month:'long',year:'numeric'});
-            document.getElementById('mensagem').innerText = dados.mensagem;
+            
+            // CORREÇÃO DO BUG DO FUSO HORÁRIO E NAN: Separa a data com traço ou com barra para ler em qualquer dispositivo
+            let inicio;
+            if (dados.data.includes('-')) {
+                const [anoInput, mesInput, diaInput] = dados.data.split('-');
+                inicio = new Date(anoInput, mesInput - 1, diaInput);
+            } else if (dados.data.includes('/')) {
+                const [diaInput, mesInput, anoInput] = dados.data.split('/');
+                inicio = new Date(anoInput, mesInput - 1, diaInput);
+            } else {
+                inicio = new Date(dados.data);
+            }
 
-            const inicio = new Date(dados.data);
+            document.getElementById('dataTexto').innerText = inicio.toLocaleDateString('pt-BR', {day:'2-digit',month:'long',year:'numeric'});
+            document.getElementById('mensagem').innerText = dados.mensagem;
             
             // SISTEMA DE ESTILOS E PALETAS DE CORES DINÂMICAS POR TEMA
             const designTemas = {
