@@ -349,8 +349,11 @@
             }
         }
 
-      window.gerarMensagem = function() {
+     window.gerarMensagem = function() {
             const nomesInput = document.getElementById('nomes').value.trim();
+            
+            // DECLARA A VARIÁVEL CORRETAMENTE PARA NÃO DAR ERRO DE NOT DEFINED
+            let temaAtual = dadosPlano?.tema || 'casal';
             
             // CAPTURA O TEMA DIRETAMENTE DO SELETOR DA TELA PARA GERAR O TEXTO AUTOMÁTICO CORRETO
             const selectTema = document.getElementById('temaAtivo');
@@ -359,7 +362,7 @@
             }
             
             // Lê o tema atual do documento de forma correta e independente do plano
-            let temaAtualDoc = dadosPlano?.tema || 'casal';
+            let temaAtualDoc = temaAtual;
             let planoAtual = dadosPlano?.plano || 'essencial';
             
             // Proteção de segurança para links legados do banco
