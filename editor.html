@@ -188,9 +188,15 @@
                 if (containerTema) {
                     containerTema.classList.remove('oculto');
                 }
+                
+                // SE O CLIENTE JÁ MUDOU O TEMA NA TELA, USAMOS O DELE. SE NÃO, SELECIONAMOS O DO BANCO.
                 const selectTema = document.getElementById('temaAtivo');
                 if (selectTema) {
-                    selectTema.value = temaAtual;
+                    if (selectTema.value) {
+                        temaAtual = selectTema.value;
+                    } else {
+                        selectTema.value = temaAtual;
+                    }
                 }
             }
               
