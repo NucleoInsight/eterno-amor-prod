@@ -290,6 +290,12 @@
                 temaAtual = planoAtual;
             }
 
+            // Captura o tema diretamente do seletor da tela se o usuário alterar dinamicamente
+            const selectTema = document.getElementById('temaAtivo');
+            if (selectTema && selectTema.value) {
+                temaAtual = selectTema.value;
+            }
+
             const configsPreview = {
                 casal: { labelNome: '<strong>Casal:</strong> ', labelTempo: '<strong>Juntos há:</strong> ', emoji: '♥', texto: 'dias de amor' },
                 maternidade: { labelNome: '<strong>Mãe e Filho(a):</strong> ', labelTempo: '<strong>Idade do Filho(a):</strong> ', emoji: '👶', texto: 'dias de puro amor e gratidão' },
@@ -311,41 +317,60 @@
                 containerpNomes.parentElement.innerHTML = `${config.labelNome}<span id="pNomes">${nomes}</span>`;
             }
 
-            if (data) {
-                const inicio = new Date(data);
-                const agora = new Date();
-                let anos = agora.getFullYear() - inicio.getFullYear();
-                let meses = agora.getMonth() - inicio.getMonth();
-                let dias = agora.getDate() - inicio.getDate();
-
-                if (dias < 0) { meses--; dias += 30; }
-                if (meses < 0) { anos--; meses += 12; }
-
-                const txtTempo = `${anos} anos, ${meses} meses e ${dias} dias`;
-                const containerpTempo = document.getElementById('pTempo');
-                if (containerpTempo) {
-                    containerpTempo.parentElement.innerHTML = `${config.labelTempo}<span id="pTempo">${txtTempo}</span>`;
+            // CORREÇÃO DO CÁLCULO DO PREVIEW PARA ACEITAR O FORMATO BRASILEIRO DD/MM/AAAA SEM DAR NAN
+            if (data && data.length === 10) {
+                let inicio;
+                if (data.includes('/')) {
+                    const [diaInput, mesInput, anoInput] = data.split('/');
+                    inicio = new Date(anoInput, mesInput - 1, diaInput);
+                } else if (data.includes('-')) {
+                    const [anoInput, mesInput, diaInput] = data.split('-');
+                    inicio = new Date(anoInput, mesInput - 1, diaInput);
+                } else {
+                    inicio = new Date(data);
                 }
 
-                const totalDias = Math.floor((agora - inicio) / (1000 * 60 * 60 * 24));
-                const containerpContador = document.getElementById('pContador');
-                if (containerpContador) {
-                    containerpContador.innerText = `${config.emoji} ${totalDias} ${config.texto} ${config.emoji}`;
+                if (!isNaN(inicio.getTime())) {
+                    const agora = new Date();
+                    let anos = agora.getFullYear() - inicio.getFullYear();
+                    let meses = agora.getMonth() - inicio.getMonth();
+                    let dias = agora.getDate() - inicio.getDate();
+
+                    if (dias < 0) { meses--; dias += 30; }
+                    if (meses < 0) { anos--; meses += 12; }
+
+                    const txtTempo = `${anos} anos, ${meses} meses e ${dias} dias`;
+                    const containerpTempo = document.getElementById('pTempo');
+                    if (containerpTempo) {
+                        containerpTempo.parentElement.innerHTML = `${config.labelTempo}<span id="pTempo">${txtTempo}</span>`;
+                    }
+
+                    const totalDias = Math.floor((agora - inicio) / (1000 * 60 * 60 * 24));
+                    const containerpContador = document.getElementById('pContador');
+                    if (containerpContador) {
+                        containerpContador.innerText = `${config.emoji} ${totalDias} ${config.texto} ${config.emoji}`;
+                    }
+                } else {
+                    zerarCamposPreview(config);
                 }
             } else {
-                const containerpTempo = document.getElementById('pTempo');
-                if (containerpTempo) {
-                    containerpTempo.parentElement.innerHTML = `${config.labelTempo}<span id="pTempo">---</span>`;
-                }
-                const containerpContador = document.getElementById('pContador');
-                if (containerpContador) {
-                    containerpContador.innerText = '';
-                }
+                zerarCamposPreview(config);
             }
 
             const containerpMusica = document.getElementById('pMusica');
             if (containerpMusica) {
                 containerpMusica.innerText = musica ? 'Música adicionada ✓' : '---';
+            }
+        }
+
+        function zerarCamposPreview(config) {
+            const containerpTempo = document.getElementById('pTempo');
+            if (containerpTempo) {
+                containerpTempo.parentElement.innerHTML = `${config.labelTempo}<span id="pTempo">---</span>`;
+            }
+            const containerpContador = document.getElementById('pContador');
+            if (containerpContador) {
+                containerpContador.innerText = '';
             }
         }
 
