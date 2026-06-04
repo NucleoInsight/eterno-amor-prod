@@ -226,7 +226,29 @@
             const data = document.getElementById('data').value;
             const musica = document.getElementById('musica').value;
 
-            document.getElementById('pNomes').innerText = nomes;
+            // CAPTURA O TEMA SELECIONADO NA TELA DA DEMO
+            const selectTema = document.getElementById('temaAtivo');
+            const temaAtual = selectTema ? selectTema.value : 'casal';
+
+            const configsPreview = {
+                casal: { labelNome: '<strong>Casal:</strong> ', labelTempo: '<strong>Juntos há:</strong> ', emoji: '♥', texto: 'dias de amor' },
+                maternidade: { labelNome: '<strong>Mãe e Filho(a):</strong> ', labelTempo: '<strong>Idade do Filho(a):</strong> ', emoji: '👶', texto: 'dias de puro amor e gratidão' },
+                amizade: { labelNome: '<strong>Amigos:</strong> ', labelTempo: '<strong>Parceria há:</strong> ', emoji: '⭐', texto: 'dias da melhor dupla do mundo' },
+                luto: { labelNome: '<strong>Homenageado:</strong> ', labelTempo: '<strong>Tempo de Saudades:</strong> ', emoji: '🕊️', texto: 'dias guardados com carinho na memória' },
+                pet: { labelNome: '<strong>Dono & Pet:</strong> ', labelTempo: '<strong>História de Patas há:</strong> ', emoji: '🐾', texto: 'dias enchendo nossa vida de alegria' },
+                aniversario: { labelNome: '<strong>Aniversariante:</strong> ', labelTempo: '<strong>Idade:</strong> ', emoji: '🎂', texto: 'dias espalhando luz no mundo' },
+                casamento: { labelNome: '<strong>Noivos:</strong> ', labelTempo: '<strong>União há:</strong> ', emoji: '💍', texto: 'dias do nosso sim para sempre' },
+                viagem: { labelNome: '<strong>Destino/Viajantes:</strong> ', labelTempo: '<strong>Tempo da Aventura:</strong> ', emoji: '✈️', texto: 'dias colecionando memórias pelo mundo' },
+                conquista: { labelNome: '<strong>Conquistador:</strong> ', labelTempo: '<strong>Tempo da Vitória:</strong> ', emoji: '🎓', texto: 'dias de muito orgulho e vitória' }
+            };
+
+            const config = configsPreview[temaAtual] || configsPreview['casal'];
+
+            // Atualiza o nome no box de Preview adaptando a label ao tema
+            const containerpNomes = document.getElementById('pNomes');
+            if (containerpNomes) {
+                containerpNomes.parentElement.innerHTML = `${config.labelNome}<span id="pNomes">${nomes}</span>`;
+            }
 
             if (data) {
                 const inicio = new Date(data);
@@ -238,14 +260,29 @@
                 if (dias < 0) { meses--; dias += 30; }
                 if (meses < 0) { anos--; meses += 12; }
 
-                document.getElementById('pTempo').innerText = `${anos} anos, ${meses} meses e ${dias} dias`;
-                document.getElementById('pContador').innerText = `♥ ${Math.floor((agora - inicio) / (1000 * 60 * 60 * 24))} dias de amor ♥`;
+                const txtTempo = `${anos} anos, ${meses} meses e ${dias} dias`;
+                const containerpTempo = document.getElementById('pTempo');
+                if (containerpTempo) {
+                    containerpTempo.parentElement.innerHTML = `${config.labelTempo}<span id="pTempo">${txtTempo}</span>`;
+                }
+
+                const totalDias = Math.floor((agora - inicio) / (1000 * 60 * 60 * 24));
+                const containerpContador = document.getElementById('pContador');
+                if (containerpContador) {
+                    containerpContador.innerText = `${config.emoji} ${totalDias} ${config.texto} ${config.emoji}`;
+                }
             } else {
-                document.getElementById('pTempo').innerText = '---';
-                document.getElementById('pContador').innerText = '';
+                const containerpTempo = document.getElementById('pTempo');
+                if (containerpTempo) {
+                    containerpTempo.parentElement.innerHTML = `${config.labelTempo}<span id="pTempo">---</span>`;
+                }
+                const containerpContador = document.getElementById('pContador');
+                if (containerpContador) {
+                    containerpContador.innerText = '';
+                }
             }
 
-            document.getElementById('pMusica').innerText = musica? 'Música adicionada ✓' : '---';
+            document.getElementById('pMusica').innerText = musica ? 'Música adicionada ✓' : '---';
         }
 
         async function finalizar() {
