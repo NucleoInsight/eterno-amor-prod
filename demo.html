@@ -89,12 +89,12 @@
             <div class="dica">O tema altera as cores, os textos e os emojis da página automaticamente!</div>
         </div>
 
-        <label id="labelNome" for="nomes">Nome de vocês dois:</label>
+       <label id="labelNome" for="nomes">Nome de vocês dois:</label>
         <input type="text" id="nomes" placeholder="Ex: Gil e Maria ou Gil & Maria">
         <div id="dicaNome" class="dica">Pode ser: Gil e Maria, Gil & Maria, Gil + Maria</div>
 
-        <label>Data que começaram:</label>
-        <input type="date" id="data">
+        <label id="labelData" for="data">Data que começaram:</label>
+        <input type="text" id="data" placeholder="DD/MM/AAAA" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/^(\d{2})(\d)/, '$1/$2').replace(/^(\d{2})\/(\d{2})(\d)/, '$1/$2/$3')">
 
         <label>Sua Mensagem de Amor:</label>
         <select id="modeloMsg">
@@ -129,7 +129,6 @@
             <div class="dica" style="margin-top:15px;">Clique no botão e escolha da sua galeria. Sem complicação.</div>
         </div>
 
-        <!-- ALTERAÇÃO 3: BOTÃO COM PREÇO ÚNICO -->
         <button onclick="finalizar()">Salvar e Gerar Meu Link Exclusivo</button>
 
         <div class="preview-box">
@@ -191,7 +190,7 @@
             };
 
             const labelNome = document.getElementById('labelNome');
-            const labelData = document.querySelector('label[for="data"]');
+            const labelData = document.getElementById('labelData');
             const inputNomes = document.getElementById('nomes');
             const divDica = document.getElementById('dicaNome');
             const labelFotos = document.querySelector('.grupo-foto label');
@@ -228,7 +227,7 @@
 
             // CAPTURA O TEMA SELECIONADO NA TELA DA DEMO
             const selectTema = document.getElementById('temaAtivo');
-            const temaAtual = selectTema ? selectTema.value : 'casal';
+            let temaAtual = selectTema ? selectTema.value : 'casal';
 
             const configsPreview = {
                 casal: { labelNome: '<strong>Casal:</strong> ', labelTempo: '<strong>Juntos há:</strong> ', emoji: '♥', texto: 'dias de amor' },
@@ -250,39 +249,61 @@
                 containerpNomes.parentElement.innerHTML = `${config.labelNome}<span id="pNomes">${nomes}</span>`;
             }
 
-            if (data) {
-                const inicio = new Date(data);
-                const agora = new Date();
-                let anos = agora.getFullYear() - inicio.getFullYear();
-                let meses = agora.getMonth() - inicio.getMonth();
-                let dias = agora.getDate() - inicio.getDate();
-
-                if (dias < 0) { meses--; dias += 30; }
-                if (meses < 0) { anos--; meses += 12; }
-
-                const txtTempo = `${anos} anos, ${meses} meses e ${dias} dias`;
-                const containerpTempo = document.getElementById('pTempo');
-                if (containerpTempo) {
-                    containerpTempo.parentElement.innerHTML = `${config.labelTempo}<span id="pTempo">${txtTempo}</span>`;
+            // CORREÇÃO DO CÁLCULO DE DATA DA DEMO COM MÁSCARA TEXTUAL BRASILEIRA SEM DAR NAN
+            if (data && data.length === 10) {
+                let inicio;
+                if (data.includes('/')) {
+                    const [diaInput, mesInput, anoInput] = data.split('/');
+                    inicio = new Date(anoInput, mesInput - 1, diaInput);
+                } else if (data.includes('-')) {
+                    const [anoInput, mesInput, diaInput] = data.split('-');
+                    inicio = new Date(anoInput, mesInput - 1, diaInput);
+                } else {
+                    inicio = new Date(data);
                 }
 
-                const totalDias = Math.floor((agora - inicio) / (1000 * 60 * 60 * 24));
-                const containerpContador = document.getElementById('pContador');
-                if (containerpContador) {
-                    containerpContador.innerText = `${config.emoji} ${totalDias} ${config.texto} ${config.emoji}`;
+                if (!isNaN(inicio.getTime())) {
+                    const agora = new Date();
+                    let anos = agora.getFullYear() - inicio.getFullYear();
+                    let meses = agora.getMonth() - inicio.getMonth();
+                    let dias = agora.getDate() - inicio.getDate();
+
+                    if (dias < 0) { meses--; dias += 30; }
+                    if (meses < 0) { anos--; meses += 12; }
+
+                    const txtTempo = `${anos} anos, ${meses} meses e ${dias} dias`;
+                    const containerpTempo = document.getElementById('pTempo');
+                    if (containerpTempo) {
+                        containerpTempo.parentElement.innerHTML = `${config.labelTempo}<span id="pTempo">${txtTempo}</span>`;
+                    }
+
+                    const totalDias = Math.floor((agora - inicio) / (1000 * 60 * 60 * 24));
+                    const containerpContador = document.getElementById('pContador');
+                    if (containerpContador) {
+                        containerpContador.innerText = `${config.emoji} ${totalDias} ${config.texto} ${config.emoji}`;
+                    }
+                } else {
+                    zerarCamposPreview(config);
                 }
             } else {
-                const containerpTempo = document.getElementById('pTempo');
-                if (containerpTempo) {
-                    containerpTempo.parentElement.innerHTML = `${config.labelTempo}<span id="pTempo">---</span>`;
-                }
-                const containerpContador = document.getElementById('pContador');
-                if (containerpContador) {
-                    containerpContador.innerText = '';
-                }
+                zerarCamposPreview(config);
             }
 
-            document.getElementById('pMusica').innerText = musica ? 'Música adicionada ✓' : '---';
+            const containerpMusica = document.getElementById('pMusica');
+            if (containerpMusica) {
+                containerpMusica.innerText = musica ? 'Música adicionada ✓' : '---';
+            }
+        }
+
+        function zerarCamposPreview(config) {
+            const containerpTempo = document.getElementById('pTempo');
+            if (containerpTempo) {
+                containerpTempo.parentElement.innerHTML = `${config.labelTempo}<span id="pTempo">---</span>`;
+            }
+            const containerpContador = document.getElementById('pContador');
+            if (containerpContador) {
+                containerpContador.innerText = '';
+            }
         }
 
         async function finalizar() {
