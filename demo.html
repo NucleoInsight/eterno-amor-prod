@@ -69,12 +69,29 @@
         <h1>Sua Homenagem Quase Pronta</h1>
         <p class="sub">Preencha os campos. Quando clicar em salvar, liberamos o link exclusivo após o pagamento.</p>
 
-        <!-- ALTERAÇÃO 2: TIMER DA DEMO -->
+       <!-- ALTERAÇÃO 2: TIMER DA DEMO -->
         <div class="contador-demo" id="timerDemo"></div>
 
-        <label>Nome do Casal:</label>
+        <!-- NOVO CAMPO DE SELEÇÃO DE TEMA NA PÁGINA DE DEGUSTAÇÃO -->
+        <div id="containerTema">
+            <label for="temaAtivo">Escolha o Tema da sua Página:</label>
+            <select id="temaAtivo" onchange="montarTela()">
+                <option value="casal">♥ Casal (Tradicional)</option>
+                <option value="maternidade">👶 Maternidade</option>
+                <option value="amizade">⭐ Amizade</option>
+                <option value="luto">🕊️ Luto (Memória e Saudade)</option>
+                <option value="pet">🐾 Pet</option>
+                <option value="aniversario">🎂 Aniversário</option>
+                <option value="casamento">💍 Casamento</option>
+                <option value="viagem">✈️ Viagem</option>
+                <option value="conquista">🎓 Conquista / Formatura</option>
+            </select>
+            <div class="dica">O tema altera as cores, os textos e os emojis da página automaticamente!</div>
+        </div>
+
+        <label id="labelNome" for="nomes">Nome de vocês dois:</label>
         <input type="text" id="nomes" placeholder="Ex: Gil e Maria ou Gil & Maria">
-        <div class="dica">Pode ser: Gil e Maria, Gil & Maria, Gil + Maria</div>
+        <div id="dicaNome" class="dica">Pode ser: Gil e Maria, Gil & Maria, Gil + Maria</div>
 
         <label>Data que começaram:</label>
         <input type="date" id="data">
