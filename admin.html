@@ -421,11 +421,17 @@
             };
 
             try {
-                // Atualiza o documento do cliente com o novo plano, tema e limites
+                // 1. Atualiza os dados de controle na tabela de liberados
                 await setDoc(doc(db, 'liberados', id), {
                     plano: novoPlano,
                     tema: novoTema,
                     limites: limites[novoPlano]
+                }, { merge: true });
+
+                // 2. CORREÇÃO DEFINITIVA: Atualiza também o tema e o plano na tabela de homenagens para aplicar a mudança na hora
+                await setDoc(doc(db, 'homenagens', id), {
+                    tema: novoTema,
+                    plano: novoPlano
                 }, { merge: true });
 
                 alert(`✓ Cadastro de ${id} atualizado com sucesso! Plano: ${novoPlano.toUpperCase()} | Tema: ${novoTema.toUpperCase()}`);
