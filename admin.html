@@ -243,6 +243,7 @@
                     marketing: { fotos: 10, musica: true, qr: true, edicao: true }
                 };
 
+                // 1. Grava a autorização na tabela de liberados
                 await setDoc(doc(db, 'liberados', id), {
                     plano: plano,
                     tema: tema,
@@ -251,6 +252,17 @@
                     ativo: true,
                     nomes: nomes
                 });
+
+                // 2. CORREÇÃO DO BUG: Grava a estrutura inicial com o tema escolhido na tabela homenagens para o editor não abrir em branco
+                await setDoc(doc(db, 'homenagens', id), {
+                    nomes: nomes,
+                    tema: tema,
+                    plano: plano,
+                    data: '',
+                    mensagem: '',
+                    musica: '',
+                    publicado: false
+                }, { merge: true });
 
                 msg.innerText = `✓ ${nomes} liberado!\nLink: editor.html?id=${id}`;
                 msg.className = 'status ok';
