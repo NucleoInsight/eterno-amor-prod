@@ -148,12 +148,24 @@
             </div>
         </div>
 
-        <!-- PASSO 4: MÚSICA -->
+       <!-- PASSO 4: MÚSICA COM BUSCADOR INTEGRADO EM TEMPO REAL -->
         <div class="passo-quiz" id="passo4" style="display: none;">
             <label>Qual música representa essa história?</label>
-            <input type="url" id="musica" placeholder="https://youtube.com/watch?v=...">
-            <div class="dica">A música toca sozinha, sem anúncios. Copie e cole o link de um vídeo do YouTube.</div>
-            <div style="display: flex; gap: 10px;">
+            
+            <!-- Barra de Pesquisa Estilo Profissional -->
+            <div style="display: flex; gap: 8px; margin-top: 8px;">
+                <input type="text" id="buscaMusicaInput" placeholder="🔍 Digite o nome da música ou artista..." style="margin-top:0;">
+                <button type="button" onclick="buscarMusicaYouTube()" style="margin-top:0; width: auto; padding: 0 25px; border-radius: 8px; font-size: 15px; background: linear-gradient(135deg, #FF4D79 0%, #FF8C42 100%);">Buscar</button>
+            </div>
+            
+            <!-- Container Dinâmico onde os resultados do YouTube vão aparecer -->
+            <div id="resultadosMusicaContainer" style="margin-top: 15px; display: flex; flex-direction: column; gap: 10px; max-height: 250px; overflow-y: auto; padding-right: 5px;"></div>
+            
+            <!-- Campo oculto padrão que mantém compatibilidade com seu Firebase e h.html -->
+            <input type="hidden" id="musica">
+            <div class="dica" id="dicaMusicaStatus">A música tocará sozinha ao abrir a página final. Busque e clique no resultado desejado!</div>
+            
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
                 <button type="button" class="btn-secundario" onclick="mudarPasso(-1)">Voltar</button>
                 <button type="button" onclick="mudarPasso(1)">Avançar Próximo ➔</button>
             </div>
