@@ -243,10 +243,25 @@ header {
 </head>
 <body>
 
-<!-- TARJA SAZONAL AUTOMÁTICA -->
+<!-- TARJA DE URGÊNCIA DINÂMICA INTELIGENTE -->
 <div class="tarja-sazonal" id="tarjaNamorados">
-  <span id="textoTarja">💝 CAMPANHA ESPECIAL: Crie sua surpresa inesquecível para o Dia dos Namorados!</span> <span style="background: #FFFFFF; color: #E63965; padding: 2px 8px; border-radius: 4px; margin-left: 10px; font-size: 12px; text-transform: uppercase;">Tempo Limitado</span>
+  <span id="textoTarja">⚡ Apenas hoje, <span id="dataDinamicatarja">11/06</span>: Todos os planos com 50% OFF. Garanta sua surpresa antes que a oferta acabe!</span> 
+  <span style="background: #FFFFFF; color: #E63965; padding: 2px 8px; border-radius: 4px; margin-left: 10px; font-size: 12px; text-transform: uppercase; font-weight: 900; animation: pulse 1s infinite;">50% OFF</span>
 </div>
+
+<script>
+  // Script imediato para injetar a data de hoje na tarja antes da renderização completa
+  (function() {
+    const hoje = new Date();
+    const dia = String(hoje.getDate()).padStart(2, '0');
+    const mes = String(hoje.getMonth() + 1).padStart(2, '0');
+    // Força a atualização do texto com a data do dia atual do cliente
+    setTimeout(() => {
+      const elData = document.getElementById('dataDinamicatarja');
+      if (elData) elData.innerText = dia + '/' + mes;
+    }, 50);
+  })();
+</script>
 
 <header>
   <div class="container header-content">
