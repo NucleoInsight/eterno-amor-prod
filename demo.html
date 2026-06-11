@@ -647,7 +647,7 @@
                 const seg = tempo % 60;
                 const tempoFormatado = `${String(min).padStart(2, '0')}:${String(seg).padStart(2, '0')}`;
 
-                if (timerEl) timerEl.innerHTML = `⏰ Essa demo expira em ${tempoFormatado}. Depois some pra sempre.`;
+                if (timerEl) timerEl.innerHTML = `<span>⏰ Essa demo expira em ${tempoFormatado}.</span><span>Depois some pra sempre.</span>`;
 
                 if (tempo <= 30 && timerEl) {
                     timerEl.classList.add('timer-urgente');
