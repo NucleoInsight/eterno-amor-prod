@@ -409,7 +409,95 @@
                 };
             }
 
-            document.getElementById('mensagem').value = mensagens[modelo] || mensagens['romantico'];
+           document.getElementById('mensagem').value = mensagens[modelo] || mensagens['romantico'];
+        }
+
+        // GARANTIA DE ESCOPO: REGISTRA OS EVENTOS E A FUNÇÃO DE PREVIEW NO TOPO DO SCRIPT
+        document.getElementById('nomes').addEventListener('input', () => window.atualizarPreview());
+        document.getElementById('data').addEventListener('input', () => window.atualizarPreview());
+        document.getElementById('musica').addEventListener('input', () => window.atualizarPreview());
+
+        window.atualizarPreview = function() {
+            const nomes = document.getElementById('nomes').value || '---';
+            const data = document.getElementById('data').value;
+            const musica = document.getElementById('musica').value;
+
+            const selectTema = document.getElementById('temaAtivo');
+            let temaAtual = selectTema ? selectTema.value : 'casal';
+
+            const configsPreview = {
+                casal: { labelNome: '<strong>Casal:</strong> ', labelTempo: '<strong>Juntos há:</strong> ', emoji: '♥', texto: 'dias de amor' },
+                maternidade: { labelNome: '<strong>Mãe e Filho(a):</strong> ', labelTempo: '<strong>Idade do Filho(a):</strong> ', emoji: '👶', texto: 'dias de puro amor e gratidão' },
+                amizade: { labelNome: '<strong>Amigos:</strong> ', labelTempo: '<strong>Parceria há:</strong> ', emoji: '⭐', texto: 'dias da melhor dupla do mundo' },
+                luto: { labelNome: '<strong>Homenageado:</strong> ', labelTempo: '<strong>Tempo de Saudades:</strong> ', emoji: '🕊️', texto: 'dias guardados com carinho na memória' },
+                pet: { labelNome: '<strong>Dono & Pet:</strong> ', labelTempo: '<strong>História de Patas há:</strong> ', emoji: '🐾', texto: 'dias enchendo nossa vida de alegria' },
+                aniversario: { labelNome: '<strong>Aniversariante:</strong> ', labelTempo: '<strong>Idade:</strong> ', emoji: '🎂', texto: 'dias espalhando luz no mundo' },
+                casamento: { labelNome: '<strong>Noivos:</strong> ', labelTempo: '<strong>União há:</strong> ', emoji: '💍', texto: 'dias do nosso sim para sempre' },
+                viagem: { labelNome: '<strong>Destino/Viajantes:</strong> ', labelTempo: '<strong>Tempo da Aventura:</strong> ', emoji: '✈️', texto: 'dias colecionando memórias pelo mundo' },
+                conquista: { labelNome: '<strong>Conquistador:</strong> ', labelTempo: '<strong>Tempo da Vitória:</strong> ', emoji: '🎓', texto: 'dias de muito orgulho e vitória' }
+            };
+
+            const config = configsPreview[temaAtual] || configsPreview['casal'];
+
+            const containerpNomes = document.getElementById('pNomes');
+            if (containerpNomes) {
+                containerpNomes.parentElement.innerHTML = `${config.labelNome}<span id="pNomes">${nomes}</span>`;
+            }
+
+            if (data && data.length === 10) {
+                let inicio;
+                if (data.includes('/')) {
+                    const [diaInput, mesInput, anoInput] = data.split('/');
+                    inicio = new Date(anoInput, mesInput - 1, diaInput);
+                } else if (data.includes('-')) {
+                    const [anoInput, mesInput, diaInput] = data.split('-');
+                    inicio = new Date(anoInput, mesInput - 1, diaInput);
+                } else {
+                    inicio = new Date(data);
+                }
+
+                if (!isNaN(inicio.getTime())) {
+                    const agora = new Date();
+                    let anosCalculados = agora.getFullYear() - inicio.getFullYear();
+                    let meses = agora.getMonth() - inicio.getMonth();
+                    let dias = agora.getDate() - inicio.getDate();
+
+                    if (dias < 0) { meses--; dias += 30; }
+                    if (meses < 0) { anosCalculados--; meses += 12; }
+
+                    const txtTempo = `${anosCalculados} anos, ${meses} meses e ${dias} dias`;
+                    const containerpTempo = document.getElementById('pTempo');
+                    if (containerpTempo) {
+                        containerpTempo.parentElement.innerHTML = `${config.labelTempo}<span id="pTempo">${txtTempo}</span>`;
+                    }
+
+                    const totalDias = Math.floor((agora - inicio) / (1000 * 60 * 60 * 24));
+                    const containerpContador = document.getElementById('pContador');
+                    if (containerpContador) {
+                        containerpContador.innerText = `${config.emoji} ${totalDias} ${config.texto} ${config.emoji}`;
+                    }
+                } else {
+                    zerarCamposPreview(config);
+                }
+            } else {
+                zerarCamposPreview(config);
+            }
+
+            const containerpMusica = document.getElementById('pMusica');
+            if (containerpMusica) {
+                containerpMusica.innerText = musica ? 'Música adicionada ✓' : '---';
+            }
+        }
+
+        function zerarCamposPreview(config) {
+            const containerpTempo = document.getElementById('pTempo');
+            if (containerpTempo) {
+                containerpTempo.parentElement.innerHTML = `${config.labelTempo}<span id="pTempo">---</span>`;
+            }
+            const containerpContador = document.getElementById('pContador');
+            if (containerpContador) {
+                containerpContador.innerText = '';
+            }
         }
 
         // NOVO MOTOR ULTRA-ESTÁVEL DE BUSCA DIRETA DO DUCKDUCKGO (MÚSICAS DO YOUTUBE)
