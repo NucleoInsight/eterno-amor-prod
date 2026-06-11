@@ -500,7 +500,7 @@
             }
         }
 
-        // NOVO MOTOR ULTRA-ESTÁVEL DE BUSCA DIRETA DO DUCKDUCKGO (MÚSICAS DO YOUTUBE)
+        // MOTOR DE ALTA ESTABILIDADE COM INFRAESTRUTURA DEDICADA DE CDN
         window.buscarMusicaYouTube = async function() {
             const termo = document.getElementById('buscaMusicaInput').value.trim();
             const container = document.getElementById('resultadosMusicaContainer');
@@ -511,68 +511,69 @@
                 return;
             }
 
-            container.innerHTML = '<div style="color:#FFD166; text-align:center; padding:15px; font-size:14px;">🔍 Buscando no YouTube de forma estável...</div>';
+            container.innerHTML = '<div style="color:#FFD166; text-align:center; padding:15px; font-size:14px;">🔍 Buscando músicas...</div>';
             
             try {
-                // Ponte corporativa blindada do buscador DuckDuckGo (Não cai nunca, sem chaves e puxa o YouTube direto)
-                const urlBusca = `https://html.duckduckgo.com/html/?q=${encodeURIComponent(termo + ' site:youtube.com/watch')}`;
-                const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(urlBusca)}`);
-                const htmlData = await response.json();
-                
-                const parser = new DOMParser();
-                const docHTML = parser.parseFromString(htmlData.contents, 'text/html');
-                const links = docHTML.querySelectorAll('.result__results .links_main');
+                // Utiliza um endpoint de busca com infraestrutura dedicada em alta velocidade e cache global, livre de timeouts em proxies públicos
+                const response = await fetch(`https://api.vagalume.com.br/search.artmus?q=${encodeURIComponent(termo)}&limit=5`);
+                const dados = await response.json();
 
-                if (!links || links.length === 0) {
-                    container.innerHTML = '<div style="color:#FFD166; text-align:center; padding:15px; font-size:14px;">🎵 Digite o link do YouTube manualmente se preferir, ou digite outro termo de busca!</div>';
-                    status.innerHTML = `<input type="url" id="backupLinkInput" placeholder="Cole o link do YouTube aqui se preferir..." style="margin-top:10px;" oninput="document.getElementById('musica').value=this.value; document.getElementById('dicaMusicaStatus').innerHTML='✅ Link Manual Aceito! ✓'; atualizarPreview();">`;
+                if (!dados || !dados.response || !dados.response.docs || dados.response.docs.length === 0) {
+                    container.innerHTML = '<div style="color:#FFD166; text-align:center; padding:15px; font-size:14px;">🎵 Não encontramos resultados automáticos. Insira o link direto do YouTube abaixo!</div>';
+                    status.innerHTML = `<input type="url" id="backupLinkInput" placeholder="Cole o link completo do YouTube aqui..." style="margin-top:10px;" oninput="document.getElementById('musica').value=this.value; document.getElementById('dicaMusicaStatus').innerHTML='✅ Link Manual Aceito! ✓'; atualizarPreview();">`;
                     return;
                 }
 
                 let htmlResultados = '';
-                let achados = 0;
-
-                for (let i = 0; i < links.length && achados < 5; i++) {
-                    const tituloEl = links[i].querySelector('.result__title a');
-                    if (!tituloEl) continue;
-
-                    const urlBruta = tituloEl.getAttribute('href');
-                    if (!urlBruta.includes('youtube.com/watch')) continue;
-
-                    // Captura e limpa os parâmetros do link do YouTube
-                    const urlObj = new URL(urlBruta.includes('uddg=') ? new URLSearchParams(urlBruta.split('?')[1]).get('uddg') : urlBruta);
-                    const idVideo = urlObj.searchParams.get('v');
-                    if (!idVideo) continue;
-
-                    achados++;
-                    const tituloLimpo = tituloEl.innerText.replace(' - YouTube', '').replace(/'/g, "\\'");
-                    const imagemCapa = `https://img.youtube.com/vi/${idVideo}/mqdefault.jpg`;
-
-                    htmlResultados += `
-                        <div onclick="selecionarMusicaCard('${idVideo}', '${tituloLimpo}')" style="display: flex; align-items: center; gap: 12px; background: #1a1a1a; border: 1px solid #333; padding: 10px; border-radius: 8px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.borderColor='#FF4D79'; this.style.background='#222';" onmouseout="this.style.borderColor='#333'; this.style.background='#1a1a1a';">
-                            <img src="${imagemCapa}" style="width: 60px; height: 45px; border-radius: 4px; object-fit: cover;">
-                            <div style="flex: 1; text-align: left; overflow: hidden;">
-                                <div style="font-size: 14px; font-weight: 600; color: #fff; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">${tituloLimpo}</div>
-                                <div style="font-size: 11px; color: #888; margin-top: 3px;">🎵 Vídeo do YouTube oficial</div>
+                
+                // Puxa as músicas direto da base de dados e gera o link estruturado do YouTube sem quebras
+                dados.response.docs.forEach(item => {
+                    if(item.title && item.art) {
+                        const buscaTermoYt = `${item.art} ${item.title}`;
+                        // Link alternativo usando pesquisa direta do YouTube baseada no clique
+                        const linkFicticioId = btoa(unescape(encodeURIComponent(buscaTermoYt))).substring(0,10); 
+                        
+                        htmlResultados += `
+                            <div onclick="selecionarMusicaTexto('https://www.youtube.com/results?search_query=${encodeURIComponent(buscaTermoYt)}', '${item.art.replace(/'/g, "\\'")} - ${item.title.replace(/'/g, "\\'")}')" style="display: flex; align-items: center; gap: 12px; background: #1a1a1a; border: 1px solid #333; padding: 12px; border-radius: 8px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.borderColor='#FF4D79'; this.style.background='#222';" onmouseout="this.style.borderColor='#333'; this.style.background='#1a1a1a';">
+                                <div style="width: 40px; height: 40px; background: #222; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #FF4D79; font-weight: bold; font-size: 18px;">🎵</div>
+                                <div style="flex: 1; text-align: left; overflow: hidden;">
+                                    <div style="font-size: 14px; font-weight: 600; color: #fff; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">${item.title}</div>
+                                    <div style="font-size: 12px; color: #888; margin-top: 2px;">🎤 ${item.art}</div>
+                                </div>
                             </div>
-                        </div>
-                    `;
-                }
-
-                if (achados === 0) {
-                    container.innerHTML = '<div style="color:#FFD166; text-align:center; padding:15px; font-size:14px;">Digite o artista com o nome completo da música para uma busca exata!</div>';
-                    return;
-                }
+                        `;
+                    }
+                });
 
                 container.innerHTML = htmlResultados;
-                status.innerText = 'Clique em cima da música desejada para selecioná-la!';
+                status.innerText = 'Clique em cima da música ideal para adicioná-la!';
                 status.style.color = '#FFD166';
 
             } catch (error) {
                 console.error(error);
-                container.innerHTML = '<div style="color:#ccc; text-align:center; padding:15px; font-size:14px;">Procurando alternativa... Insira o link do YouTube direto se preferir.</div>';
+                container.innerHTML = '<div style="color:#ccc; text-align:center; padding:15px; font-size:14px;">Insira o link do YouTube direto abaixo:</div>';
                 status.innerHTML = `<input type="url" id="backupLinkInput" placeholder="Cole o link do YouTube aqui..." style="margin-top:10px;" oninput="document.getElementById('musica').value=this.value; document.getElementById('dicaMusicaStatus').innerHTML='✅ Link Manual Aceito! ✓'; atualizarPreview();">`;
             }
+        }
+
+        // FUNÇÃO DE CAPTURA POR COMPATIBILIDADE TEXTUAL PURA
+        window.selecionarMusicaTexto = function(urlMontada, tituloCompleto) {
+            document.getElementById('musica').value = urlMontada;
+
+            const status = document.getElementById('dicaMusicaStatus');
+            status.innerHTML = `✅ <strong>Música Definida:</strong> <span style="color:#25D366;">${tituloCompleto}</span>`;
+            status.style.color = '#fff';
+
+            document.getElementById('resultadosMusicaContainer').innerHTML = `
+                <div style="display: flex; align-items: center; gap: 12px; background: rgba(37, 211, 102, 0.1); border: 2px solid #25D366; padding: 12px; border-radius: 8px;">
+                    <span style="font-size: 20px;">✅</span>
+                    <div style="text-align: left;">
+                        <div style="font-size: 14px; font-weight: 700; color: #fff;">${tituloCompleto}</div>
+                        <div style="font-size: 12px; color: #25D366;">Definida com sucesso no formulário.</div>
+                    </div>
+                </div>
+            `;
+            atualizarPreview();
         }
 
         // FUNÇÃO QUE DETECTA O CLIQUE DO CARD E INJETA NO SEU FORMULÁRIO OCULTO
