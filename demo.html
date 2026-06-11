@@ -593,6 +593,17 @@
             }, 500);
         }
 
+        // Injeta o dia e mês atuais do cliente na tarja de urgência da demo automaticamente
+        function renderizarDataTarjaDemo() {
+            const hoje = new Date();
+            const dia = String(hoje.getDate()).padStart(2, '0');
+            const mes = String(hoje.getMonth() + 1).padStart(2, '0');
+            const elDataDemo = document.getElementById('dataDinamicatarjaDemo');
+            if (elDataDemo) {
+                elDataDemo.innerText = dia + '/' + mes;
+            }
+        }
+        renderizarDataTarjaDemo();
         iniciarEscassez();
 
         // BLOQUEIO LEVE - SÓ ATIVA NA DEMO
