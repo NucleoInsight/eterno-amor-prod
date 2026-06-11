@@ -195,7 +195,65 @@
         </div>
     </div>
 
-    <script>
+   <script>
+        // CONTROLE DE FLUXO DO QUIZ PASSO A PASSO
+        let passoAtual = 0;
+        const totalPassos = 5;
+
+        // Função que é ativada quando o usuário clica no botão do Tema
+        window.selecionarTemaBotao = function(temaSelecionado) {
+            const selectTema = document.getElementById('temaAtivo');
+            if (selectTema) {
+                selectTema.value = temaSelecionado; // Seta o valor no select oculto
+                montarTela(); // Roda sua função padrão para mudar textos/labels do tema
+            }
+            mudarPasso(1); // Avança automaticamente para o Passo 1 (Nomes)
+        }
+
+        // Função universal para avançar ou voltar as telas do quiz
+        window.mudarPasso = function(direcao) {
+            // Validação de segurança: Não deixa avançar sem preencher campos obrigatórios
+            if (direcao === 1) {
+                if (passoAtual === 1 && !document.getElementById('nomes').value.trim()) {
+                    alert('Por favor, preencha os nomes para continuar! 🥰');
+                    return;
+                }
+                if (passoAtual === 2 && !document.getElementById('data').value.trim()) {
+                    alert('Por favor, insira a data especial! 📅');
+                    return;
+                }
+                if (passoAtual === 3 && !document.getElementById('mensagem').value.trim()) {
+                    alert('Escreva uma mensagem ou use um dos nossos modelos automáticos para avançar! ✍️');
+                    return;
+                }
+            }
+
+            // Esconde o passo atual
+            const divPassoAtual = document.getElementById(`passo${passoAtual}`);
+            if (divPassoAtual) divPassoAtual.style.display = 'none';
+
+            // Calcula o próximo passo
+            passoAtual += direcao;
+
+            // Garante que o passo fique dentro dos limites permitidos
+            if (passoAtual < 0) passoAtual = 0;
+            if (passoAtual > totalPassos) passoAtual = totalPassos;
+
+            // Exibe o novo passo na tela
+            const divProximoPasso = document.getElementById(`passo${passoAtual}`);
+            if (divProximoPasso) divProximoPasso.style.display = 'block';
+
+            // Atualiza visualmente a barra de progresso no topo do formulário
+            const barra = document.getElementById('barraProgresso');
+            if (barra) {
+                const porcentagem = ((passoAtual + 1) / (totalPassos + 1)) * 100;
+                barra.style.width = `${porcentagem}%`;
+            }
+            
+            // Força a atualização do preview caso o usuário mude de tela
+            atualizarPreview();
+        }
+
         // ATIVA TARJA SE FOR DEMO
         if (window.location.search.includes('demo=true')) {
             document.body.classList.add('demo-active');
