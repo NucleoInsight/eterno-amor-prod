@@ -76,16 +76,14 @@
 
         /* ALTERAÇÃO 2: TIMER COM URGÊNCIA */
        /* ALTERAÇÃO 2: TIMER COM URGÊNCIA (FIXO PARA MOBILE) */
-        .contador-demo { 
-            font-size: 1.3rem; 
+       .contador-demo { 
+            font-size: 1.2rem; 
             color: #FFD166; 
             text-align: center; 
-            margin: 20px 0; 
-            font-weight: 700; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            gap: 5px;
+            margin: 15px 0; 
+            font-weight: 700;
+            background: none !important; /* Remove qualquer fundo herdado */
+            padding: 0 !important;       /* Remove qualquer espaçamento herdado */
         }
         .timer-urgente { color: #d32f2f; animation: pulse 1s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
