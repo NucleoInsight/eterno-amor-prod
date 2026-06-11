@@ -34,7 +34,26 @@
         }
 
        .container { max-width: 700px; margin: 0 auto; position: relative; z-index: 1; }
-       .tarja { background: linear-gradient(135deg, #FF4D79 0%, #FF8C42 100%); color: #000; text-align: center; padding: 12px; font-weight: bold; margin-bottom: 30px; border-radius: 8px; }
+       .tarja { 
+            background: linear-gradient(135deg, #FF4D79 0%, #FF8C42 100%); 
+            color: #000; 
+            text-align: center; 
+            padding: 12px; 
+            font-weight: bold; 
+            margin-bottom: 30px; 
+            border-radius: 8px; 
+            font-size: 16px;
+            line-height: 1.4;
+        }
+
+        /* AJUSTE FINO RESPONSIVO: Reduz a fonte e o padding da tarja apenas em celulares */
+        @media (max-width: 480px) {
+            .tarja {
+                font-size: 13px;
+                padding: 8px 6px;
+                margin-bottom: 20px;
+            }
+        }
         h1 { color: #FF4D79; text-align: center; font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 10px; }
        .sub { text-align: center; color: #ccc; margin-bottom: 40px; }
         label { display: block; margin-top: 20px; font-weight: 600; color: #FFD166; }
