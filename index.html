@@ -270,31 +270,48 @@ header {
   </div>
 </header>
 
-<section class="hero">
-  <div class="container">
-    <h1 id="tituloPrincipal">O Presente Mais Emocionante<br><span>Da Vida de Quem Você Ama</span></h1>
-    <p id="subtituloPrincipal">Surpreenda seu amor em aniversários, datas especiais ou momentos marcantes. Uma página personalizada com a história de vocês, fotos, música e contador de tempo.</p>
-    <div class="countdown" id="countdown">
-      <div class="countdown-item"><div class="countdown-number" id="days">00</div><div class="countdown-label">Dias</div></div>
-      <div class="countdown-item"><div class="countdown-number" id="hours">00</div><div class="countdown-label">Horas</div></div>
-      <div class="countdown-item"><div class="countdown-number" id="minutes">00</div><div class="countdown-label">Min</div></div>
-      <div class="countdown-item"><div class="countdown-number" id="seconds">00</div><div class="countdown-label">Seg</div></div>
+<!-- NOVO HERO DE ALTA CONVERSÃO COM GATILHOS DA PANDA -->
+<section class="hero" style="padding: 200px 0 80px; background: var(--cinza); text-align: center; position: relative; overflow: hidden;">
+  <div class="container" style="max-width: 850px; position: relative; z-index: 2;">
+    <h1 id="tituloPrincipal" style="font-size: 3.5rem; font-weight: 800; color: var(--preto); line-height: 1.2; margin-bottom: 20px; font-family: 'Playfair Display', serif;">
+      Prepare-se para ver quem você ama<br><span style="background: var(--gradiente); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Chorar de Emoção no Celular</span>
+    </h1>
+    <p id="subtituloPrincipal" style="font-size: 1.25rem; max-width: 680px; margin: 0 auto 35px; color: #444; line-height: 1.6;">
+      Eternize sua história em menos de 2 minutos. Crie uma página digital personalizada com as melhores fotos de vocês, a trilha sonora oficial e um contador de tempo interativo ao vivo.
+    </p>
+    
+    <!-- CHAMADA DIRECIONADA ESTILO PANDA -->
+    <div style="margin-bottom: 20px;">
+      <a href="#demo" class="btn" style="padding: 20px 45px; font-size: 1.3rem; font-weight: 700; border-radius: 50px; background: var(--gradiente); box-shadow: 0 12px 30px rgba(255, 77, 121, 0.4); animation: pulse 2s infinite;">CRIAR MINHA HOMENAGEM AGORA ➔</a>
     </div>
-    <a href="demo.html" class="btn">Ver Demonstração Grátis</a>
-    <div style="margin-top:30px;display:flex;justify-content:center;align-items:center;gap:15px;flex-wrap:wrap;">
-      <div style="display:flex;margin-left:-10px;">
-        <img src="https://i.pravatar.cc/40?img=1" style="width:40px;height:40px;border-radius:50%;border:3px solid #fff;margin-left:-10px;">
-        <img src="https://i.pravatar.cc/40?img=5" style="width:40px;height:40px;border-radius:50%;border:3px solid #fff;margin-left:-10px;">
-        <img src="https://i.pravatar.cc/40?img=8" style="width:40px;height:40px;border-radius:50%;border:3px solid #fff;margin-left:-10px;">
+    
+    <div style="margin-bottom: 40px;">
+      <a href="demo.html" style="color: var(--rosa); text-decoration: none; font-weight: 600; font-size: 1rem; border-bottom: 2px dashed var(--rosa); padding-bottom: 2px;">Ou ver uma demonstração gratuita do painel 👁️</a>
+    </div>
+
+    <!-- REARANJO DO CONTADOR REGRESSIVO COM COPY MAIS AGRESSIVA -->
+    <div style="font-size: 0.9rem; font-weight: 700; color: var(--rosa-escuro); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">🚨 CRONÔMETRO DE DESCONTO EXCLUSIVO:</div>
+    <div class="countdown" id="countdown" style="display: flex; justify-content: center; gap: 15px; margin: 0 auto 40px;">
+      <div class="countdown-item" style="background: var(--branco); padding: 15px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.06); min-width: 80px;"><div class="countdown-number" id="days" style="font-size: 2rem; font-weight: 700; color: var(--preto);">00</div><div class="countdown-label" style="font-size: 0.75rem; color: #777;">Dias</div></div>
+      <div class="countdown-item" style="background: var(--branco); padding: 15px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.06); min-width: 80px;"><div class="countdown-number" id="hours" style="font-size: 2rem; font-weight: 700; color: var(--preto);">00</div><div class="countdown-label" style="font-size: 0.75rem; color: #777;">Horas</div></div>
+      <div class="countdown-item" style="background: var(--branco); padding: 15px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.06); min-width: 80px;"><div class="countdown-number" id="minutes" style="font-size: 2rem; font-weight: 700; color: var(--preto);">00</div><div class="countdown-label" style="font-size: 0.75rem; color: #777;">Min</div></div>
+      <div class="countdown-item" style="background: var(--branco); padding: 15px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.06); min-width: 80px;"><div class="countdown-number" id="seconds" style="font-size: 2rem; font-weight: 700; color: var(--rosa);">00</div><div class="countdown-label" style="font-size: 0.75rem; color: #777;">Seg</div></div>
+    </div>
+    
+    <!-- PROVA SOCIAL FORMATADA -->
+    <div style="display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap;">
+      <div style="display: flex; margin-left: 10px;">
+        <img src="https://i.pravatar.cc/40?img=1" style="width: 40px; height: 40px; border-radius: 50%; border: 3px solid #fff; margin-left: -12px; object-fit: cover;">
+        <img src="https://i.pravatar.cc/40?img=5" style="width: 40px; height: 40px; border-radius: 50%; border: 3px solid #fff; margin-left: -12px; object-fit: cover;">
+        <img src="https://i.pravatar.cc/40?img=8" style="width: 40px; height: 40px; border-radius: 50%; border: 3px solid #fff; margin-left: -12px; object-fit: cover;">
       </div>
-      <div style="text-align:left;">
-  <div style="color:#FFD166;font-weight:700;">+127 casais</div>
-  <div style="font-size:14px;color:#555;">já se declararam este mês</div>
-</div>
+      <div style="text-align: left;">
+        <div style="color: var(--rosa-escuro); font-weight: 700; font-size: 1.05rem;">🔥 +1.480 homenagens criadas</div>
+        <div style="font-size: 14px; color: #555; font-weight: 500;">Páginas geradas e aprovadas com sucesso nesta semana.</div>
+      </div>
     </div>
   </div>
 </section>
-
 <section style="padding:80px 0;background:#0a0a0a;">
   <div class="container">
     <h2 style="color:#fff;font-size:2.5rem;margin-bottom:50px;text-align:center;font-family:'Playfair Display',serif;">Quem fez, se emocionou</h2>
