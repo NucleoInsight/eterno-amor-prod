@@ -662,9 +662,14 @@ function aplicarModoSazonalPagina() {
     const modo = urlParams.get('modo');
     if (!modo) return;
 
+    const hoje = new Date();
+    const dia = String(hoje.getDate()).padStart(2, '0');
+    const mes = String(hoje.getMonth() + 1).padStart(2, '0');
+    const dataFormatada = dia + '/' + mes;
+
     const bancoModos = {
         maternidade: {
-            tarja: '👶 ESPECIAL DIA DAS MÃES: Eternize a história de amor mais pura que existe!',
+            tarja: `👶 Apenas hoje, ${dataFormatada}: Especial Dia das Mães com 50% OFF. Garanta sua homenagem!`,
             titulo: 'O Presente Mais Emocionante<br><span>Para a Mãe Mais Especial do Mundo</span>',
             subtitulo: 'Surpreenda sua mãe ou a mãe dos seus filhos com uma página exclusiva. Uma linda linha do tempo com fotos, música emocionante e o contador de dias desde o nascimento.',
             formTitulo: 'Digite o nome da mãe e filho(a):',
@@ -675,7 +680,7 @@ function aplicarModoSazonalPagina() {
             previewCoracao: '👶'
         },
         pet: {
-            tarja: '🐾 ESPAÇO PET: Guarde para sempre as melhores memórias do seu parceiro de patas!',
+            tarja: `🐾 Apenas hoje, ${dataFormatada}: Todos os planos Pet com 50% OFF. Eternize seu amigo peludo!`,
             titulo: 'Uma Homenagem Eterna<br><span>Para o Seu Melhor Amigo Peludo</span>',
             subtitulo: 'Crie uma página exclusiva com a história do seu pet, fotos dos momentos mais divertidos, música e o contador de tempo desde que ele chegou para alegrar a sua vida.',
             formTitulo: 'Digite o nome do dono & pet:',
@@ -686,7 +691,7 @@ function aplicarModoSazonalPagina() {
             previewCoracao: '🐾'
         },
         luto: {
-            tarja: '🕊️ MEMORIAL ETERNO: Transforme a dor da saudade em uma lembrança eterna.',
+            tarja: `🕊️ Apenas hoje, ${dataFormatada}: Memorial digital com 50% OFF. Guarde as melhores lembranças.`,
             titulo: 'Um Espaço de Amor e Respeito<br><span>Para Quem Deixou Saudades Eternas</span>',
             subtitulo: 'Crie um memorial digital privado para manter vivas as fotos, histórias, músicas prediletas e as recordações de quem você ama e que agora descansa em paz.',
             formTitulo: 'Preencha os dados do memorial:',
@@ -697,7 +702,7 @@ function aplicarModoSazonalPagina() {
             previewCoracao: '🕊️'
         },
         amizade: {
-            tarja: '⭐ DIA DO AMIGO: Mostre para sua metade de alma o quanto ela é importante!',
+            tarja: `⭐ Apenas hoje, ${dataFormatada}: Dia do Amigo com 50% OFF. Surpreenda sua dupla favorita!`,
             titulo: 'A Página Oficial da Internet<br><span>Para a Sua Melhor Dupla de Aventuras</span>',
             subtitulo: 'Surpreenda seu melhor amigo ou amiga com uma página personalizada. Guarde as fotos dos micos, viagens, a trilha sonora oficial de vocês e o contador da amizade.',
             formTitulo: 'Digite o nome da dupla de amigos:',
@@ -708,7 +713,7 @@ function aplicarModoSazonalPagina() {
             previewCoracao: '⭐'
         },
         aniversario: {
-            tarja: '🎂 ANIVERSÁRIO DE VIDA: O presente que não quebra, não murcha e emociona de verdade!',
+            tarja: `🎂 Apenas hoje, ${dataFormatada}: Desconto de 50% OFF especial para Aniversários!`,
             titulo: 'Uma Linha do Tempo Linda<br><span>Para Celebrar Mais Um Ano de Vida</span>',
             subtitulo: 'Faça uma surpresa inesquecível de aniversário para pais, filhos ou amigos. Uma página dedicada a contar a história, rever fotos antigas e celebrar essa data especial.',
             formTitulo: 'Preencha o aniversariante:',
@@ -719,7 +724,7 @@ function aplicarModoSazonalPagina() {
             previewCoracao: '🎂'
         },
         casamento: {
-            tarja: '💍 BODAS E CASAMENTOS: Eternize a data em que o felizes para sempre começou.',
+            tarja: `💍 Apenas hoje, ${dataFormatada}: Edição de Casamento e Bodas com 50% OFF total!`,
             titulo: 'A História do Nosso "Sim"<br><span>Guardada de Forma Perfeita na Internet</span>',
             subtitulo: 'Eternize o dia do seu casamento ou comemore suas Bodas de forma única. Coloque fotos do grande dia, a música da entrada dos noivos e o contador do casamento em tempo real.',
             formTitulo: 'Digite o nome dos noivos:',
@@ -734,7 +739,6 @@ function aplicarModoSazonalPagina() {
     const config = bancoModos[modo];
     if (!config) return;
 
-    // Aplica as alterações de texto de forma cirúrgica na tela do index.html
     const txtTarja = document.getElementById('textoTarja');
     const titPrincipal = document.getElementById('tituloPrincipal');
     const subPrincipal = document.getElementById('subtituloPrincipal');
@@ -743,7 +747,7 @@ function aplicarModoSazonalPagina() {
     const inp2 = document.getElementById('nome2');
     const previewEmoji = document.querySelector('.heart-pulse');
 
-    if (txtTarja) txtTarja.innerText = config.tarja;
+    if (txtTarja) txtTarja.innerHTML = config.tarja;
     if (titPrincipal) titPrincipal.innerHTML = config.titulo;
     if (subPrincipal) subPrincipal.innerText = config.subtitulo;
     if (formH3) formH3.innerText = config.formTitulo;
@@ -751,13 +755,11 @@ function aplicarModoSazonalPagina() {
     if (inp2) inp2.placeholder = config.placeholder2;
     if (previewEmoji) previewEmoji.innerText = config.previewCoracao;
 
-    // Altera dinamicamente a primeira pergunta do FAQ para encaixar no contexto
     const primeiraPergunta = document.querySelector('.faq-question');
     const primeiraResposta = document.querySelector('.faq-answer');
     if (primeiraPergunta) primeiraPergunta.innerHTML = config.faq1_q + ' <span>+</span>';
     if (primeiraResposta) primeiraResposta.innerText = config.faq1_a;
 
-    // Força a atualização do mockup do telefone na tela com os novos nomes placeholder
     if (inp1 && inp2) {
         inp1.value = config.placeholder1;
         inp2.value = config.placeholder2;
