@@ -80,8 +80,19 @@
        .grupo-foto { border: 1px dashed #444; padding: 15px; border-radius: 8px; margin-top: 10px; }
 
         /* ALTERAÇÃO 2: TIMER COM URGÊNCIA */
-       .contador-demo { font-size: 1.5rem; color: #FFD166; text-align: center; margin: 20px 0; font-weight: 700; }
-       .timer-urgente { color: #d32f2f; animation: pulse 1s infinite; }
+       /* ALTERAÇÃO 2: TIMER COM URGÊNCIA (FIXO PARA MOBILE) */
+        .contador-demo { 
+            font-size: 1.3rem; 
+            color: #FFD166; 
+            text-align: center; 
+            margin: 20px 0; 
+            font-weight: 700; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            gap: 5px;
+        }
+        .timer-urgente { color: #d32f2f; animation: pulse 1s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 
         /* ALTERAÇÃO 3: BOTÃO PREÇO ÚNICO */
