@@ -562,6 +562,7 @@
                     document.getElementById('data').value = d.data || '';
                     document.getElementById('mensagem').value = d.mensagem || '';
                     document.getElementById('musica').value = d.musica || '';
+                    if (d.musica) document.getElementById('dicaMusicaStatus').innerHTML = `✅ <strong>Música definida.</strong>`;
                     for (let i = 1; i <= 10; i++) {
                         const fotoEl = document.getElementById(`foto${i}`);
                         if (fotoEl && d[`foto${i}`]) {
