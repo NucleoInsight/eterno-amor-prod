@@ -605,13 +605,28 @@
         };
 
         // FUNÇÃO QUE CAPTURA O CLIQUE DA MÚSICA DE FORMA ULTRA ESTÁVEL
-        window.selecionarMusicaEstavel = function(urlMontada, tituloCompleto) {
+        window.selecionarMusica = function(urlMontada, tituloCompleto, elemento) {
             document.getElementById('musica').value = urlMontada;
-
             const status = document.getElementById('dicaMusicaStatus');
-            status.innerHTML = `✅ <strong>Música Definida:</strong> <span style="color:#25D366;">${tituloCompleto}</span>`;
-            status.style.color = '#fff';
+            
+            // Feedback visual no status
+            status.innerHTML = `
+                <div style="background: #1a2e1f; border: 1px solid #25D366; color: #25D366; padding: 10px; border-radius: 8px; margin-top: 10px;">
+                    ✅ <strong>Música Definida:</strong> ${tituloCompleto}
+                </div>`;
 
+            // Aplica o destaque verde no botão que foi clicado
+            const todosResultados = document.querySelectorAll('#resultadosMusicaContainer > div');
+            todosResultados.forEach(div => {
+                div.style.borderColor = '#333';
+                div.style.background = '#1a1a1a';
+            });
+            if (elemento) {
+                elemento.style.borderColor = '#25D366';
+                elemento.style.background = 'rgba(37, 211, 102, 0.1)';
+            }
+
+            // Confirmação visual na lista
             document.getElementById('resultadosMusicaContainer').innerHTML = `
                 <div style="display: flex; align-items: center; gap: 12px; background: rgba(37, 211, 102, 0.1); border: 2px solid #25D366; padding: 12px; border-radius: 8px;">
                     <span style="font-size: 20px;">✅</span>
