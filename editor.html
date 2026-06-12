@@ -57,10 +57,13 @@
             <div class="tarja">✓ ACESSO LIBERADO - Plano <span id="nomePlano"></span></div>
 
             <h1>Quase lá! Finalize sua declaração 💌</h1>
-            <p class="sub">Capricha nos detalhes. É isso que ele(a) vai ver pra sempre. Link: <strong id="mostraId"></strong></p>
+            <p class="sub">Link: <strong id="mostraId"></strong></p>
 
-           <!-- NOVO CAMPO DE SELEÇÃO DE TEMA (FICA OCULTO POR PADRÃO E O JS LIBERA PARA PLANOS COMPLETO/VITALÍCIO) -->
-           <div id="containerTema" class="passo-quiz">
+            <div style="width: 100%; height: 8px; background: #222; border-radius: 4px; margin-bottom: 35px; overflow: hidden;">
+                <div id="barraProgresso" style="width: 20%; height: 100%; background: linear-gradient(135deg, #FF4D79 0%, #FF8C42 100%); transition: width 0.4s ease;"></div>
+            </div>
+
+            <div id="containerTema" class="passo-quiz oculto">
                 <label for="temaAtivo">Escolha o Tema da sua Página:</label>
                 <select id="temaAtivo" onchange="montarTela()">
                     <option value="casal">♥ Casal (Tradicional)</option>
@@ -121,13 +124,14 @@
                 <button type="button" onclick="mudarPasso(1)">Avançar ➔</button>
             </div>
 
-            <div class="grupo-foto">
-                <!-- Blocos de foto são gerados dinamicamente pelo JS -->
+            <div class="passo-quiz" id="passo5" style="display: none;">
+                <div class="grupo-foto"></div>
+                <button id="btnSalvar" onclick="salvar()">⭐ Finalizar e Salvar</button>
+                <br><button type="button" class="btn-secundario" onclick="mudarPasso(-1)">Voltar</button>
             </div>
-            <button id="btnSalvar" onclick="salvar()">Salvar e Publicar Homenagem</button>
 
             <div class="preview-box">
-                <h3>Preview em tempo real:</h3>
+                <h3>Visualização ao vivo (Preview):</h3>
                 <p><strong>Casal:</strong> <span id="pNomes">---</span></p>
                 <p><strong>Juntos há:</strong> <span id="pTempo">---</span></p>
                 <div class="contador-demo" id="pContador"></div>
