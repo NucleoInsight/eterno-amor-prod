@@ -475,9 +475,11 @@
             } catch (e) { console.log(e); }
         };
 
-        window.salvar = async function() {
+       window.salvar = async function() {
             const btn = document.getElementById('btnSalvar');
-            btn.disabled = true; btn.innerText = 'Salvando...';
+            btn.disabled = true; 
+            btn.innerText = 'Salvando...';
+
             const dados = {
                 nomes: document.getElementById('nomes').value,
                 data: document.getElementById('data').value,
@@ -487,9 +489,25 @@
                 publicado: true,
                 atualizadoEm: serverTimestamp()
             };
-            await setDoc(doc(db, 'homenagens', id), dados, { merge: true });
-            alert('Homenagem publicada!');
-            window.location.href = `h.html?id=${id}&criador=true`;
+
+            // LOOP OBRIGATÓRIO PARA AS 10 FOTOS
+            for (let i = 1; i <= 10; i++) {
+                const fotoEl = document.getElementById(`foto${i}`);
+                if (fotoEl && fotoEl.value) {
+                    dados[`foto${i}`] = fotoEl.value;
+                }
+            }
+
+            try {
+                await setDoc(doc(db, 'homenagens', id), dados, { merge: true });
+                alert('Homenagem publicada com sucesso! 🎉');
+                window.location.href = `h.html?id=${id}&criador=true`;
+            } catch (e) {
+                console.error("Erro ao salvar:", e);
+                alert("Erro ao salvar. Tente novamente.");
+                btn.disabled = false;
+                btn.innerText = '⭐ Finalizar e Salvar';
+            }
         };
 
         // EVENTOS DE PREVIEW
@@ -497,7 +515,7 @@
         document.getElementById('data').addEventListener('input', () => window.atualizarPreview());
         document.getElementById('musica').addEventListener('input', () => window.atualizarPreview());
 
-        // INICIALIZAÇÃO - Ajuste este trecho final
+        // INICIALIZAÇÃO
         window.verificarAcesso = verificarAcesso; 
         window.verificarAcesso();
     </script>
