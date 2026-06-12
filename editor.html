@@ -442,6 +442,30 @@
             } catch (e) { console.log(e); }
         }
 
+        window.buscarMusicaYouTube = function() {
+            const termo = document.getElementById('buscaMusicaInput').value;
+            const cb = 'yt_' + Date.now();
+            
+            window[cb] = (d) => { 
+                document.getElementById('resultadosMusicaContainer').innerHTML = d[1].map(s => {
+                    // Aqui salvamos o título, mas no h.html podemos converter isso
+                    return `<div style="background:#222; padding:10px; margin:5px 0; cursor:pointer; border:1px solid #333;" 
+                            onclick="window.selecionarMusica('${s[0].replace(/'/g, "\\'")}')">${s[0]}</div>`;
+                }).join(''); 
+                delete window[cb]; 
+            };
+            
+            const s = document.createElement('script');
+            s.src = `https://suggestqueries.google.com/complete/search?client=youtube&ds=yt&q=${encodeURIComponent(termo)}&callback=${cb}`;
+            document.head.appendChild(s);
+        };
+
+        window.selecionarMusica = function(titulo) {
+            document.getElementById('musica').value = titulo;
+            document.getElementById('dicaMusicaStatus').innerHTML = `✅ <strong>Música:</strong> ${titulo}`;
+            window.atualizarPreview();
+        };
+        
         window.salvar = async function() {
             const btn = document.getElementById('btnSalvar');
             btn.disabled = true;
