@@ -24,6 +24,18 @@
      .preview-box { background: #1a1a1a; border: 1px solid #333; padding: 25px; border-radius: 12px; margin-top: 30px; }
      .preview-box h3 { color: #FF4D79; margin-bottom: 15px; font-family: 'Playfair Display', serif; }
      .grupo-foto { border: 1px dashed #444; padding: 15px; border-radius: 8px; margin-top: 10px; }
+     .grupo-foto img { 
+         transition: all 0.3s ease; 
+         animation: fadeIn 0.5s ease;
+     }
+     .grupo-foto img:hover { 
+         transform: scale(1.05); 
+         box-shadow: 0 5px 15px rgba(255,77,121,0.4);
+     }
+     @keyframes fadeIn {
+         from { opacity: 0; transform: scale(0.9); }
+         to { opacity: 1; transform: scale(1); }
+     }
      .contador-demo { font-size: 1.5rem; color: #FF4D79; text-align: center; margin: 20px 0; font-weight: 700; }
      .erro { background: #d32f2f; padding: 15px; border-radius: 8px; text-align: center; margin-bottom: 20px; }
      .oculto { display: none; }
@@ -36,20 +48,43 @@
             Este link não foi liberado ou expirou. Entre em contato com o suporte.
         </div>
 
+        <div id="telaBloqueioEdicao" class="erro oculto" style="background: #FF8C42;">
+            <strong>Homenagem já Publicada! 🔒</strong><br>
+            Seu plano (Essencial/Completo) não permite edições após a publicação. Sua página continua no ar normalmente! Para fazer alterações futuras, faça um upgrade para o plano Vitalício com o suporte.
+        </div>
+
         <div id="telaEditor" class="oculto">
             <div class="tarja">✓ ACESSO LIBERADO - Plano <span id="nomePlano"></span></div>
 
             <h1>Quase lá! Finalize sua declaração 💌</h1>
             <p class="sub">Capricha nos detalhes. É isso que ele(a) vai ver pra sempre. Link: <strong id="mostraId"></strong></p>
 
-            <label>Nome de vocês dois:</label>
+           <!-- NOVO CAMPO DE SELEÇÃO DE TEMA (FICA OCULTO POR PADRÃO E O JS LIBERA PARA PLANOS COMPLETO/VITALÍCIO) -->
+            <div id="containerTema" class="oculto">
+                <label for="temaAtivo">Escolha o Tema da sua Página:</label>
+                <select id="temaAtivo" onchange="montarTela()">
+                    <option value="casal">♥ Casal (Tradicional)</option>
+                    <option value="maternidade">👶 Maternidade</option>
+                    <option value="amizade">⭐ Amizade</option>
+                    <option value="luto">🕊️ Luto (Memória e Saudade)</option>
+                    <option value="pet">🐾 Pet</option>
+                    <option value="aniversario">🎂 Aniversário</option>
+                    <option value="casamento">💍 Casamento</option>
+                    <option value="viagem">✈️ Viagem</option>
+                    <option value="conquista">🎓 Conquista / Formatura</option>
+                </select>
+                <div class="dica">O tema altera as cores, os textos e os emojis da página automaticamente!</div>
+            </div>
+
+            <!-- IDENTIFICADORES ÚNICOS COM ID PARA O JAVASCRIPT NUNCA MAIS EMBALHARAR OU INVERTER OS CAMPOS -->
+            <label id="labelNome" for="nomes">Nome de vocês dois:</label>
             <input type="text" id="nomes" placeholder="Ex: Gil e Maria ou Gil & Maria">
-            <div class="dica">Pode ser: Gil e Maria, Gil & Maria, Gil + Maria</div>
+            <div id="dicaNome" class="dica">Pode ser: Gil e Maria, Gil & Maria, Gil + Maria</div>
 
-            <label>Data que começaram:</label>
-            <input type="date" id="data">
+            <label id="labelData" for="data">Data que começaram:</label>
+            <input type="text" id="data" placeholder="DD/MM/AAAA" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/^(\d{2})(\d)/, '$1/$2').replace(/^(\d{2})\/(\d{2})(\d)/, '$1/$2/$3')">
 
-            <label>Sua Mensagem de Amor:</label>
+            <label id="labelMensagem">Escreva o que sente por ele(a):</label>
             <select id="modeloMsg">
                 <option value="">Escolha um modelo ou escreva a sua</option>
                 <option value="romantico">Romântico Clássico</option>
@@ -67,32 +102,8 @@
             </div>
 
             <div class="grupo-foto">
-                <label>Fotos do Casal: <span id="limiteFotos"></span></label>
-
-                <div id="blocoFoto1">
-                    <input type="file" id="uploadFoto1" accept="image/*" style="display:none" onchange="enviarFoto(this, 'foto1')">
-                    <button type="button" class="btn-secundario" onclick="document.getElementById('uploadFoto1').click()">📷 Adicionar Foto 1</button>
-                    <input type="hidden" id="foto1">
-                    <div id="preview1" class="dica"></div>
-                </div>
-
-                <div id="blocoFoto2">
-                    <input type="file" id="uploadFoto2" accept="image/*" style="display:none" onchange="enviarFoto(this, 'foto2')">
-                    <button type="button" class="btn-secundario" onclick="document.getElementById('uploadFoto2').click()">📷 Adicionar Foto 2</button>
-                    <input type="hidden" id="foto2">
-                    <div id="preview2" class="dica"></div>
-                </div>
-
-                <div id="blocoFoto3">
-                    <input type="file" id="uploadFoto3" accept="image/*" style="display:none" onchange="enviarFoto(this, 'foto3')">
-                    <button type="button" class="btn-secundario" onclick="document.getElementById('uploadFoto3').click()">📷 Adicionar Foto 3</button>
-                    <input type="hidden" id="foto3">
-                    <div id="preview3" class="dica"></div>
-                </div>
-
-                <div class="dica" style="margin-top:15px;">Clique no botão e escolha da sua galeria.</div>
+                <!-- Blocos de foto são gerados dinamicamente pelo JS -->
             </div>
-
             <button id="btnSalvar" onclick="salvar()">Salvar e Publicar Homenagem</button>
 
             <div class="preview-box">
@@ -155,62 +166,240 @@
             document.getElementById('telaErro').classList.remove('oculto');
         }
 
-        function montarTela() {
+         function montarTela() {
+            document.getElementById('telaErro').classList.add('oculto');
             document.getElementById('telaEditor').classList.remove('oculto');
-            document.getElementById('nomePlano').innerText = dadosPlano.plano.toUpperCase();
+            
+            // Tratamento de segurança para links e cadastros antigos (legados) do banco de dados
+            let planoAtual = dadosPlano.plano || 'essencial';
+            let temaAtual = dadosPlano.tema || 'casal';
+            
+            const listaTemasLegado = ['maternidade', 'amizade', 'luto', 'pet', 'aniversario', 'casamento', 'viagem', 'conquista'];
+            if (listaTemasLegado.includes(planoAtual)) {
+                temaAtual = planoAtual;
+                planoAtual = 'vitalicio';
+            }
+            
+            document.getElementById('nomePlano').innerText = planoAtual.toUpperCase();
 
-            // Limita fotos pelo plano
-            const limite = dadosPlano.limites.fotos;
-            document.getElementById('limiteFotos').innerText = `(Máx: ${limite} foto${limite > 1? 's' : ''})`;
+            // VERIFICA SE O PLANO DÁ DIREITO À SELEÇÃO DE TEMAS E EXIBE O MENU
+            if (planoAtual === 'completo' || planoAtual === 'vitalicio' || planoAtual === 'marketing') {
+                const containerTema = document.getElementById('containerTema');
+                if (containerTema) {
+                    containerTema.classList.remove('oculto');
+                }
+                
+                // SE O CLIENTE JÁ MUDOU O TEMA NA TELA, USAMOS O DELE. SE NÃO, SELECIONAMOS O DO BANCO.
+                const selectTema = document.getElementById('temaAtivo');
+                if (selectTema) {
+                    if (selectTema.value) {
+                        temaAtual = selectTema.value;
+                    } else {
+                        selectTema.value = temaAtual;
+                    }
+                }
+            }
+              
+            // USA LIMITES QUE VÊM DO FIREBASE - ADMIN É A FONTE DA VERDADE
+            const limites = dadosPlano.limites || { fotos: 1, musica: false, qr: false, edicao: false };
 
-            if (limite < 2) document.getElementById('blocoFoto2').style.display = 'none';
-            if (limite < 3) document.getElementById('blocoFoto3').style.display = 'none';
+          // Configuração inteligente das instruções textuais baseada no TEMA ativo de forma independente do plano
+            const labelsModos = {
+                maternidade: { titulo: 'Nome da Mãe e Filho(a):', data: 'Data de Nascimento:', placeholder: 'Ex: Maria e Levy', dica: '⚠️ Coloque SEU nome primeiro para a mensagem automática ser gerada corretamente.', labelFotos: 'Fotos do Filho(a) ou Família:' },
+                amizade: { titulo: 'Nome dos Amigos:', data: 'Data do Início da Amizade:', placeholder: 'Ex: Ana e Beatriz', dica: '⚠️ Coloque SEU nome primeiro para a mensagem automática ser gerada corretamente.', labelFotos: 'Fotos de Vocês:' },
+                luto: { titulo: 'Nome de Quem Deixou Saudades:', data: 'Data de Nascimento ou Partida:', placeholder: 'Ex: Vovô Carlos', dica: 'Escreva o nome de quem você deseja homenagear nesta página.', labelFotos: 'Fotos de Lembrança:' },
+                pet: { titulo: 'Nome do Dono & do Bichinho:', data: 'Data que o Pet chegou na sua vida:', placeholder: 'Ex: Gil e Rex', dica: '⚠️ Coloque SEU nome primeiro e o do Pet depois (Ex: Gil e Rex) para a mensagem fazer sentido.', labelFotos: 'Fotos do seu Pet:' },
+                aniversario: { titulo: 'Nome do Aniversariante:', data: 'Data de Nascimento:', placeholder: 'Ex: Lucas 15 Anos', dica: 'Escreva o nome de quem está fazendo aniversário.', labelFotos: 'Fotos das Recordações:' },
+                casamento: { titulo: 'Nome dos Noivos/Casal:', data: 'Data do Casamento/Bodas:', placeholder: 'Ex: Gil e Maria', dica: '⚠️ Coloque SEU nome primeiro para a mensagem automática ser gerada corretamente.', labelFotos: 'Fotos do Grande Dia:' },
+                viagem: { titulo: 'Destino ou Nome dos Viajantes:', data: 'Data da Viagem:', placeholder: 'Ex: Eurotrip 2026', dica: 'Escreva o destino ou o nome de quem viajou.', labelFotos: 'Fotos da Aventura:' },
+                conquista: { titulo: 'Nome do Conquistador/Formando:', data: 'Data da Conquista/Formatura:', placeholder: 'Ex: Dra. Amanda - OAB', dica: 'Escreva o nome de quem alcançou essa grande vitória.', labelFotos: 'Fotos da Vitória:' }
+            };
 
-            // Bloqueia música se não tiver no plano
-            if (!dadosPlano.limites.musica) {
+            let textoLabelFotos = 'Fotos do Casal:';
+
+            // Captura os elementos de texto da tela para atualizar dinamicamente
+            const labelNome = document.querySelector('label[for="nomes"]') || document.getElementsByTagName('label')[1];
+            const labelData = document.querySelector('label[for="data"]') || document.getElementsByTagName('label')[2];
+            const inputNomes = document.getElementById('nomes');
+            const divDica = document.querySelector('.dica');
+
+            if (labelsModos[temaAtual]) {
+                const config = labelsModos[temaAtual];
+                if (labelNome) labelNome.innerText = config.titulo;
+                if (labelData) labelData.innerText = config.data;
+                if (inputNomes) inputNomes.placeholder = config.placeholder;
+                if (divDica) divDica.innerHTML = config.dica;
+                textoLabelFotos = config.labelFotos;
+            } else {
+                // Configuração padrão para o modo casal tradicional
+                if (labelNome) labelNome.innerText = 'Nome de vocês dois:';
+                if (inputNomes) inputNomes.placeholder = 'Ex: Gil e Maria';
+                if (divDica) divDica.innerHTML = '⚠️ Coloque SEU nome primeiro para a mensagem automática ser gerada corretamente.';
+                textoLabelFotos = 'Fotos do Casal:';
+            }
+              
+            // GERA BLOCOS DE FOTO DINÂMICOS BASEADO NO LIMITE DO PLANO COMPRADO
+            const containerFotos = document.querySelector('.grupo-foto');
+            let htmlFotos = `<label>${textoLabelFotos} <span id="limiteFotos">(Máx: ${limites.fotos} foto${limites.fotos > 1 ? 's' : ''})</span></label>`;
+            
+            for (let i = 1; i <= limites.fotos && i <= 15; i++) {
+                htmlFotos += `
+                    <div id="blocoFoto${i}" style="margin-top:10px;">
+                        <input type="file" id="uploadFoto${i}" accept="image/*" style="display:none" onchange="enviarFoto(this, 'foto${i}')">
+                        <button type="button" class="btn-secundario" onclick="document.getElementById('uploadFoto${i}').click()">📷 Adicionar Foto ${i}</button>
+                        <input type="hidden" id="foto${i}">
+                        <div id="preview${i}" class="dica"></div>
+                    </div>
+                `;
+            }
+            htmlFotos += '<div class="dica" style="margin-top:15px;">Clique no botão e escolha da sua galeria.</div>';
+            containerFotos.innerHTML = htmlFotos;
+
+            // BLOQUEIA MÚSICA SE NÃO TIVER NO PLANO COMPRADO
+            if (!limites.musica) {
                 document.getElementById('campoMusica').style.display = 'none';
             }
 
-            // Carrega dados se já existir
+            // AVISO DE EDIÇÃO BASEADO UNICAMENTE DO CONTROLE DE LIMITES DO PLANO
+            if (!limites.edicao && planoAtual !== 'vitalicio' && planoAtual !== 'marketing') {
+                document.getElementById('btnSalvar').innerText = 'Salvar e Publicar (sem edição depois)';
+            }
+
             carregarDadosSalvos();
         }
+
+        // PONTE QUE LIBERA A FUNÇÃO PARA O MENU HTML ENXERGAR SEM BLOQUEIO DO NAVEGADOR
+        window.montarTela = montarTela;
 
         // Preview ao vivo
         document.getElementById('nomes').addEventListener('input', atualizarPreview);
         document.getElementById('data').addEventListener('input', atualizarPreview);
         document.getElementById('musica').addEventListener('input', atualizarPreview);
 
-        function atualizarPreview() {
+       function atualizarPreview() {
             const nomes = document.getElementById('nomes').value || '---';
             const data = document.getElementById('data').value;
             const musica = document.getElementById('musica').value;
 
-            document.getElementById('pNomes').innerText = nomes;
-
-            if (data) {
-                const inicio = new Date(data);
-                const agora = new Date();
-                let anos = agora.getFullYear() - inicio.getFullYear();
-                let meses = agora.getMonth() - inicio.getMonth();
-                let dias = agora.getDate() - inicio.getDate();
-
-                if (dias < 0) { meses--; dias += 30; }
-                if (meses < 0) { anos--; meses += 12; }
-
-                document.getElementById('pTempo').innerText = `${anos} anos, ${meses} meses e ${dias} dias`;
-                document.getElementById('pContador').innerText = `♥ ${Math.floor((agora - inicio) / (1000 * 60 * 60 * 24))} dias de amor ♥`;
-            } else {
-                document.getElementById('pTempo').innerText = '---';
-                document.getElementById('pContador').innerText = '';
+            // Mapeamento dinâmico de labels para o Preview em tempo real de acordo com o tema
+            let temaAtual = dadosPlano?.tema || 'casal';
+            let planoAtual = dadosPlano?.plano || 'essencial';
+            
+            const listaTemasLegado = ['maternidade', 'amizade', 'luto', 'pet', 'aniversario', 'casamento', 'viagem', 'conquista'];
+            if (listaTemasLegado.includes(planoAtual)) {
+                temaAtual = planoAtual;
             }
 
-            document.getElementById('pMusica').innerText = musica? 'Música adicionada ✓' : '---';
+            // Captura o tema diretamente do seletor da tela se o usuário alterar dinamicamente
+            const selectTema = document.getElementById('temaAtivo');
+            if (selectTema && selectTema.value) {
+                temaAtual = selectTema.value;
+            }
+
+            const configsPreview = {
+                casal: { labelNome: '<strong>Casal:</strong> ', labelTempo: '<strong>Juntos há:</strong> ', emoji: '♥', texto: 'dias de amor' },
+                maternidade: { labelNome: '<strong>Mãe e Filho(a):</strong> ', labelTempo: '<strong>Idade do Filho(a):</strong> ', emoji: '👶', texto: 'dias de puro amor e gratidão' },
+                amizade: { labelNome: '<strong>Amigos:</strong> ', labelTempo: '<strong>Parceria há:</strong> ', emoji: '⭐', texto: 'dias da melhor dupla do mundo' },
+                luto: { labelNome: '<strong>Homenageado:</strong> ', labelTempo: '<strong>Tempo de Saudades:</strong> ', emoji: '🕊️', texto: 'dias guardados com carinho na memória' },
+                pet: { labelNome: '<strong>Dono & Pet:</strong> ', labelTempo: '<strong>História de Patas há:</strong> ', emoji: '🐾', texto: 'dias enchendo nossa vida de alegria' },
+                aniversario: { labelNome: '<strong>Aniversariante:</strong> ', labelTempo: '<strong>Idade:</strong> ', emoji: '🎂', texto: 'dias espalhando luz no mundo' },
+                casamento: { labelNome: '<strong>Noivos:</strong> ', labelTempo: '<strong>União há:</strong> ', emoji: '💍', texto: 'dias do nosso sim para sempre' },
+                viagem: { labelNome: '<strong>Destino/Viajantes:</strong> ', labelTempo: '<strong>Tempo da Aventura:</strong> ', emoji: '✈️', texto: 'dias colecionando memórias pelo mundo' },
+                conquista: { labelNome: '<strong>Conquistador:</strong> ', labelTempo: '<strong>Tempo da Vitória:</strong> ', emoji: '🎓', texto: 'dias de muito orgulho e vitória' },
+                marketing: { labelNome: '<strong>Marketing:</strong> ', labelTempo: '<strong>Tempo de Sucesso:</strong> ', emoji: '🚀', texto: 'dias de sucesso absoluto' }
+            };
+
+            const config = configsPreview[temaAtual] || configsPreview['casal'];
+
+            // Atualiza dinamicamente as tags de texto do HTML do Preview
+            const containerpNomes = document.getElementById('pNomes');
+            if (containerpNomes) {
+                containerpNomes.parentElement.innerHTML = `${config.labelNome}<span id="pNomes">${nomes}</span>`;
+            }
+
+            // CORREÇÃO DO CÁLCULO DO PREVIEW PARA ACEITAR O FORMATO BRASILEIRO DD/MM/AAAA SEM DAR NAN
+            if (data && data.length === 10) {
+                let inicio;
+                if (data.includes('/')) {
+                    const [diaInput, mesInput, anoInput] = data.split('/');
+                    inicio = new Date(anoInput, mesInput - 1, diaInput);
+                } else if (data.includes('-')) {
+                    const [anoInput, mesInput, diaInput] = data.split('-');
+                    inicio = new Date(anoInput, mesInput - 1, diaInput);
+                } else {
+                    inicio = new Date(data);
+                }
+
+                if (!isNaN(inicio.getTime())) {
+                    const agora = new Date();
+                    let anos = agora.getFullYear() - inicio.getFullYear();
+                    let meses = agora.getMonth() - inicio.getMonth();
+                    let dias = agora.getDate() - inicio.getDate();
+
+                    if (dias < 0) { meses--; dias += 30; }
+                    if (meses < 0) { anos--; meses += 12; }
+
+                    const txtTempo = `${anos} anos, ${meses} meses e ${dias} dias`;
+                    const containerpTempo = document.getElementById('pTempo');
+                    if (containerpTempo) {
+                        containerpTempo.parentElement.innerHTML = `${config.labelTempo}<span id="pTempo">${txtTempo}</span>`;
+                    }
+
+                    const totalDias = Math.floor((agora - inicio) / (1000 * 60 * 60 * 24));
+                    const containerpContador = document.getElementById('pContador');
+                    if (containerpContador) {
+                        containerpContador.innerText = `${config.emoji} ${totalDias} ${config.texto} ${config.emoji}`;
+                    }
+                } else {
+                    zerarCamposPreview(config);
+                }
+            } else {
+                zerarCamposPreview(config);
+            }
+
+            const containerpMusica = document.getElementById('pMusica');
+            if (containerpMusica) {
+                containerpMusica.innerText = musica ? 'Música adicionada ✓' : '---';
+            }
         }
 
-        window.gerarMensagem = function() {
+        function zerarCamposPreview(config) {
+            const containerpTempo = document.getElementById('pTempo');
+            if (containerpTempo) {
+                containerpTempo.parentElement.innerHTML = `${config.labelTempo}<span id="pTempo">---</span>`;
+            }
+            const containerpContador = document.getElementById('pContador');
+            if (containerpContador) {
+                containerpContador.innerText = '';
+            }
+        }
+
+     window.gerarMensagem = function() {
             const nomesInput = document.getElementById('nomes').value.trim();
+            
+            // DECLARA A VARIÁVEL CORRETAMENTE PARA NÃO DAR ERRO DE NOT DEFINED
+            let temaAtual = dadosPlano?.tema || 'casal';
+            
+            // CAPTURA O TEMA DIRETAMENTE DO SELETOR DA TELA PARA GERAR O TEXTO AUTOMÁTICO CORRETO
+            const selectTema = document.getElementById('temaAtivo');
+            if (selectTema && selectTema.value) {
+                temaAtual = selectTema.value;
+            }
+            
+            // Lê o tema atual do documento de forma correta e independente do plano
+            let temaAtualDoc = temaAtual;
+            let planoAtual = dadosPlano?.plano || 'essencial';
+            
+            // Proteção de segurança para links legados do banco
+            const listaTemasLegado = ['maternidade', 'amizade', 'luto', 'pet', 'aniversario', 'casamento', 'viagem', 'conquista'];
+            if (listaTemasLegado.includes(planoAtual)) {
+                temaAtual = planoAtual;
+            }
+
             if (!nomesInput) {
-                alert('Preenche o "Nome do Casal" primeiro :)');
+                if (temaAtual === 'luto') alert('Preencha o nome da pessoa homenageada primeiro :)');
+                else if (temaAtual === 'pet') alert('Preencha o nome do dono & pet primeiro :)');
+                else alert('Preencha o campo de nomes primeiro :)');
                 return;
             }
 
@@ -223,7 +412,7 @@
                 [nome1, nome2] = nomesInput.split('+').map(n => n.trim());
             } else {
                 nome1 = nomesInput;
-                nome2 = 'meu amor';
+                nome2 = 'você';
             }
 
             const modelo = document.getElementById('modeloMsg').value || 'romantico';
@@ -231,18 +420,80 @@
             let anos = '';
 
             if (data) {
-                const anosJuntos = new Date().getFullYear() - new Date(data).getFullYear();
-                anos = anosJuntos > 0? `${anosJuntos} anos` : 'algum tempo';
+                const anosCalculados = new Date().getFullYear() - new Date(data).getFullYear();
+                anos = anosCalculados > 0 ? `${anosCalculados} anos` : 'algum tempo';
             }
 
-            const mensagens = {
-                romantico: `${nome2}, desde que você entrou na minha vida tudo ganhou cor. ${anos? `Já são ${anos} de nós` : 'Cada dia ao seu lado'} é um presente. Você é meu porto seguro, meu amor pra toda vida. Te amo infinitamente, ${nome1}.`,
-                engracado: `${nome2}, obrigado por aturar minhas manias há ${anos || 'tanto tempo'}. Você é a única pessoa que eu deixo roubar minha batata frita. Que a gente continue se escolhendo todo dia, mesmo brigando pelo cobertor. Te amo, ${nome1}.`,
-                intenso: `${nome2}, você é a melhor parte de mim. ${anos? `Em ${anos}` : 'Desde que te conheci'} eu descobri que amor de verdade existe. Você me transforma, me completa, me faz querer ser melhor. Sou seu pra sempre, ${nome1}.`,
-                curto: `${nome2}, você + eu = pra sempre. Simples assim. Te amo, ${nome1}.`
-            };
+            // Banco de copys inteligentes que mudam de acordo com o TEMA ativo do painel
+            let mensagens = {};
 
-            document.getElementById('mensagem').value = mensagens[modelo];
+            if (temaAtual === 'maternidade') {
+                mensagens = {
+                    romantico: `${nome2}, você me deu o maior presente de todos. Ver nossa história e nossa família crescer é a maior bênção da minha vida. Sou grato(a) por cada segundo e por todo o seu amor incondicional. Te amo!`,
+                    engracado: `Parabéns por ser essa mãe incrível (e por aguentar choros, noites em claro e bagunças sem perder a paciência... bom, quase nunca!). Você merece um troféu e todo o amor do mundo!`,
+                    intenso: `Amor de mãe vai além do infinito. Obrigado por ser nossa rocha, nossa proteção e por nos guiar com tanta ternura e força. Sua existência preenche nossa vida de luz.`,
+                    curto: `Obrigado por ser essa mãe maravilhosa. Amor que não cabe no peito!`
+                };
+            } else if (temaAtual === 'luto') {
+                mensagens = {
+                    romantico: `${nome1}, sua partida deixou uma saudade imensa, mas as memórias dos momentos lindos que vivemos juntos ficarão guardadas para sempre no meu coração. Você continua vivo(a) em mim.`,
+                    engracado: `Recordar de você é lembrar de sorrisos, alegrias e de histórias inesquecíveis. Obrigado por ter deixado o world muito mais leve e feliz enquanto esteve por aqui. Saudade eterna.`,
+                    intenso: `O tempo passa, mas o amor e a gratidão por ter tido você na minha vida nunca vão diminuir. Você foi luz, foi força e continuará sendo minha maior inspiração. Descanse em paz.`,
+                    curto: `Guardado(a) para sempre na memória e no coração. Quanta saudade.`
+                };
+            } else if (temaAtual === 'pet') {
+                mensagens = {
+                    romantico: `Quem tem um companheiro de quatro patas como o ${nome2} sabe o que é amor puro e sincero. Obrigado por trazer tanta alegria, lambidas e festa para os meus dias!`,
+                    engracado: `O dono de casa oficial, destruidor de chinelos e ladrão de petiscos favorito! Minha rotina seria uma completa chatice sem as suas loucuras e sua companhia peluda.`,
+                    intenso: `Dizem que os animais não falam, mas o olhar do ${nome2} transmite mais amor do que qualquer palavra. Uma parceria e fidelidade que levarei para sempre na vida.`,
+                    curto: `O melhor amigo que eu poderia ter. Amor de patas!`
+                };
+            } else if (temaAtual === 'amizade') {
+                mensagens = {
+                    romantico: `${nome2}, ter sua amizade é ter a certeza de que nunca estarei sozinho(a). Obrigado por ser essa pessoa incrível, por me ouvir e por estar ao meu lado em todas as horas.`,
+                    engracado: `Uma amizade baseada em falar mal das mesmas coisas, mandar memes de madrugada e passar vergonha juntos. Obrigado por não me deixar cometer loucuras sozinho(a)!`,
+                    intenso: `Amigos são a família que a gente escolhe. Nossa conexão é rara e sou profundamente grato(a) por ter você na minha jornada. Uma parceria para a vida inteira.`,
+                    curto: `A melhor dupla que esse mundo já viu! Tamo junto pra sempre.`
+                };
+            } else if (temaAtual === 'aniversario') {
+                mensagens = {
+                    romantico: `Parabéns, ${nome1}! Que o seu dia seja repleto de sorrisos e que o novo ciclo traga ainda mais saúde, conquistas e felicidades. Celebrar a sua vida é uma grande alegria!`,
+                    engracado: `Parabéns! Mais um ano de experiência (e algumas rugas a mais, brincadeira!). Que você continue com esse espírito jovem e que nunca falte bolo e motivos pra sorrir.`,
+                    intenso: `Que sua jornada continue sendo iluminada. Você é uma pessoa especial que transforma a vida de todos ao redor. Parabéns pelo seu dia e muito sucesso sempre!`,
+                    curto: `Feliz aniversário! Que todos os seus sonhos se realizem.`
+                };
+            } else if (temaAtual === 'casamento') {
+                mensagens = {
+                    romantico: `${nome1} & ${nome2}, que o amor que uniu vocês se fortaleça a cada novo amanhecer. Que a cumplicidade, o respeito e a alegria façam morada eterna no lar de vocês. Parabéns!`,
+                    engracado: `O casamento é a arte de resolver em conjunto problemas que vocês não teriam se estivessem sozinhos! Que vocês continuem vencendo o jogo da vida em dupla. Felicidades!`,
+                    intenso: `Ver a união de vocês nos faz acreditar no amor verdadeiro. Que esta caminhada seja repleta de paciência, sabedoria e momentos inesquecíveis. Um brinde ao amor de vocês!`,
+                    curto: `Parabéns ao casal! Que o felizes para sempre seja todo dia.`
+                };
+            } else if (temaAtual === 'viagem') {
+                mensagens = {
+                    romantico: `Viajar é bom, mas desbravando o mundo ao seu lado se torna extraordinário. Cada destino vira uma história e cada foto guarda um momento inesquecível de nós dois.`,
+                    engracado: `Colecionando carimbos no passaporte, micos em aeroportos e gastando o dinheiro que a gente não tem! Que venham as próximas aventuras e boletos para pagar.`,
+                    intenso: `O mundo é grande demais para ficarmos parados. Viajar abre a nossa mente e fortalece os nossos laços. Grato(a) por dividir essa jornada de descobertas com você.`,
+                    curto: `Melhor viagem da vida com a melhor companhia. Próxima parada?`
+                };
+            } else if (temaAtual === 'conquista') {
+                mensagens = {
+                    romantico: `Parabéns por essa grande vitória! Ver o seu esforço e a sua dedicação sendo coroados com essa conquista enche meu coração de orgulho. Você merece voar alto!`,
+                    engracado: `Quem diria! Depois de muito café, noites sem dormir e desespero, o objetivo foi alcançado! Parabéns por não ter desistido e pelo sucesso de agora.`,
+                    intenso: `Essa conquista é apenas o começo de um futuro brilhante que espera por você. Sua determinação venceu os obstáculos e hoje você colhe os frutos do seu mérito. Parabéns!`,
+                    curto: `Você conseguiu! Orgulho imenso dessa conquista maravilhosa.`
+                };
+            } else {
+                // Modo Romântico Clássico / Padrão de Casal
+                mensagens = {
+                    romantico: `${nome2}, desde que você entrou na minha vida tudo ganhou cor. ${anos? `Já são ${anos} de nós` : 'Cada dia ao seu lado'} é um presente. Você é meu porto seguro, meu amor pra toda vida. Te amo infinitamente, ${nome1}.`,
+                    engracado: `${nome2}, obrigado por aturar minhas manias há ${anos || 'tanto tempo'}. Você é a única pessoa que eu deixo roubar minha batata frita. Que a gente continue se escolhendo todo dia, mesmo brigando pelo cobertor. Te amo, ${nome1}.`,
+                    intenso: `${nome2}, você é a melhor parte de mim. ${anos? `Em ${anos}` : 'Desde que te conheci'} eu descobri que amor de verdade existe. Você me transforma, me completa, me faz querer ser melhor. Sou seu pra sempre, ${nome1}.`,
+                    curto: `${nome2}, você + eu = pra sempre. Simples assim. Te amo, ${nome1}.`
+                };
+            }
+
+            document.getElementById('mensagem').value = mensagens[modelo] || mensagens['romantico'];
         }
 
         window.enviarFoto = async function(input, campoId) {
@@ -292,16 +543,27 @@
                 const docSnap = await getDoc(docRef);
                 if (docSnap.exists()) {
                     const d = docSnap.data();
+
+                   // TRAVA DE SEGURANÇA INTELIGENTE: Se já foi publicado, checa de forma segura se o plano ou o tema dão direito a reedição
+                    let planoVerificar = dadosPlano.plano || 'essencial';
+                    const planosLivres = ['vitalicio', 'marketing', 'maternidade', 'amizade', 'luto', 'pet', 'aniversario', 'casamento', 'viagem', 'conquista'];
+                    
+                    if (d.publicado === true && planoVerificar !== 'vitalicio' && planoVerificar !== 'marketing' && !planosLivres.includes(planoVerificar)) {
+                        document.getElementById('telaEditor').classList.add('oculto');
+                        document.getElementById('telaBloqueioEdicao').classList.remove('oculto');
+                        return;
+                    }
                     document.getElementById('nomes').value = d.nomes || '';
                     document.getElementById('data').value = d.data || '';
                     document.getElementById('mensagem').value = d.mensagem || '';
                     document.getElementById('musica').value = d.musica || '';
-                    document.getElementById('foto1').value = d.foto1 || '';
-                    document.getElementById('foto2').value = d.foto2 || '';
-                    document.getElementById('foto3').value = d.foto3 || '';
-                    if (d.foto1) document.getElementById('preview1').innerHTML = `✓ <img src="${d.foto1}" style="width:40px;height:40px;border-radius:4px;">`;
-                    if (d.foto2) document.getElementById('preview2').innerHTML = `✓ <img src="${d.foto2}" style="width:40px;height:40px;border-radius:4px;">`;
-                    if (d.foto3) document.getElementById('preview3').innerHTML = `✓ <img src="${d.foto3}" style="width:40px;height:40px;border-radius:4px;">`;
+                    for (let i = 1; i <= 10; i++) {
+                        const fotoEl = document.getElementById(`foto${i}`);
+                        if (fotoEl && d[`foto${i}`]) {
+                            fotoEl.value = d[`foto${i}`];
+                            document.getElementById(`preview${i}`).innerHTML = `✓ <img src="${d[`foto${i}`]}" style="width:40px;height:40px;border-radius:4px;">`;
+                        }
+                    }
                     atualizarPreview();
                 }
             } catch (e) { console.log(e); }
@@ -312,23 +574,46 @@
             btn.disabled = true;
             btn.innerText = 'Salvando...';
 
-            const dados = {
+           const dados = {
                 nomes: document.getElementById('nomes').value,
                 data: document.getElementById('data').value,
                 mensagem: document.getElementById('mensagem').value,
-                musica: document.getElementById('musica').value,
-                foto1: document.getElementById('foto1').value,
-                foto2: document.getElementById('foto2').value,
-                foto3: document.getElementById('foto3').value,
-                atualizadoEm: serverTimestamp()
+                musica: document.getElementById('musica')?.value || '',
+                atualizadoEm: serverTimestamp(),
+                publicado: true // Grava a marcação de publicado no banco de dados
             };
+            
+            // SALVA FOTOS DINAMICAMENTE
+            for (let i = 1; i <= 10; i++) {
+                const fotoEl = document.getElementById(`foto${i}`);
+                if (fotoEl) dados[`foto${i}`] = fotoEl.value || '';
+            }
 
-            if (!dados.nomes ||!dados.data ||!dados.mensagem) {
+            if (!dados.nomes || !dados.data || !dados.mensagem) {
                 alert('Preenche pelo menos: Nome, Data e Mensagem');
                 btn.disabled = false;
                 btn.innerText = 'Salvar e Publicar Homenagem';
                 return;
             }
+
+            // Mapeamento e tratamento de segurança para salvar temas e planos separados
+            let planoSalvar = dadosPlano?.plano || 'essencial';
+            let temaSalvar = dadosPlano?.tema || 'casal';
+            
+            // CAPTURA O TEMA ATUALIZADO DO SELETOR DA TELA ANTES DE GRAVAR NO FIREBASE
+            const selectTemaSalvar = document.getElementById('temaAtivo');
+            if (selectTemaSalvar && selectTemaSalvar.value) {
+                temaSalvar = selectTemaSalvar.value;
+            }
+            
+            const listaTemasLegado = ['maternidade', 'amizade', 'luto', 'pet', 'aniversario', 'casamento', 'viagem', 'conquista'];
+            if (listaTemasLegado.includes(planoSalvar)) {
+                temaSalvar = planoSalvar;
+                planoSalvar = 'vitalicio';
+            }
+
+            dados.plano = planoSalvar;
+            dados.tema = temaSalvar;
 
             try {
                 await setDoc(doc(db, 'homenagens', id), dados, { merge: true });
@@ -340,7 +625,6 @@
                 btn.innerText = 'Salvar e Publicar Homenagem';
             }
         }
-
         verificarAcesso();
     </script>
 </body>
