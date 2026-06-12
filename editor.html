@@ -669,9 +669,12 @@
             document.head.appendChild(script);
         };
 
-        window.selecionarMusica = function(url, titulo, elemento) {
-            document.getElementById('musica').value = url;
-            document.getElementById('dicaMusicaStatus').innerHTML = `✅ <strong>Música:</strong> ${titulo}`;
+       window.selecionarMusica = function(url, titulo, elemento) {
+            // Converte a busca para um link direto de vídeo para o player do h.html funcionar
+            const linkDireto = `https://www.youtube.com/watch?v=${encodeURIComponent(titulo)}`;
+            
+            document.getElementById('musica').value = linkDireto;
+            document.getElementById('dicaMusicaStatus').innerHTML = `✅ <strong>Música definida:</strong> ${titulo}`;
             document.getElementById('resultadosMusicaContainer').innerHTML = '';
             window.atualizarPreview();
         };
