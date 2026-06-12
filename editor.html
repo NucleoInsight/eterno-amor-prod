@@ -237,6 +237,36 @@
         // PONTE QUE LIBERA A FUNÇÃO PARA O MENU HTML ENXERGAR SEM BLOQUEIO DO NAVEGADOR
         window.montarTela = montarTela;
 
+        // --- NAVEGAÇÃO E BUSCA (INSERIR AQUI) ---
+        window.mudarPasso = function(direcao) {
+            const ids = ['containerTema', 'passo1', 'passo2', 'passo3', 'passo4', 'passo5'];
+            document.getElementById(ids[window.passoAtual]).style.display = 'none';
+            window.passoAtual = Math.max(0, Math.min(5, window.passoAtual + direcao));
+            document.getElementById(ids[window.passoAtual]).style.display = 'block';
+            document.getElementById('barraProgresso').style.width = ((window.passoAtual + 1) / 6) * 100 + '%';
+        };
+
+        window.selecionarTemaBotao = function(tema) {
+            document.getElementById('temaAtivo').value = tema;
+            window.montarTela();
+            window.mudarPasso(1);
+        };
+
+        window.buscarMusicaYouTube = function() {
+            const termo = document.getElementById('buscaMusicaInput').value;
+            const cb = 'yt_' + Date.now();
+            window[cb] = (d) => { document.getElementById('resultadosMusicaContainer').innerHTML = d[1].map(s => `<div style="background:#222; padding:10px; margin:5px 0; cursor:pointer;" onclick="selecionarMusica('${s[0].replace(/'/g, "\\'")}')">${s[0]}</div>`).join(''); delete window[cb]; };
+            const s = document.createElement('script');
+            s.src = `https://suggestqueries.google.com/complete/search?client=youtube&ds=yt&q=${encodeURIComponent(termo)}&callback=${cb}`;
+            document.head.appendChild(s);
+        };
+
+        window.selecionarMusica = function(t) { 
+            document.getElementById('musica').value = t; 
+            document.getElementById('dicaMusicaStatus').innerHTML = `✅ ${t}`; 
+            window.atualizarPreview(); 
+        };
+        
         // Preview ao vivo
         document.getElementById('nomes').addEventListener('input', window.atualizarPreview);
         document.getElementById('data').addEventListener('input', window.atualizarPreview);
