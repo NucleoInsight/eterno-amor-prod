@@ -57,13 +57,10 @@
             <div class="tarja">✓ ACESSO LIBERADO - Plano <span id="nomePlano"></span></div>
 
             <h1>Quase lá! Finalize sua declaração 💌</h1>
-            <p class="sub">Link: <strong id="mostraId"></strong></p>
+            <p class="sub">Capricha nos detalhes. É isso que ele(a) vai ver pra sempre. Link: <strong id="mostraId"></strong></p>
 
-            <div style="width: 100%; height: 8px; background: #222; border-radius: 4px; margin-bottom: 35px; overflow: hidden;">
-                <div id="barraProgresso" style="width: 20%; height: 100%; background: linear-gradient(135deg, #FF4D79 0%, #FF8C42 100%); transition: width 0.4s ease;"></div>
-            </div>
-
-            <div id="containerTema" class="passo-quiz oculto">
+           <!-- NOVO CAMPO DE SELEÇÃO DE TEMA (FICA OCULTO POR PADRÃO E O JS LIBERA PARA PLANOS COMPLETO/VITALÍCIO) -->
+            <div id="containerTema" class="oculto">
                 <label for="temaAtivo">Escolha o Tema da sua Página:</label>
                 <select id="temaAtivo" onchange="montarTela()">
                     <option value="casal">♥ Casal (Tradicional)</option>
@@ -76,62 +73,41 @@
                     <option value="viagem">✈️ Viagem</option>
                     <option value="conquista">🎓 Conquista / Formatura</option>
                 </select>
-                <button type="button" onclick="mudarPasso(1)">Avançar ➔</button>
+                <div class="dica">O tema altera as cores, os textos e os emojis da página automaticamente!</div>
             </div>
 
-            <div class="passo-quiz" id="passo1" style="display: none;">
-                <label id="labelNome" for="nomes">Nome de vocês dois:</label>
-                <input type="text" id="nomes" placeholder="Ex: Gil e Maria ou Gil & Maria">
-                <div id="dicaNome" class="dica">Pode ser: Gil e Maria, Gil & Maria, Gil + Maria</div>
-                <button type="button" class="btn-secundario" onclick="mudarPasso(-1)">Voltar</button>
-                <button type="button" onclick="mudarPasso(1)">Avançar ➔</button>
+            <!-- IDENTIFICADORES ÚNICOS COM ID PARA O JAVASCRIPT NUNCA MAIS EMBALHARAR OU INVERTER OS CAMPOS -->
+            <label id="labelNome" for="nomes">Nome de vocês dois:</label>
+            <input type="text" id="nomes" placeholder="Ex: Gil e Maria ou Gil & Maria">
+            <div id="dicaNome" class="dica">Pode ser: Gil e Maria, Gil & Maria, Gil + Maria</div>
+
+            <label id="labelData" for="data">Data que começaram:</label>
+            <input type="text" id="data" placeholder="DD/MM/AAAA" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/^(\d{2})(\d)/, '$1/$2').replace(/^(\d{2})\/(\d{2})(\d)/, '$1/$2/$3')">
+
+            <label id="labelMensagem">Escreva o que sente por ele(a):</label>
+            <select id="modeloMsg">
+                <option value="">Escolha um modelo ou escreva a sua</option>
+                <option value="romantico">Romântico Clássico</option>
+                <option value="engracado">Divertido e Leve</option>
+                <option value="intenso">Intenso e Profundo</option>
+                <option value="curto">Curto e Direto</option>
+            </select>
+            <textarea id="mensagem" rows="5" placeholder="Ou escreva sua própria declaração aqui..."></textarea>
+            <button type="button" class="btn-secundario" onclick="gerarMensagem()">✨ Gerar Mensagem Automática</button>
+
+            <div id="campoMusica">
+                <label>Música de Vocês no YouTube:</label>
+                <input type="url" id="musica" placeholder="https://youtube.com/watch?v=...">
+                <div class="dica">A música toca sozinha, sem anúncios.</div>
             </div>
 
-            <div class="passo-quiz" id="passo2" style="display: none;">
-                <label id="labelData" for="data">Data que começaram:</label>
-                <input type="text" id="data" placeholder="DD/MM/AAAA" maxlength="10">
-                <button type="button" class="btn-secundario" onclick="mudarPasso(-1)">Voltar</button>
-                <button type="button" onclick="mudarPasso(1)">Avançar ➔</button>
+            <div class="grupo-foto">
+                <!-- Blocos de foto são gerados dinamicamente pelo JS -->
             </div>
-
-            <div class="passo-quiz" id="passo3" style="display: none;">
-                <label>Escreva sua mensagem personalizada:</label>
-                <select id="modeloMsg">
-                    <option value="">Escolha um modelo ou escreva a sua</option>
-                    <option value="romantico">Romântico Clássico</option>
-                    <option value="engracado">Divertido e Leve</option>
-                    <option value="intenso">Intenso e Profundo</option>
-                    <option value="curto">Curto e Direto</option>
-                </select>
-                <textarea id="mensagem" rows="5" placeholder="Ou escreva sua própria declaração aqui..."></textarea>
-                <button type="button" class="btn-secundario" onclick="gerarMensagem()">✨ Gerar Mensagem Automática</button>
-                <br><button type="button" class="btn-secundario" onclick="mudarPasso(-1)">Voltar</button>
-                <button type="button" onclick="mudarPasso(1)">Avançar ➔</button>
-            </div>
-
-            <div class="passo-quiz" id="passo4" style="display: none;">
-                <div id="campoMusica">
-                    <label>Qual música representa essa história?</label>
-                    <div style="display: flex; gap: 8px;">
-                        <input type="text" id="buscaMusicaInput" placeholder="🔍 Digite o nome da música...">
-                        <button type="button" onclick="buscarMusicaYouTube()">Buscar</button>
-                    </div>
-                    <div id="resultadosMusicaContainer"></div>
-                    <input type="hidden" id="musica">
-                    <div class="dica" id="dicaMusicaStatus">Busque e clique no resultado desejado!</div>
-                </div>
-                <button type="button" class="btn-secundario" onclick="mudarPasso(-1)">Voltar</button>
-                <button type="button" onclick="mudarPasso(1)">Avançar ➔</button>
-            </div>
-
-            <div class="passo-quiz" id="passo5" style="display: none;">
-                <div class="grupo-foto"></div>
-                <button id="btnSalvar" onclick="salvar()">⭐ Finalizar e Salvar</button>
-                <br><button type="button" class="btn-secundario" onclick="mudarPasso(-1)">Voltar</button>
-            </div>
+            <button id="btnSalvar" onclick="salvar()">Salvar e Publicar Homenagem</button>
 
             <div class="preview-box">
-                <h3>Visualização ao vivo (Preview):</h3>
+                <h3>Preview em tempo real:</h3>
                 <p><strong>Casal:</strong> <span id="pNomes">---</span></p>
                 <p><strong>Juntos há:</strong> <span id="pTempo">---</span></p>
                 <div class="contador-demo" id="pContador"></div>
@@ -140,7 +116,7 @@
         </div>
     </div>
 
-     <script type="module">
+    <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
         import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
@@ -650,8 +626,6 @@
             }
         }
         verificarAcesso();
-    </script>
-
     </script>
 </body>
 </html>
