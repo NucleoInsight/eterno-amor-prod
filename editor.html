@@ -205,200 +205,64 @@
         }
 
          function montarTela() {
-            document.getElementById('telaErro').classList.add('oculto');
-            document.getElementById('telaEditor').classList.remove('oculto');
-            
-            // Tratamento de segurança para links e cadastros antigos (legados) do banco de dados
-            let planoAtual = dadosPlano.plano || 'essencial';
-            let temaAtual = dadosPlano.tema || 'casal';
-            
-            const listaTemasLegado = ['maternidade', 'amizade', 'luto', 'pet', 'aniversario', 'casamento', 'viagem', 'conquista'];
-            if (listaTemasLegado.includes(planoAtual)) {
-                temaAtual = planoAtual;
-                planoAtual = 'vitalicio';
-            }
-            
-            document.getElementById('nomePlano').innerText = planoAtual.toUpperCase();
+            const selectTema = document.getElementById('temaAtivo');
+            const temaAtual = selectTema ? selectTema.value : 'casal';
 
-            // VERIFICA SE O PLANO DÁ DIREITO À SELEÇÃO DE TEMAS E EXIBE O MENU
-            if (planoAtual === 'completo' || planoAtual === 'vitalicio' || planoAtual === 'marketing') {
-                const containerTema = document.getElementById('containerTema');
-                if (containerTema) {
-                    containerTema.classList.remove('oculto');
-                }
-                
-                // SE O CLIENTE JÁ MUDOU O TEMA NA TELA, USAMOS O DELE. SE NÃO, SELECIONAMOS O DO BANCO.
-                const selectTema = document.getElementById('temaAtivo');
-                if (selectTema) {
-                    if (selectTema.value) {
-                        temaAtual = selectTema.value;
-                    } else {
-                        selectTema.value = temaAtual;
-                    }
-                }
-            }
-              
-            // USA LIMITES QUE VÊM DO FIREBASE - ADMIN É A FONTE DA VERDADE
-            const limites = dadosPlano.limites || { fotos: 1, musica: false, qr: false, edicao: false };
-
-          // Configuração inteligente das instruções textuais baseada no TEMA ativo de forma independente do plano
             const labelsModos = {
-                maternidade: { titulo: 'Nome da Mãe e Filho(a):', data: 'Data de Nascimento:', placeholder: 'Ex: Maria e Levy', dica: '⚠️ Coloque SEU nome primeiro para a mensagem automática ser gerada corretamente.', labelFotos: 'Fotos do Filho(a) ou Família:' },
-                amizade: { titulo: 'Nome dos Amigos:', data: 'Data do Início da Amizade:', placeholder: 'Ex: Ana e Beatriz', dica: '⚠️ Coloque SEU nome primeiro para a mensagem automática ser gerada corretamente.', labelFotos: 'Fotos de Vocês:' },
-                luto: { titulo: 'Nome de Quem Deixou Saudades:', data: 'Data de Nascimento ou Partida:', placeholder: 'Ex: Vovô Carlos', dica: 'Escreva o nome de quem você deseja homenagear nesta página.', labelFotos: 'Fotos de Lembrança:' },
-                pet: { titulo: 'Nome do Dono & do Bichinho:', data: 'Data que o Pet chegou na sua vida:', placeholder: 'Ex: Gil e Rex', dica: '⚠️ Coloque SEU nome primeiro e o do Pet depois (Ex: Gil e Rex) para a mensagem fazer sentido.', labelFotos: 'Fotos do seu Pet:' },
-                aniversario: { titulo: 'Nome do Aniversariante:', data: 'Data de Nascimento:', placeholder: 'Ex: Lucas 15 Anos', dica: 'Escreva o nome de quem está fazendo aniversário.', labelFotos: 'Fotos das Recordações:' },
-                casamento: { titulo: 'Nome dos Noivos/Casal:', data: 'Data do Casamento/Bodas:', placeholder: 'Ex: Gil e Maria', dica: '⚠️ Coloque SEU nome primeiro para a mensagem automática ser gerada corretamente.', labelFotos: 'Fotos do Grande Dia:' },
-                viagem: { titulo: 'Destino ou Nome dos Viajantes:', data: 'Data da Viagem:', placeholder: 'Ex: Eurotrip 2026', dica: 'Escreva o destino ou o nome de quem viajou.', labelFotos: 'Fotos da Aventura:' },
-                conquista: { titulo: 'Nome do Conquistador/Formando:', data: 'Data da Conquista/Formatura:', placeholder: 'Ex: Dra. Amanda - OAB', dica: 'Escreva o nome de quem alcançou essa grande vitória.', labelFotos: 'Fotos da Vitória:' }
+                maternidade: { titulo: 'Nome da Mãe e Filho(a):', data: 'Data de Nascimento:', placeholder: 'Ex: Maria e Levy', dica: '⚠️ Coloque SEU nome primeiro.', labelFotos: 'Fotos do Filho(a):' },
+                amizade: { titulo: 'Nome dos Amigos:', data: 'Data do Início da Amizade:', placeholder: 'Ex: Ana e Beatriz', dica: '⚠️ Coloque SEU nome primeiro.', labelFotos: 'Fotos de Vocês:' },
+                luto: { titulo: 'Homenageado:', data: 'Data de Nascimento/Partida:', placeholder: 'Ex: Vovô Carlos', dica: 'Escreva o nome de quem deseja homenagear.', labelFotos: 'Fotos de Lembrança:' },
+                pet: { titulo: 'Nome do Dono & Pet:', data: 'Data que o Pet chegou:', placeholder: 'Ex: Gil e Rex', dica: 'Coloque SEU nome primeiro e o do Pet depois.', labelFotos: 'Fotos do seu Pet:' },
+                aniversario: { titulo: 'Aniversariante:', data: 'Data de Nascimento:', placeholder: 'Ex: Lucas 15 Anos', dica: 'Escreva o nome do aniversariante.', labelFotos: 'Fotos:' },
+                casamento: { titulo: 'Noivos:', data: 'Data do Casamento:', placeholder: 'Ex: Gil e Maria', dica: '⚠️ Coloque SEU nome primeiro.', labelFotos: 'Fotos do Grande Dia:' },
+                viagem: { titulo: 'Destino/Viajantes:', data: 'Data da Viagem:', placeholder: 'Ex: Eurotrip 2026', dica: 'Escreva o destino ou nomes.', labelFotos: 'Fotos da Aventura:' },
+                conquista: { titulo: 'Formando:', data: 'Data da Vitória:', placeholder: 'Ex: Dra. Amanda', dica: 'Nome de quem alcançou a vitória.', labelFotos: 'Fotos:' }
             };
 
-            let textoLabelFotos = 'Fotos do Casal:';
-
-            // Captura os elementos de texto da tela para atualizar dinamicamente
-            const labelNome = document.querySelector('label[for="nomes"]') || document.getElementsByTagName('label')[1];
-            const labelData = document.querySelector('label[for="data"]') || document.getElementsByTagName('label')[2];
-            const inputNomes = document.getElementById('nomes');
-            const divDica = document.querySelector('.dica');
-
-            if (labelsModos[temaAtual]) {
-                const config = labelsModos[temaAtual];
-                if (labelNome) labelNome.innerText = config.titulo;
-                if (labelData) labelData.innerText = config.data;
-                if (inputNomes) inputNomes.placeholder = config.placeholder;
-                if (divDica) divDica.innerHTML = config.dica;
-                textoLabelFotos = config.labelFotos;
-            } else {
-                // Configuração padrão para o modo casal tradicional
-                if (labelNome) labelNome.innerText = 'Nome de vocês dois:';
-                if (inputNomes) inputNomes.placeholder = 'Ex: Gil e Maria';
-                if (divDica) divDica.innerHTML = '⚠️ Coloque SEU nome primeiro para a mensagem automática ser gerada corretamente.';
-                textoLabelFotos = 'Fotos do Casal:';
-            }
-              
-            // GERA BLOCOS DE FOTO DINÂMICOS BASEADO NO LIMITE DO PLANO COMPRADO
-            const containerFotos = document.querySelector('.grupo-foto');
-            let htmlFotos = `<label>${textoLabelFotos} <span id="limiteFotos">(Máx: ${limites.fotos} foto${limites.fotos > 1 ? 's' : ''})</span></label>`;
+            const config = labelsModos[temaAtual] || { titulo: 'Nome de vocês:', data: 'Data:', placeholder: 'Ex: Gil e Maria', dica: 'Coloque SEU nome primeiro.', labelFotos: 'Fotos:' };
             
-            for (let i = 1; i <= limites.fotos && i <= 15; i++) {
-                htmlFotos += `
-                    <div id="blocoFoto${i}" style="margin-top:10px;">
-                        <input type="file" id="uploadFoto${i}" accept="image/*" style="display:none" onchange="enviarFoto(this, 'foto${i}')">
-                        <button type="button" class="btn-secundario" onclick="document.getElementById('uploadFoto${i}').click()">📷 Adicionar Foto ${i}</button>
-                        <input type="hidden" id="foto${i}">
-                        <div id="preview${i}" class="dica"></div>
-                    </div>
-                `;
-            }
-            htmlFotos += '<div class="dica" style="margin-top:15px;">Clique no botão e escolha da sua galeria.</div>';
-            containerFotos.innerHTML = htmlFotos;
-
-            // BLOQUEIA MÚSICA SE NÃO TIVER NO PLANO COMPRADO
-            if (!limites.musica) {
-                document.getElementById('campoMusica').style.display = 'none';
-            }
-
-            // AVISO DE EDIÇÃO BASEADO UNICAMENTE DO CONTROLE DE LIMITES DO PLANO
-            if (!limites.edicao && planoAtual !== 'vitalicio' && planoAtual !== 'marketing') {
-                document.getElementById('btnSalvar').innerText = 'Salvar e Publicar (sem edição depois)';
-            }
-
-            carregarDadosSalvos();
+            document.getElementById('labelNome').innerText = config.titulo;
+            document.getElementById('labelData').innerText = config.data;
+            document.getElementById('nomes').placeholder = config.placeholder;
+            document.getElementById('dicaNome').innerText = config.dica;
+            
+            atualizarPreview();
         }
 
-        // PONTE QUE LIBERA A FUNÇÃO PARA O MENU HTML ENXERGAR SEM BLOQUEIO DO NAVEGADOR
-        window.montarTela = montarTela;
-
-        // Preview ao vivo
-        document.getElementById('nomes').addEventListener('input', atualizarPreview);
-        document.getElementById('data').addEventListener('input', atualizarPreview);
-        document.getElementById('musica').addEventListener('input', atualizarPreview);
-
-       function atualizarPreview() {
+        window.atualizarPreview = function() {
             const nomes = document.getElementById('nomes').value || '---';
             const data = document.getElementById('data').value;
             const musica = document.getElementById('musica').value;
-
-            // Mapeamento dinâmico de labels para o Preview em tempo real de acordo com o tema
-            let temaAtual = dadosPlano?.tema || 'casal';
-            let planoAtual = dadosPlano?.plano || 'essencial';
-            
-            const listaTemasLegado = ['maternidade', 'amizade', 'luto', 'pet', 'aniversario', 'casamento', 'viagem', 'conquista'];
-            if (listaTemasLegado.includes(planoAtual)) {
-                temaAtual = planoAtual;
-            }
-
-            // Captura o tema diretamente do seletor da tela se o usuário alterar dinamicamente
             const selectTema = document.getElementById('temaAtivo');
-            if (selectTema && selectTema.value) {
-                temaAtual = selectTema.value;
-            }
+            let temaAtual = selectTema ? selectTema.value : 'casal';
 
             const configsPreview = {
-                casal: { labelNome: '<strong>Casal:</strong> ', labelTempo: '<strong>Juntos há:</strong> ', emoji: '♥', texto: 'dias de amor' },
-                maternidade: { labelNome: '<strong>Mãe e Filho(a):</strong> ', labelTempo: '<strong>Idade do Filho(a):</strong> ', emoji: '👶', texto: 'dias de puro amor e gratidão' },
-                amizade: { labelNome: '<strong>Amigos:</strong> ', labelTempo: '<strong>Parceria há:</strong> ', emoji: '⭐', texto: 'dias da melhor dupla do mundo' },
-                luto: { labelNome: '<strong>Homenageado:</strong> ', labelTempo: '<strong>Tempo de Saudades:</strong> ', emoji: '🕊️', texto: 'dias guardados com carinho na memória' },
-                pet: { labelNome: '<strong>Dono & Pet:</strong> ', labelTempo: '<strong>História de Patas há:</strong> ', emoji: '🐾', texto: 'dias enchendo nossa vida de alegria' },
-                aniversario: { labelNome: '<strong>Aniversariante:</strong> ', labelTempo: '<strong>Idade:</strong> ', emoji: '🎂', texto: 'dias espalhando luz no mundo' },
-                casamento: { labelNome: '<strong>Noivos:</strong> ', labelTempo: '<strong>União há:</strong> ', emoji: '💍', texto: 'dias do nosso sim para sempre' },
-                viagem: { labelNome: '<strong>Destino/Viajantes:</strong> ', labelTempo: '<strong>Tempo da Aventura:</strong> ', emoji: '✈️', texto: 'dias colecionando memórias pelo mundo' },
-                conquista: { labelNome: '<strong>Conquistador:</strong> ', labelTempo: '<strong>Tempo da Vitória:</strong> ', emoji: '🎓', texto: 'dias de muito orgulho e vitória' },
-                marketing: { labelNome: '<strong>Marketing:</strong> ', labelTempo: '<strong>Tempo de Sucesso:</strong> ', emoji: '🚀', texto: 'dias de sucesso absoluto' }
+                casal: { labelNome: 'Casal:', labelTempo: 'Juntos há:', emoji: '♥', texto: 'dias de amor' },
+                maternidade: { labelNome: 'Mãe/Filho:', labelTempo: 'Idade:', emoji: '👶', texto: 'dias de puro amor' },
+                amizade: { labelNome: 'Amigos:', labelTempo: 'Parceria há:', emoji: '⭐', texto: 'dias de parceria' },
+                luto: { labelNome: 'Homenageado:', labelTempo: 'Saudades há:', emoji: '🕊️', texto: 'dias na memória' },
+                pet: { labelNome: 'Dono & Pet:', labelTempo: 'História há:', emoji: '🐾', texto: 'dias de alegria' },
+                aniversario: { labelNome: 'Aniversariante:', labelTempo: 'Idade:', emoji: '🎂', texto: 'dias de luz' },
+                casamento: { labelNome: 'Noivos:', labelTempo: 'União há:', emoji: '💍', texto: 'dias de sim' },
+                viagem: { labelNome: 'Destino:', labelTempo: 'Aventura há:', emoji: '✈️', texto: 'dias viajando' },
+                conquista: { labelNome: 'Conquistador:', labelTempo: 'Vitória há:', emoji: '🎓', texto: 'dias de orgulho' }
             };
 
             const config = configsPreview[temaAtual] || configsPreview['casal'];
+            document.getElementById('pNomes').innerText = nomes;
 
-            // Atualiza dinamicamente as tags de texto do HTML do Preview
-            const containerpNomes = document.getElementById('pNomes');
-            if (containerpNomes) {
-                containerpNomes.parentElement.innerHTML = `${config.labelNome}<span id="pNomes">${nomes}</span>`;
-            }
-
-            // CORREÇÃO DO CÁLCULO DO PREVIEW PARA ACEITAR O FORMATO BRASILEIRO DD/MM/AAAA SEM DAR NAN
             if (data && data.length === 10) {
-                let inicio;
-                if (data.includes('/')) {
-                    const [diaInput, mesInput, anoInput] = data.split('/');
-                    inicio = new Date(anoInput, mesInput - 1, diaInput);
-                } else if (data.includes('-')) {
-                    const [anoInput, mesInput, diaInput] = data.split('-');
-                    inicio = new Date(anoInput, mesInput - 1, diaInput);
-                } else {
-                    inicio = new Date(data);
-                }
-
+                const [dia, mes, ano] = data.split('/');
+                const inicio = new Date(ano, mes - 1, dia);
                 if (!isNaN(inicio.getTime())) {
                     const agora = new Date();
-                    let anos = agora.getFullYear() - inicio.getFullYear();
-                    let meses = agora.getMonth() - inicio.getMonth();
-                    let dias = agora.getDate() - inicio.getDate();
-
-                    if (dias < 0) { meses--; dias += 30; }
-                    if (meses < 0) { anos--; meses += 12; }
-
-                    const txtTempo = `${anos} anos, ${meses} meses e ${dias} dias`;
-                    const containerpTempo = document.getElementById('pTempo');
-                    if (containerpTempo) {
-                        containerpTempo.parentElement.innerHTML = `${config.labelTempo}<span id="pTempo">${txtTempo}</span>`;
-                    }
-
-                    const totalDias = Math.floor((agora - inicio) / (1000 * 60 * 60 * 24));
-                    const containerpContador = document.getElementById('pContador');
-                    if (containerpContador) {
-                        containerpContador.innerText = `${config.emoji} ${totalDias} ${config.texto} ${config.emoji}`;
-                    }
-                } else {
-                    zerarCamposPreview(config);
+                    const diff = agora - inicio;
+                    const totalDias = Math.floor(diff / (1000 * 60 * 60 * 24));
+                    document.getElementById('pTempo').innerText = totalDias > 0 ? `${totalDias} dias` : '---';
+                    document.getElementById('pContador').innerText = `${config.emoji} ${totalDias} ${config.texto} ${config.emoji}`;
                 }
-            } else {
-                zerarCamposPreview(config);
             }
-
-            const containerpMusica = document.getElementById('pMusica');
-            if (containerpMusica) {
-                containerpMusica.innerText = musica ? 'Música adicionada ✓' : '---';
-            }
+            document.getElementById('pMusica').innerText = musica ? 'Música selecionada ✓' : '---';
         }
 
         function zerarCamposPreview(config) {
