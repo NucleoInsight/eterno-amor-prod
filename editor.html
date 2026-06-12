@@ -223,31 +223,34 @@
             if (['completo', 'vitalicio', 'marketing'].includes(planoAtual)) {
                 document.getElementById('containerTema').classList.remove('oculto');
                 const selectTema = document.getElementById('temaAtivo');
-                if (selectTema && selectTema.value) { temaAtual = selectTema.value; } else if (selectTema) { selectTema.value = temaAtual; }
+                if (selectTema && selectTema.value) { temaAtual = selectTema.value; } 
+                else if (selectTema) { selectTema.value = temaAtual; }
             }
             
             const limites = dadosPlano.limites || { fotos: 1, musica: false, qr: false, edicao: false };
 
-            // GERA BLOCOS DE FOTO DINÂMICOS
-            const containerFotos = document.querySelector('.grupo-foto');
-            let htmlFotos = `<label>Fotos: <span id="limiteFotos">(Máx: ${limites.fotos})</span></label>`;
-            for (let i = 1; i <= limites.fotos && i <= 15; i++) {
-                htmlFotos += `
-                    <div id="blocoFoto${i}" style="margin-top:10px;">
-                        <input type="file" id="uploadFoto${i}" accept="image/*" style="display:none" onchange="enviarFoto(this, 'foto${i}')">
-                        <button type="button" class="btn-secundario" onclick="document.getElementById('uploadFoto${i}').click()">📷 Adicionar Foto ${i}</button>
-                        <input type="hidden" id="foto${i}">
-                        <div id="preview${i}" class="dica"></div>
-                    </div>`;
+            // Corrigido: Aponta para o ID containerFotos que criamos antes
+            const containerFotos = document.getElementById('containerFotos');
+            if (containerFotos) {
+                let htmlFotos = `<label>Fotos: <span id="limiteFotos">(Máx: ${limites.fotos})</span></label>`;
+                for (let i = 1; i <= limites.fotos && i <= 10; i++) {
+                    htmlFotos += `
+                        <div style="margin: 10px 0;">
+                            <input type="file" onchange="window.enviarFoto(this, 'foto${i}')">
+                            <span id="preview${i}" style="color:#FFD166; font-size:12px;"></span>
+                            <input type="hidden" id="foto${i}">
+                        </div>`;
+                }
+                containerFotos.innerHTML = htmlFotos;
             }
-            containerFotos.innerHTML = htmlFotos;
 
-            if (!limites.musica) document.getElementById('campoMusica').style.display = 'none';
+            if (!limites.musica) {
+                const campoMusica = document.getElementById('campoMusica');
+                if (campoMusica) campoMusica.style.display = 'none';
+            }
+            
             carregarDadosSalvos();
         };
-
-        // PONTE QUE LIBERA A FUNÇÃO PARA O MENU HTML ENXERGAR SEM BLOQUEIO DO NAVEGADOR
-        window.montarTela = montarTela;
 
         // --- NAVEGAÇÃO E BUSCA (INSERIR AQUI) ---
         window.mudarPasso = function(direcao) {
