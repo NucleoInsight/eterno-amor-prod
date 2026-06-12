@@ -207,14 +207,15 @@
             }
             containerFotos.innerHTML = htmlFotos;
 
-           // GERENCIAMENTO DA MÚSICA - FORÇADO
+           // GERENCIAMENTO DA MÚSICA - FORÇADO PARA APARECER
             const campoMusica = document.getElementById('campoMusica');
             if (campoMusica) {
-                campoMusica.style.display = 'block'; 
-                console.log("Campo música forçado para: block");
+                campoMusica.style.display = 'block';
+                console.log("Campo música forçado para aparecer.");
             } else {
                 console.error("Campo música não encontrado no HTML");
             }
+
             carregarDadosSalvos();
         }
 
