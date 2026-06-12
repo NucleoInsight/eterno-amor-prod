@@ -670,11 +670,11 @@
         };
 
        // FUNÇÕES EXPOSTAS PARA O NAVEGADOR
-        window.atualizarPreview = atualizarPreview;
         window.selecionarMusica = function(url, titulo, elemento) {
-            const linkDireto = `https://www.youtube.com/watch?v=${encodeURIComponent(titulo)}`;
-            document.getElementById('musica').value = linkDireto;
-            document.getElementById('dicaMusicaStatus').innerHTML = `✅ <strong>Música definida:</strong> ${titulo}`;
+            // SALVA APENAS O TÍTULO DA MÚSICA COMO REFERÊNCIA
+            document.getElementById('musica').value = titulo;
+            
+            document.getElementById('dicaMusicaStatus').innerHTML = `✅ <strong>Música selecionada:</strong> ${titulo}`;
             document.getElementById('resultadosMusicaContainer').innerHTML = '';
             window.atualizarPreview();
         };
