@@ -265,6 +265,72 @@
             document.getElementById('pMusica').innerText = musica ? 'Música selecionada ✓' : '---';
         }
 
+        window.buscarMusicaYouTube = function() {
+            const termo = document.getElementById('buscaMusicaInput').value.trim();
+            const container = document.getElementById('resultadosMusicaContainer');
+            const status = document.getElementById('dicaMusicaStatus');
+
+            if (!termo) {
+                alert('Digite o nome de uma música ou artista para buscar! 🎵');
+                return;
+            }
+
+            container.innerHTML = '<div style="color:#FFD166; text-align:center; padding:15px; font-size:14px;">🔍 Buscando no YouTube...</div>';
+            
+            const callbackName = 'ytSugestoesCallback_' + Math.round(Math.random() * 100000);
+            
+            window[callbackName] = function(dados) {
+                document.getElementById(callbackName)?.remove();
+                delete window[callbackName];
+
+                if (!dados || !dados[1] || dados[1].length === 0) {
+                    exibirAvisoManual();
+                    return;
+                }
+
+                let htmlResultados = '';
+                let exibidos = 0;
+
+                dados[1].forEach(sugestao => {
+                    if (exibidos < 5) {
+                        exibidos++;
+                        const textoMusica = sugestao[0];
+                        const queryYt = encodeURIComponent(textoMusica);
+                        const urlFicticiaYt = `https://www.youtube.com/results?search_query=${queryYt}`;
+                        
+                        htmlResultados += `
+                            <div onclick="window.selecionarMusica('${urlFicticiaYt}', '${textoMusica.replace(/'/g, "\\'")}', this)" style="display: flex; align-items: center; gap: 12px; background: #1a1a1a; border: 1px solid #333; padding: 12px; border-radius: 8px; cursor: pointer; transition: all 0.2s; margin-bottom: 5px;" onmouseover="this.style.borderColor='#FF4D79';" onmouseout="this.style.borderColor='#333';">
+                                <div style="width: 40px; height: 40px; background: #222; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #FF4D79; font-weight: bold; font-size: 18px;">🎵</div>
+                                <div style="flex: 1; text-align: left; overflow: hidden;">
+                                    <div style="font-size: 14px; font-weight: 600; color: #fff; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">${textoMusica}</div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                });
+
+                container.innerHTML = htmlResultados;
+                status.innerText = 'Clique sobre a música correta na lista para confirmar!';
+            };
+
+            const script = document.createElement('script');
+            script.id = callbackName;
+            script.src = `https://suggestqueries.google.com/complete/search?client=youtube&ds=yt&q=${encodeURIComponent(termo)}&jsonp=${callbackName}`;
+            script.onerror = function() { exibirAvisoManual(); };
+            document.head.appendChild(script);
+
+            function exibirAvisoManual() {
+                container.innerHTML = '<div style="color:#FFD166; text-align:center; padding:15px; font-size:14px;">Insira o link completo da sua música do YouTube abaixo!</div>';
+                status.innerHTML = `<input type="url" id="backupLinkInput" placeholder="Cole o link completo do YouTube aqui..." style="margin-top:10px;" oninput="document.getElementById('musica').value=this.value; document.getElementById('dicaMusicaStatus').innerHTML='✅ Link Manual Aceito! ✓'; window.atualizarPreview();">`;
+            }
+        };
+
+        window.selecionarMusica = function(urlMontada, tituloCompleto, elemento) {
+            document.getElementById('musica').value = urlMontada;
+            document.getElementById('dicaMusicaStatus').innerHTML = `<div style="color: #25D366;">✅ Selecionado: ${tituloCompleto}</div>`;
+            window.atualizarPreview();
+        };
+        
         function zerarCamposPreview(config) {
             const containerpTempo = document.getElementById('pTempo');
             if (containerpTempo) {
