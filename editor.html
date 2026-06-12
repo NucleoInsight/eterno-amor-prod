@@ -136,8 +136,7 @@
         const urlParams = new URLSearchParams(window.location.search);
         const id = urlParams.get('id');
         let dadosPlano = null;
-        let passoAtual = 0;
-        
+
         // VERIFICA SE ID FOI LIBERADO
         async function verificarAcesso() {
             if (!id) {
@@ -626,37 +625,6 @@
                 btn.innerText = 'Salvar e Publicar Homenagem';
             }
         }
-        // FUNÇÕES DE NAVEGAÇÃO E MÚSICA PARA O QUIZ
-        window.mudarPasso = function(direcao) {
-            if (direcao === 1) {
-                if (passoAtual === 1 && !document.getElementById('nomes').value.trim()) { alert('Preencha os nomes!'); return; }
-                if (passoAtual === 2 && !document.getElementById('data').value.trim()) { alert('Preencha a data!'); return; }
-            }
-            const atual = passoAtual === 0 ? 'containerTema' : 'passo' + passoAtual;
-            document.getElementById(atual).style.display = 'none';
-            passoAtual += direcao;
-            if (passoAtual < 0) passoAtual = 0;
-            if (passoAtual > 5) passoAtual = 5;
-            const proximo = passoAtual === 0 ? 'containerTema' : 'passo' + passoAtual;
-            document.getElementById(proximo).style.display = 'block';
-            document.getElementById('barraProgresso').style.width = ((passoAtual + 1) / 6) * 100 + '%';
-        };
-
-        window.buscarMusicaYouTube = function() {
-            const termo = document.getElementById('buscaMusicaInput').value;
-            const container = document.getElementById('resultadosMusicaContainer');
-            const cb = 'yt_' + Date.now();
-            window[cb] = (d) => { container.innerHTML = d[1].map(s => `<div style="background:#222; padding:10px; margin:5px 0; cursor:pointer;" onclick="selecionarMusica('${s[0].replace(/'/g, "\\'")}')">${s[0]}</div>`).join(''); delete window[cb]; };
-            const s = document.createElement('script');
-            s.src = `https://suggestqueries.google.com/complete/search?client=youtube&ds=yt&q=${encodeURIComponent(termo)}&callback=${cb}`;
-            document.head.appendChild(s);
-        };
-
-        window.selecionarMusica = function(t) {
-            document.getElementById('musica').value = t;
-            document.getElementById('dicaMusicaStatus').innerHTML = `✅ ${t}`;
-            atualizarPreview();
-        };
         verificarAcesso();
     </script>
 </body>
