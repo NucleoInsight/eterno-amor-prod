@@ -345,9 +345,22 @@
             }
 
            if (!isDemo && dados.musica) {
-                const videoId = dados.musica.match(/(?:v=|\/)([a-zA-Z0-9_-]{11})/)?.[1];
-                if (videoId) {
-                    // PLAYER CUSTOMIZADO PREMIUM
+                // BUSCA O ID PELO TÍTULO SALVO NO BANCO
+                const termoBusca = encodeURIComponent(dados.musica);
+                const iframeSrc = `https://www.youtube.com/embed?listType=search&list=${termoBusca}&autoplay=1&controls=0&loop=1`;
+                
+                // PLAYER CUSTOMIZADO PREMIUM
+                document.getElementById('musica').innerHTML = `
+                    <div id="playerCustom" style="background:linear-gradient(135deg,rgba(255,77,121,0.2),rgba(255,140,66,0.2));border:1px solid rgba(255,77,121,0.4);border-radius:20px;padding:20px;backdrop-filter:blur(10px);">
+                        <div style="display:flex;align-items:center;gap:15px;">
+                            <div style="flex:1;">
+                                <div style="color:#FFD166;font-size:12px;letter-spacing:2px;margin-bottom:5px;">TOCANDO AGORA</div>
+                                <div style="color:#fff;font-weight:600;">${dados.musica}</div>
+                            </div>
+                        </div>
+                        <iframe src="${iframeSrc}" style="display:none;"></iframe>
+                    </div>
+                `;
                     document.getElementById('musica').innerHTML = `
                         <div id="playerCustom" style="background:linear-gradient(135deg,rgba(255,77,121,0.2),rgba(255,140,66,0.2));border:1px solid rgba(255,77,121,0.4);border-radius:20px;padding:20px;backdrop-filter:blur(10px);">
                             <div style="display:flex;align-items:center;gap:15px;">
