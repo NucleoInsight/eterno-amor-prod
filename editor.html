@@ -135,7 +135,8 @@
             </div>
 
             <div class="passo-quiz" id="passo5" style="display: none;">
-                <div class="grupo-foto"></div>
+                <h3>Adicione suas fotos (até 10)</h3>
+                <div id="containerFotos"></div>
                 <button id="btnSalvar" onclick="salvar()">⭐ Finalizar e Salvar</button>
                 <br><button type="button" class="btn-secundario" onclick="mudarPasso(-1)">Voltar</button>
             </div>
@@ -153,6 +154,17 @@
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
         import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+        const container = document.getElementById('containerFotos');
+        for(let i=1; i<=10; i++) {
+            container.innerHTML += `
+                <div style="margin: 10px 0;">
+                    <input type="file" onchange="window.enviarFoto(this, 'foto${i}')">
+                    <span id="preview${i}" style="color:#FFD166; font-size:12px;"></span>
+                    <input type="hidden" id="foto${i}">
+                </div>
+            `;
+        }
 
         const firebaseConfig = {
             apiKey: "AIzaSyDuxYHTUyNZav6ewBDVw6OlwYi_h65AGow",
