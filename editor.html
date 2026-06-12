@@ -61,22 +61,35 @@
             <p class="sub">Capricha nos detalhes. É isso que ele(a) vai ver pra sempre. Link: <strong id="mostraId"></strong></p>
 
            <!-- NOVO CAMPO DE SELEÇÃO DE TEMA (FICA OCULTO POR PADRÃO E O JS LIBERA PARA PLANOS COMPLETO/VITALÍCIO) -->
-            <div id="containerTema" class="oculto">
-                <label for="temaAtivo">Escolha o Tema da sua Página:</label>
-                <select id="temaAtivo" onchange="montarTela()">
-                    <option value="casal">♥ Casal (Tradicional)</option>
-                    <option value="maternidade">👶 Maternidade</option>
-                    <option value="amizade">⭐ Amizade</option>
-                    <option value="luto">🕊️ Luto (Memória e Saudade)</option>
-                    <option value="pet">🐾 Pet</option>
-                    <option value="aniversario">🎂 Aniversário</option>
-                    <option value="casamento">💍 Casamento</option>
-                    <option value="viagem">✈️ Viagem</option>
-                    <option value="conquista">🎓 Conquista / Formatura</option>
-                </select>
-                <div class="dica">O tema altera as cores, os textos e os emojis da página automaticamente!</div>
+            <div style="width: 100%; height: 8px; background: #222; border-radius: 4px; margin-bottom: 35px; overflow: hidden;">
+                <div id="barraProgresso" style="width: 16.6%; height: 100%; background: linear-gradient(135deg, #FF4D79 0%, #FF8C42 100%); transition: width 0.4s ease;"></div>
             </div>
 
+            <div id="containerTema" class="oculto">
+                <label style="font-size: 20px; margin-bottom: 10px;">Para começar, qual o motivo da sua homenagem?</label>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 20px;">
+                    <button type="button" style="margin:0; padding:15px; border-radius:10px; font-size:15px; background:#1a1a1a; border:2px solid #333;" onclick="window.selecionarTemaBotao('casal')">💝 Casal / Namorados</button>
+                    <button type="button" style="margin:0; padding:15px; border-radius:10px; font-size:15px; background:#1a1a1a; border:2px solid #333;" onclick="window.selecionarTemaBotao('maternidade')">👶 Maternidade / Mãe</button>
+                    <button type="button" style="margin:0; padding:15px; border-radius:10px; font-size:15px; background:#1a1a1a; border:2px solid #333;" onclick="window.selecionarTemaBotao('amizade')">⭐ Melhores Amigos</button>
+                    <button type="button" style="margin:0; padding:15px; border-radius:10px; font-size:15px; background:#1a1a1a; border:2px solid #333;" onclick="window.selecionarTemaBotao('luto')">🕊️ Memorial / Luto</button>
+                    <button type="button" style="margin:0; padding:15px; border-radius:10px; font-size:15px; background:#1a1a1a; border:2px solid #333;" onclick="window.selecionarTemaBotao('pet')">🐾 Meu Bichinho / Pet</button>
+                    <button type="button" style="margin:0; padding:15px; border-radius:10px; font-size:15px; background:#1a1a1a; border:2px solid #333;" onclick="window.selecionarTemaBotao('aniversario')">🎂 Aniversário de Vida</button>
+                    <button type="button" style="margin:0; padding:15px; border-radius:10px; font-size:15px; background:#1a1a1a; border:2px solid #333;" onclick="window.selecionarTemaBotao('casamento')">💍 Casamento / Bodas</button>
+                    <button type="button" style="margin:0; padding:15px; border-radius:10px; font-size:15px; background:#1a1a1a; border:2px solid #333;" onclick="window.selecionarTemaBotao('viagem')">✈️ Diário de Viagem</button>
+                    <button type="button" style="margin:0; padding:15px; border-radius:10px; font-size:15px; background:#1a1a1a; border:2px solid #333;" onclick="window.selecionarTemaBotao('conquista')">🎓 Formatura / Conquista</button>
+                </div>
+                <select id="temaAtivo" onchange="window.montarTela()" style="display: none;">
+                    <option value="casal">casal</option>
+                    <option value="maternidade">maternidade</option>
+                    <option value="amizade">amizade</option>
+                    <option value="luto">luto</option>
+                    <option value="pet">pet</option>
+                    <option value="aniversario">aniversario</option>
+                    <option value="casamento">casamento</option>
+                    <option value="viagem">viagem</option>
+                    <option value="conquista">conquista</option>
+                </select>
+            </div>
             <!-- IDENTIFICADORES ÚNICOS COM ID PARA O JAVASCRIPT NUNCA MAIS EMBALHARAR OU INVERTER OS CAMPOS -->
             <div class="passo-quiz" id="passo1" style="display: none;">
                 <label id="labelNome" for="nomes">Nome de vocês dois:</label>
