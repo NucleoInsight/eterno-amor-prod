@@ -342,23 +342,81 @@
             if (containerpContador) { containerpContador.innerText = ''; }
         }
         
-    window.gerarMensagem = function() {
+   window.gerarMensagem = function() {
             const nomesInput = document.getElementById('nomes').value.trim();
             let temaAtual = dadosPlano?.tema || 'casal';
             const selectTema = document.getElementById('temaAtivo');
             if (selectTema && selectTema.value) temaAtual = selectTema.value;
 
-            if (!nomesInput) { alert('Preencha o campo de nomes primeiro :)'); return; }
+            if (!nomesInput) {
+                if (temaAtual === 'luto') alert('Preencha o nome da pessoa homenageada primeiro :)');
+                else if (temaAtual === 'pet') alert('Preencha o nome do dono & pet primeiro :)');
+                else alert('Preencha o campo de nomes primeiro :)');
+                return;
+            }
 
-            let nome1 = nomesInput.split(/[ e&+-]/i)[0].trim();
+            let nome1, nome2;
+            if (nomesInput.toLowerCase().includes(' e ')) { [nome1, nome2] = nomesInput.split(/ e /i).map(n => n.trim()); }
+            else if (nomesInput.includes('&')) { [nome1, nome2] = nomesInput.split('&').map(n => n.trim()); }
+            else if (nomesInput.includes('+')) { [nome1, nome2] = nomesInput.split('+').map(n => n.trim()); }
+            else { nome1 = nomesInput; nome2 = 'você'; }
+
             const modelo = document.getElementById('modeloMsg').value || 'romantico';
-            
-            const mensagens = {
-                romantico: `${nome1}, nossa história é um presente. Te amo infinitamente.`,
-                engracado: `${nome1}, você é a única pessoa que eu deixo roubar minha batata frita.`,
-                intenso: `${nome1}, você é a melhor parte de mim. Sou seu para sempre.`,
-                curto: `${nome1}, você + eu = para sempre.`
-            };
+            const data = document.getElementById('data').value;
+            let anos = data ? (new Date().getFullYear() - new Date(data).getFullYear() > 0 ? (new Date().getFullYear() - new Date(data).getFullYear()) + ' anos' : 'algum tempo') : 'tanto tempo';
+
+            let mensagens = {};
+            if (temaAtual === 'maternidade') {
+                mensagens = {
+                    romantico: `${nome2}, você me deu o maior presente de todos. Ver nossa história e nossa família crescer é a maior bênção da minha vida. Sou grato(a) por cada segundo e por todo o seu amor incondicional. Te amo!`,
+                    engracado: `Parabéns por ser essa mãe incrível (e por aguentar choros e bagunças sem perder a paciência... bom, quase nunca!). Você merece um troféu!`,
+                    intenso: `Amor de mãe vai além do infinito. Obrigado por ser nossa rocha, nossa proteção e por nos guiar com tanta ternura. Sua existência preenche nossa vida de luz.`,
+                    curto: `Obrigado por ser essa mãe maravilhosa. Amor que não cabe no peito!`
+                };
+            } else if (temaAtual === 'luto') {
+                mensagens = {
+                    romantico: `${nome1}, sua partida deixou uma saudade imensa, mas as memórias dos momentos lindos que vivemos juntos ficarão guardadas para sempre no meu coração.`,
+                    engracado: `Recordar de você é lembrar de sorrisos e histórias inesquecíveis. Obrigado por ter deixado o mundo muito mais leve e feliz. Saudade eterna.`,
+                    intenso: `O tempo passa, mas o amor e a gratidão por ter tido você na minha vida nunca vão diminuir. Você foi luz, foi força e continuará sendo minha maior inspiração.`,
+                    curto: `Guardado(a) para sempre na memória e no coração. Quanta saudade.`
+                };
+            } else if (temaAtual === 'pet') {
+                mensagens = {
+                    romantico: `Quem tem um companheiro como o ${nome2} sabe o que é amor puro. Obrigado por trazer tanta alegria, lambidas e festa para os meus dias!`,
+                    engracado: `O dono da casa oficial, destruidor de chinelos e ladrão de petiscos favorito! Minha rotina seria uma chatice sem as suas loucuras.`,
+                    intenso: `Dizem que os animais não falam, mas o olhar do ${nome2} transmite mais amor do que qualquer palavra. Uma parceria e fidelidade para sempre.`,
+                    curto: `O melhor amigo que eu poderia ter. Amor de patas!`
+                };
+            } else if (temaAtual === 'amizade') {
+                mensagens = {
+                    romantico: `${nome2}, ter sua amizade é ter a certeza de que nunca estarei sozinho(a). Obrigado por ser essa pessoa incrível e estar ao meu lado.`,
+                    engracado: `Uma amizade baseada em falar mal das mesmas coisas, mandar memes de madrugada e passar vergonha juntos. Obrigado por tudo!`,
+                    intenso: `Amigos são a família que a gente escolhe. Nossa conexão é rara e sou profundamente grato(a) por ter você na minha jornada.`,
+                    curto: `A melhor dupla que esse mundo já viu! Tamo junto pra sempre.`
+                };
+            } else if (temaAtual === 'aniversario') {
+                mensagens = {
+                    romantico: `Parabéns, ${nome1}! Que o seu dia seja repleto de sorrisos e que o novo ciclo traga ainda mais saúde e conquistas. Celebrar sua vida é uma alegria!`,
+                    engracado: `Parabéns! Mais um ano de experiência e algumas rugas a mais (brincadeira!). Que você continue com esse espírito jovem sempre.`,
+                    intenso: `Que sua jornada continue sendo iluminada. Você é uma pessoa especial que transforma a vida de todos ao redor. Parabéns pelo seu dia!`,
+                    curto: `Feliz aniversário! Que todos os seus sonhos se realizem.`
+                };
+            } else if (temaAtual === 'casamento') {
+                mensagens = {
+                    romantico: `${nome1} & ${nome2}, que o amor que uniu vocês se fortaleça a cada amanhecer. Que a cumplicidade e a alegria façam morada eterna no lar de vocês.`,
+                    engracado: `O casamento é a arte de resolver em conjunto problemas que vocês não teriam sozinhos! Que vocês continuem vencendo o jogo da vida em dupla.`,
+                    intenso: `Ver a união de vocês nos faz acreditar no amor verdadeiro. Que esta caminhada seja repleta de paciência, sabedoria e momentos inesquecíveis.`,
+                    curto: `Parabéns ao casal! Que o felizes para sempre seja todo dia.`
+                };
+            } else {
+                // Padrão (Casal)
+                mensagens = {
+                    romantico: `${nome2}, desde que você entrou na minha vida tudo ganhou cor. Já são ${anos} de nós. Você é meu porto seguro, meu amor pra toda vida.`,
+                    engracado: `${nome2}, obrigado por aturar minhas manias há ${anos}. Você é a única pessoa que eu deixo roubar minha batata frita. Te amo!`,
+                    intenso: `${nome2}, você é a melhor parte de mim. Em ${anos} eu descobri que amor de verdade existe. Sou seu pra sempre, ${nome1}.`,
+                    curto: `${nome2}, você + eu = pra sempre. Simples assim. Te amo, ${nome1}.`
+                };
+            }
             document.getElementById('mensagem').value = mensagens[modelo] || mensagens['romantico'];
             window.atualizarPreview();
         };
