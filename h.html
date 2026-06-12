@@ -347,7 +347,6 @@
            if (!isDemo && dados.musica) {
                 // BUSCA O ID PELO TÍTULO SALVO NO BANCO
                 const termoBusca = encodeURIComponent(dados.musica);
-                const iframeSrc = `https://www.youtube.com/embed?listType=search&list=${termoBusca}&autoplay=1&controls=0&loop=1`;
                 
                 // PLAYER CUSTOMIZADO PREMIUM
                 document.getElementById('musica').innerHTML = `
@@ -358,27 +357,12 @@
                                 <div style="color:#fff;font-weight:600;">${dados.musica}</div>
                             </div>
                         </div>
-                        <iframe src="${iframeSrc}" style="display:none;"></iframe>
+                        <iframe src="https://www.youtube.com/embed?listType=search&list=${termoBusca}&autoplay=1&controls=0&loop=1" style="display:none;"></iframe>
                     </div>
                 `;
-                    document.getElementById('musica').innerHTML = `
-                        <div id="playerCustom" style="background:linear-gradient(135deg,rgba(255,77,121,0.2),rgba(255,140,66,0.2));border:1px solid rgba(255,77,121,0.4);border-radius:20px;padding:20px;backdrop-filter:blur(10px);">
-                            <div style="display:flex;align-items:center;gap:15px;">
-                                <div id="btnPlayer" style="width:50px;height:50px;background:linear-gradient(135deg,#FF4D79,#FF8C42);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 5px 15px rgba(255,77,121,0.4);">
-                                    <svg id="iconPlay" width="20" height="20" fill="#fff" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                                    <svg id="iconPause" width="20" height="20" fill="#fff" viewBox="0 0 24 24" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-                                </div>
-                                <div style="flex:1;">
-                                    <div style="color:#FFD166;font-size:12px;letter-spacing:2px;margin-bottom:5px;">TOCANDO AGORA</div>
-                                    <div style="color:#fff;font-weight:600;">Música de Vocês</div>
-                                    <div id="barraProgresso" style="width:100%;height:4px;background:rgba(255,255,255,0.2);border-radius:2px;margin-top:10px;overflow:hidden;">
-                                        <div id="progressoAtual" style="width:0%;height:100%;background:linear-gradient(90deg,#FF4D79,#FF8C42);transition:width 0.3s;"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="ytPlayer" style="display:none;"></div>
-                        </div>
-                    `;
+           } else if (isDemo && dados.musica) {
+                document.getElementById('musica').innerHTML = '<div style="color:#888;padding:20px;border:2px dashed #444;border-radius:8px;">🔒 Música bloqueada na demo</div>';
+           }
 
                     // CARREGA API DO YOUTUBE
                     if (!window.YT) {
