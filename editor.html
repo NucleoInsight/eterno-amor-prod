@@ -630,6 +630,50 @@
                 btn.innerText = 'Salvar e Publicar Homenagem';
             }
         }
+        // MOTOR DE BUSCA DE MÚSICA
+        window.buscarMusicaYouTube = function() {
+            const termo = document.getElementById('buscaMusicaInput').value.trim();
+            const container = document.getElementById('resultadosMusicaContainer');
+            const status = document.getElementById('dicaMusicaStatus');
+
+            if (!termo) {
+                alert('Digite o nome da música ou artista!');
+                return;
+            }
+
+            container.innerHTML = '<div style="color:#FFD166; padding:10px;">🔍 Buscando...</div>';
+            const callbackName = 'ytSugest_' + Math.round(Math.random() * 100000);
+            
+            window[callbackName] = function(dados) {
+                document.getElementById(callbackName)?.remove();
+                delete window[callbackName];
+                if (!dados || !dados[1]) return;
+
+                let htmlResultados = '';
+                dados[1].forEach(sugestao => {
+                    const texto = sugestao[0];
+                    const urlYt = `https://www.youtube.com/results?search_query=${encodeURIComponent(texto)}`;
+                    htmlResultados += `
+                        <div onclick="window.selecionarMusica('${urlYt}', '${texto.replace(/'/g, "\\'")}', this)" 
+                             style="background:#1a1a1a; border:1px solid #333; padding:10px; border-radius:8px; cursor:pointer;">
+                            ${texto}
+                        </div>`;
+                });
+                container.innerHTML = htmlResultados;
+            };
+
+            const script = document.createElement('script');
+            script.id = callbackName;
+            script.src = `https://suggestqueries.google.com/complete/search?client=youtube&ds=yt&q=${encodeURIComponent(termo)}&jsonp=${callbackName}`;
+            document.head.appendChild(script);
+        };
+
+        window.selecionarMusica = function(url, titulo, elemento) {
+            document.getElementById('musica').value = url;
+            document.getElementById('dicaMusicaStatus').innerHTML = `✅ <strong>Música:</strong> ${titulo}`;
+            document.getElementById('resultadosMusicaContainer').innerHTML = '';
+            window.atualizarPreview();
+        };
         verificarAcesso();
     </script>
 </body>
