@@ -413,8 +413,9 @@
         document.getElementById('data').addEventListener('input', () => window.atualizarPreview());
         document.getElementById('musica').addEventListener('input', () => window.atualizarPreview());
 
-        // INICIALIZAÇÃO
-        verificarAcesso();
+        // INICIALIZAÇÃO - Ajuste este trecho final
+        window.verificarAcesso = verificarAcesso; 
+        window.verificarAcesso();
     </script>
 </body>
 </html>
