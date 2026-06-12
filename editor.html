@@ -464,48 +464,20 @@
             document.getElementById('mensagem').value = mensagens[modelo] || mensagens['romantico'];
         }
 
-        window.enviarFoto = async function(input, campoId) {
+       window.enviarFoto = async function(input, campoId) {
             const file = input.files[0];
             if (!file) return;
-
             const preview = document.getElementById('preview' + campoId.slice(-1));
-            preview.innerText = 'Enviando foto...';
-
-            if (file.size > 5 * 1024 * 1024) {
-                alert('Foto muito grande. Máximo 5MB.');
-                preview.innerText = '';
-                return;
-            }
-
-            try {
-                const formData = new FormData();
-                formData.append('image', file);
-
-                const response = await fetch('https://api.imgur.com/3/image', {
-                    method: 'POST',
-                    headers: { 'Authorization': 'Client-ID 546c25a59c58ad7' },
-                    body: formData
-                });
-
-                const data = await response.json();
-                if (data.success) {
-                    document.getElementById(campoId).value = data.data.link;
-                    preview.innerHTML = `✓ Foto adicionada: <img src="${data.data.link}" style="width:40px;height:40px;border-radius:4px;vertical-align:middle;margin-left:5px;">`;
-                    return;
-                }
-            } catch (e) {
-                console.log('Imgur falhou, usando base64');
-            }
-
+            preview.innerText = 'Enviando...';
             const reader = new FileReader();
             reader.onload = function(e) {
                 document.getElementById(campoId).value = e.target.result;
-                preview.innerHTML = `✓ Foto adicionada: <img src="${e.target.result}" style="width:40px;height:40px;border-radius:4px;vertical-align:middle;margin-left:5px;">`;
+                preview.innerHTML = `✓ Foto ok!`;
             };
             reader.readAsDataURL(file);
-        }
+        };
 
-       window.finalizar = async function() {
+        window.finalizar = async function() {
             const btn = document.getElementById('btnSalvar');
             btn.disabled = true;
             btn.innerText = 'Salvando...';
@@ -523,13 +495,6 @@
                 publicado: true
             };
 
-            if (!dados.nomes || !dados.data || !dados.mensagem) {
-                alert('Preencha os campos obrigatórios!');
-                btn.disabled = false;
-                btn.innerText = '⭐ Finalizar e Salvar Minha Página';
-                return;
-            }
-
             try {
                 await setDoc(doc(db, 'homenagens', id), dados, { merge: true });
                 alert('Homenagem publicada com sucesso! 🎉');
@@ -541,35 +506,12 @@
             }
         };
 
-            // Mapeamento e tratamento de segurança para salvar temas e planos separados
-            let planoSalvar = dadosPlano?.plano || 'essencial';
-            let temaSalvar = dadosPlano?.tema || 'casal';
-            
-            // CAPTURA O TEMA ATUALIZADO DO SELETOR DA TELA ANTES DE GRAVAR NO FIREBASE
-            const selectTemaSalvar = document.getElementById('temaAtivo');
-            if (selectTemaSalvar && selectTemaSalvar.value) {
-                temaSalvar = selectTemaSalvar.value;
-            }
-            
-            const listaTemasLegado = ['maternidade', 'amizade', 'luto', 'pet', 'aniversario', 'casamento', 'viagem', 'conquista'];
-            if (listaTemasLegado.includes(planoSalvar)) {
-                temaSalvar = planoSalvar;
-                planoSalvar = 'vitalicio';
-            }
+        // Eventos de Preview
+        document.getElementById('nomes').addEventListener('input', () => window.atualizarPreview());
+        document.getElementById('data').addEventListener('input', () => window.atualizarPreview());
+        document.getElementById('musica').addEventListener('input', () => window.atualizarPreview());
 
-            dados.plano = planoSalvar;
-            dados.tema = temaSalvar;
-
-            try {
-                await setDoc(doc(db, 'homenagens', id), dados, { merge: true });
-                alert(`Homenagem publicada! 🎉\n\nLink final: h.html?id=${id}`);
-                window.location.href = `h.html?id=${id}&criador=true`;
-            } catch (e) {
-                alert('Erro ao salvar: ' + e.message);
-                btn.disabled = false;
-                btn.innerText = 'Salvar e Publicar Homenagem';
-            }
-        }
+        // Inicialização
         verificarAcesso();
     </script>
 </body>
