@@ -334,7 +334,7 @@
         function zerarCamposPreview(config) {
             const containerpTempo = document.getElementById('pTempo');
             if (containerpTempo) {
-                containerpTempo.parentElement.innerHTML = `${config.labelTempo}<span id="pTempo">---</span>`;
+                containerpTempo.innerText = '---';
             }
             const containerpContador = document.getElementById('pContador');
             if (containerpContador) {
