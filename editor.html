@@ -136,7 +136,8 @@
         const urlParams = new URLSearchParams(window.location.search);
         const id = urlParams.get('id');
         let dadosPlano = null;
-
+        let passoAtual = 0;
+        
         // VERIFICA SE ID FOI LIBERADO
         async function verificarAcesso() {
             if (!id) {
