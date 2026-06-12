@@ -42,49 +42,65 @@
     </style>
 </head>
 <body>
+    <div class="tarja" id="tarjaEscassez" style="background: linear-gradient(90deg, #E63965 0%, #FF4D79 50%, #FF8C42 100%); color: #ffffff; padding: 12px; font-weight: 700; text-align: center; border-radius: 8px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(255, 77, 121, 0.3);">
+        ⚡ PROMOÇÃO ATIVA: Todos os planos com 50% OFF apenas hoje! Garanta seu desconto antes que acabe.
+    </div>
+
     <div class="container">
-        <div id="telaErro" class="erro oculto">
-            <strong>Acesso negado.</strong><br>
-            Este link não foi liberado ou expirou. Entre em contato com o suporte.
+       <h1 style="font-size: clamp(1.8rem, 8vw, 2.5rem); line-height: 1.1;">Crie seu Presente Inesquecível 💌</h1>
+        <p class="sub">Responda as perguntas abaixo para montar sua página personalizada.</p>
+
+        <!-- TIMER DA DEMO -->
+        <div class="contador-demo" id="timerDemo"></div>
+
+        <!-- BARRA DE PROGRESSO -->
+        <div style="width: 100%; height: 8px; background: #222; border-radius: 4px; margin-bottom: 35px; overflow: hidden;">
+            <div id="barraProgresso" style="width: 16.6%; height: 100%; background: linear-gradient(135deg, #FF4D79 0%, #FF8C42 100%); transition: width 0.4s ease;"></div>
         </div>
 
-        <div id="telaBloqueioEdicao" class="erro oculto" style="background: #FF8C42;">
-            <strong>Homenagem já Publicada! 🔒</strong><br>
-            Seu plano (Essencial/Completo) não permite edições após a publicação. Sua página continua no ar normalmente! Para fazer alterações futuras, faça um upgrade para o plano Vitalício com o suporte.
-        </div>
-
-        <div id="telaEditor" class="oculto">
-            <div class="tarja">✓ ACESSO LIBERADO - Plano <span id="nomePlano"></span></div>
-
-            <h1>Quase lá! Finalize sua declaração 💌</h1>
-            <p class="sub">Capricha nos detalhes. É isso que ele(a) vai ver pra sempre. Link: <strong id="mostraId"></strong></p>
-
-           <!-- NOVO CAMPO DE SELEÇÃO DE TEMA (FICA OCULTO POR PADRÃO E O JS LIBERA PARA PLANOS COMPLETO/VITALÍCIO) -->
-            <div id="containerTema" class="oculto">
-                <label for="temaAtivo">Escolha o Tema da sua Página:</label>
-                <select id="temaAtivo" onchange="montarTela()">
-                    <option value="casal">♥ Casal (Tradicional)</option>
-                    <option value="maternidade">👶 Maternidade</option>
-                    <option value="amizade">⭐ Amizade</option>
-                    <option value="luto">🕊️ Luto (Memória e Saudade)</option>
-                    <option value="pet">🐾 Pet</option>
-                    <option value="aniversario">🎂 Aniversário</option>
-                    <option value="casamento">💍 Casamento</option>
-                    <option value="viagem">✈️ Viagem</option>
-                    <option value="conquista">🎓 Conquista / Formatura</option>
-                </select>
-                <div class="dica">O tema altera as cores, os textos e os emojis da página automaticamente!</div>
+        <!-- PASSO 0: ESCOLHA DO TEMA -->
+        <div class="passo-quiz" id="passo0">
+            <label style="font-size: 20px; margin-bottom: 10px;">Para começar, qual o motivo da sua homenagem?</label>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 20px;">
+                <button type="button" style="margin:0; padding:15px; border-radius:10px; font-size:15px; background:#1a1a1a; border:2px solid #333;" onclick="selecionarTemaBotao('casal')">💝 Casal</button>
+                <button type="button" style="margin:0; padding:15px; border-radius:10px; font-size:15px; background:#1a1a1a; border:2px solid #333;" onclick="selecionarTemaBotao('maternidade')">👶 Maternidade</button>
+                <button type="button" style="margin:0; padding:15px; border-radius:10px; font-size:15px; background:#1a1a1a; border:2px solid #333;" onclick="selecionarTemaBotao('amizade')">⭐ Amizade</button>
+                <button type="button" style="margin:0; padding:15px; border-radius:10px; font-size:15px; background:#1a1a1a; border:2px solid #333;" onclick="selecionarTemaBotao('luto')">🕊️ Luto</button>
+                <button type="button" style="margin:0; padding:15px; border-radius:10px; font-size:15px; background:#1a1a1a; border:2px solid #333;" onclick="selecionarTemaBotao('pet')">🐾 Pet</button>
+                <button type="button" style="margin:0; padding:15px; border-radius:10px; font-size:15px; background:#1a1a1a; border:2px solid #333;" onclick="selecionarTemaBotao('aniversario')">🎂 Aniversário</button>
+                <button type="button" style="margin:0; padding:15px; border-radius:10px; font-size:15px; background:#1a1a1a; border:2px solid #333;" onclick="selecionarTemaBotao('casamento')">💍 Casamento</button>
+                <button type="button" style="margin:0; padding:15px; border-radius:10px; font-size:15px; background:#1a1a1a; border:2px solid #333;" onclick="selecionarTemaBotao('viagem')">✈️ Viagem</button>
+                <button type="button" style="margin:0; padding:15px; border-radius:10px; font-size:15px; background:#1a1a1a; border:2px solid #333;" onclick="selecionarTemaBotao('conquista')">🎓 Conquista</button>
             </div>
+            <select id="temaAtivo" onchange="montarTela()" style="display: none;">
+                <option value="casal">Casal</option>
+            </select>
+        </div>
 
-            <!-- IDENTIFICADORES ÚNICOS COM ID PARA O JAVASCRIPT NUNCA MAIS EMBALHARAR OU INVERTER OS CAMPOS -->
+        <!-- PASSO 1: NOMES -->
+        <div class="passo-quiz" id="passo1" style="display: none;">
             <label id="labelNome" for="nomes">Nome de vocês dois:</label>
-            <input type="text" id="nomes" placeholder="Ex: Gil e Maria ou Gil & Maria">
-            <div id="dicaNome" class="dica">Pode ser: Gil e Maria, Gil & Maria, Gil + Maria</div>
+            <input type="text" id="nomes" placeholder="Ex: Gil e Maria">
+            <div id="dicaNome" class="dica">Pode ser: Gil e Maria, Gil & Maria</div>
+            <div style="display: flex; gap: 10px;">
+                <button type="button" class="btn-secundario" onclick="mudarPasso(-1)">Voltar</button>
+                <button type="button" onclick="mudarPasso(1)">Avançar ➔</button>
+            </div>
+        </div>
 
+        <!-- PASSO 2: DATA -->
+        <div class="passo-quiz" id="passo2" style="display: none;">
             <label id="labelData" for="data">Data que começaram:</label>
-            <input type="text" id="data" placeholder="DD/MM/AAAA" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/^(\d{2})(\d)/, '$1/$2').replace(/^(\d{2})\/(\d{2})(\d)/, '$1/$2/$3')">
+            <input type="text" id="data" placeholder="DD/MM/AAAA" maxlength="10">
+            <div style="display: flex; gap: 10px;">
+                <button type="button" class="btn-secundario" onclick="mudarPasso(-1)">Voltar</button>
+                <button type="button" onclick="mudarPasso(1)">Avançar ➔</button>
+            </div>
+        </div>
 
-            <label id="labelMensagem">Escreva o que sente por ele(a):</label>
+        <!-- PASSO 3: MENSAGEM -->
+        <div class="passo-quiz" id="passo3" style="display: none;">
+            <label>Escreva sua mensagem personalizada:</label>
             <select id="modeloMsg">
                 <option value="">Escolha um modelo ou escreva a sua</option>
                 <option value="romantico">Romântico Clássico</option>
@@ -94,25 +110,50 @@
             </select>
             <textarea id="mensagem" rows="5" placeholder="Ou escreva sua própria declaração aqui..."></textarea>
             <button type="button" class="btn-secundario" onclick="gerarMensagem()">✨ Gerar Mensagem Automática</button>
-
-            <div id="campoMusica">
-                <label>Música de Vocês no YouTube:</label>
-                <input type="url" id="musica" placeholder="https://youtube.com/watch?v=...">
-                <div class="dica">A música toca sozinha, sem anúncios.</div>
+            <div style="display: flex; gap: 10px; margin-top:20px;">
+                <button type="button" class="btn-secundario" onclick="mudarPasso(-1)">Voltar</button>
+                <button type="button" onclick="mudarPasso(1)">Avançar ➔</button>
             </div>
+        </div>
 
+        <!-- PASSO 4: MÚSICA -->
+        <div class="passo-quiz" id="passo4" style="display: none;">
+            <label>Qual música representa essa história?</label>
+            <input type="text" id="buscaMusicaInput" placeholder="🔍 Digite nome da música ou artista...">
+            <button type="button" onclick="buscarMusicaYouTube()" style="background:#333; margin-top:10px;">Buscar no YouTube</button>
+            <div id="resultadosMusicaContainer" style="margin-top: 15px;"></div>
+            <input type="hidden" id="musica">
+            <div class="dica" id="dicaMusicaStatus">A música tocará sozinha. Busque e clique no resultado!</div>
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button type="button" class="btn-secundario" onclick="mudarPasso(-1)">Voltar</button>
+                <button type="button" onclick="mudarPasso(1)">Avançar ➔</button>
+            </div>
+        </div>
+
+        <!-- PASSO 5: FOTOS -->
+        <div class="passo-quiz" id="passo5" style="display: none;">
             <div class="grupo-foto">
-                <!-- Blocos de foto são gerados dinamicamente pelo JS -->
-            </div>
-            <button id="btnSalvar" onclick="salvar()">Salvar e Publicar Homenagem</button>
+                <label>Fotos para a Homenagem:</label>
+                <input type="file" id="uploadFoto1" accept="image/*" style="display:none" onchange="enviarFoto(this, 'foto1')">
+                <button type="button" class="btn-secundario" onclick="document.getElementById('uploadFoto1').click()">📷 Foto 1</button>
+                <input type="hidden" id="foto1"><div id="preview1" class="dica"></div>
 
-            <div class="preview-box">
-                <h3>Preview em tempo real:</h3>
-                <p><strong>Casal:</strong> <span id="pNomes">---</span></p>
-                <p><strong>Juntos há:</strong> <span id="pTempo">---</span></p>
-                <div class="contador-demo" id="pContador"></div>
-                <p><strong>Música:</strong> <span id="pMusica">---</span></p>
+                <input type="file" id="uploadFoto2" accept="image/*" style="display:none" onchange="enviarFoto(this, 'foto2')">
+                <button type="button" class="btn-secundario" onclick="document.getElementById('uploadFoto2').click()">📷 Foto 2</button>
+                <input type="hidden" id="foto2"><div id="preview2" class="dica"></div>
             </div>
+            <div style="display: flex; gap: 10px;">
+                <button type="button" class="btn-secundario" onclick="mudarPasso(-1)">Voltar</button>
+                <button id="btnSalvar" type="button" onclick="salvar()" style="background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);">⭐ Finalizar e Salvar</button>
+            </div>
+        </div>
+
+        <div class="preview-box">
+            <h3>Preview em tempo real:</h3>
+            <p><strong>Casal:</strong> <span id="pNomes">---</span></p>
+            <p><strong>Contador:</strong> <span id="pTempo">---</span></p>
+            <div class="contador-demo" id="pContador"></div>
+            <p><strong>Música:</strong> <span id="pMusica">---</span></p>
         </div>
     </div>
 
