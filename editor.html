@@ -95,15 +95,10 @@
             <textarea id="mensagem" rows="5" placeholder="Ou escreva sua própria declaração aqui..."></textarea>
             <button type="button" class="btn-secundario" onclick="gerarMensagem()">✨ Gerar Mensagem Automática</button>
 
-           <div id="campoMusica">
-                <label>Qual música representa essa história?</label>
-                <div style="display: flex; gap: 8px; margin-top: 8px;">
-                    <input type="text" id="buscaMusicaInput" placeholder="🔍 Nome da música ou artista..." style="margin-top:0;">
-                    <button type="button" class="btn-secundario" onclick="buscarMusicaYouTube()" style="margin-top:0; width:auto; padding:0 20px;">Buscar</button>
-                </div>
-                <div id="resultadosMusicaContainer" style="margin-top: 15px; display: flex; flex-direction: column; gap: 10px; max-height: 250px; overflow-y: auto; padding-right: 5px;"></div>
-                <input type="hidden" id="musica">
-                <div class="dica" id="dicaMusicaStatus">Busque e clique no resultado para definir.</div>
+            <div id="campoMusica">
+                <label>Música de Vocês no YouTube:</label>
+                <input type="url" id="musica" placeholder="https://youtube.com/watch?v=...">
+                <div class="dica">A música toca sozinha, sem anúncios.</div>
             </div>
 
             <div class="grupo-foto">
@@ -562,7 +557,6 @@
                     document.getElementById('data').value = d.data || '';
                     document.getElementById('mensagem').value = d.mensagem || '';
                     document.getElementById('musica').value = d.musica || '';
-                    if (d.musica) document.getElementById('dicaMusicaStatus').innerHTML = `✅ <strong>Música definida.</strong>`;
                     for (let i = 1; i <= 10; i++) {
                         const fotoEl = document.getElementById(`foto${i}`);
                         if (fotoEl && d[`foto${i}`]) {
@@ -631,61 +625,6 @@
                 btn.innerText = 'Salvar e Publicar Homenagem';
             }
         }
-        // MOTOR DE BUSCA DE MÚSICA
-        window.buscarMusicaYouTube = function() {
-            const termo = document.getElementById('buscaMusicaInput').value.trim();
-            const container = document.getElementById('resultadosMusicaContainer');
-            const status = document.getElementById('dicaMusicaStatus');
-
-            if (!termo) {
-                alert('Digite o nome da música ou artista!');
-                return;
-            }
-
-            container.innerHTML = '<div style="color:#FFD166; padding:10px;">🔍 Buscando...</div>';
-            const callbackName = 'ytSugest_' + Math.round(Math.random() * 100000);
-            
-            window[callbackName] = function(dados) {
-                document.getElementById(callbackName)?.remove();
-                delete window[callbackName];
-                if (!dados || !dados[1]) return;
-
-                let htmlResultados = '';
-                dados[1].forEach(sugestao => {
-                    const texto = sugestao[0];
-                    const urlYt = `https://www.youtube.com/results?search_query=${encodeURIComponent(texto)}`;
-                    htmlResultados += `
-                        <div onclick="window.selecionarMusica('${urlYt}', '${texto.replace(/'/g, "\\'")}', this)" 
-                             style="background:#1a1a1a; border:1px solid #333; padding:10px; border-radius:8px; cursor:pointer;">
-                            ${texto}
-                        </div>`;
-                });
-                container.innerHTML = htmlResultados;
-            };
-
-            const script = document.createElement('script');
-            script.id = callbackName;
-            script.src = `https://suggestqueries.google.com/complete/search?client=youtube&ds=yt&q=${encodeURIComponent(termo)}&jsonp=${callbackName}`;
-            document.head.appendChild(script);
-        };
-
-       // FUNÇÕES EXPOSTAS PARA O NAVEGADOR
-       // EXPOSIÇÃO GLOBAL DE TODAS AS FUNÇÕES PARA O NAVEGADOR
-        window.atualizarPreview = atualizarPreview;
-        
-        window.selecionarMusica = function(url, titulo, elemento) {
-            // SALVA APENAS O TÍTULO DA MÚSICA COMO REFERÊNCIA
-            document.getElementById('musica').value = titulo;
-            
-            document.getElementById('dicaMusicaStatus').innerHTML = `✅ <strong>Música selecionada:</strong> ${titulo}`;
-            document.getElementById('resultadosMusicaContainer').innerHTML = '';
-            window.atualizarPreview();
-        };
-
-        window.buscarMusicaYouTube = buscarMusicaYouTube;
-        window.gerarMensagem = gerarMensagem;
-        window.enviarFoto = enviarFoto;
-        window.salvar = salvar;
         verificarAcesso();
     </script>
 </body>
