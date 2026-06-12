@@ -261,33 +261,32 @@
             document.head.appendChild(s);
         };
 
-       window.selecionarMusica = function(musica, elemento) {
-            // Atualiza o valor oculto e a preview
-            document.getElementById('musica').value = musica;
-            window.atualizarPreview();
+       window.selecionarMusica = function(musica, tituloCompleto, elementoClicado) {
+    document.getElementById('musica').value = musica;
+    const status = document.getElementById('dicaMusicaStatus');
+    
+    // Feedback visual no status
+    status.innerHTML = `
+        <div style="background: #1a2e1f; border: 1px solid #25D366; color: #25D366; padding: 10px; border-radius: 8px; margin-top: 10px;">
+            ✅ <strong>Música Definida:</strong> ${tituloCompleto}
+        </div>`;
 
-            // Aplica o estilo visual de "Selecionado" (o verde que você viu no demo)
-            const todosResultados = document.querySelectorAll('#resultadosMusicaContainer > div');
-            todosResultados.forEach(div => {
-                div.style.borderColor = '#333';
-                div.style.background = '#1a1a1a';
-            });
+    // Reseta o estilo de todos os itens da lista
+    const container = document.getElementById('resultadosMusicaContainer');
+    const todosResultados = container.querySelectorAll('div[onclick*="selecionarMusica"]');
+    todosResultados.forEach(div => {
+        div.style.borderColor = '#333';
+        div.style.background = '#1a1a1a';
+    });
 
-            // Destaca o elemento clicado
-            elemento.style.borderColor = '#25D366';
-            elemento.style.background = '#1a2e1f';
+    // Aplica o destaque apenas ao elemento clicado (se o elemento for passado ou encontrado)
+    if (elementoClicado) {
+        elementoClicado.style.borderColor = '#25D366';
+        elementoClicado.style.background = 'rgba(37, 211, 102, 0.1)';
+    }
 
-            // Adiciona a mensagem de sucesso igual ao demo
-            document.getElementById('dicaMusicaStatus').innerHTML = `
-                <div style="background: #1a2e1f; border: 1px solid #25D366; color: #25D366; padding: 10px; border-radius: 8px; margin-top: 10px;">
-                    ✅ <strong>Música Definida:</strong> ${musica}
-                </div>`;
-        };
-        
-        // Preview ao vivo
-        document.getElementById('nomes').addEventListener('input', window.atualizarPreview);
-        document.getElementById('data').addEventListener('input', window.atualizarPreview);
-        document.getElementById('musica').addEventListener('input', window.atualizarPreview);
+    window.atualizarPreview();
+};
 
         window.atualizarPreview = function() {
             const nomes = document.getElementById('nomes').value || '---';
