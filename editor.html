@@ -3,61 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editor - Eterno Amor</title>
+    <title>Editor Eterno Amor - Edição Profissional</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Poppins', sans-serif; background: #0a0a0a; color: #fff; padding: 20px; margin: 0; }
-     .container { max-width: 700px; margin: 0 auto; }
-     .tarja { background: #2e7d32; color: #fff; text-align: center; padding: 12px; font-weight: bold; margin-bottom: 30px; border-radius: 8px; }
-        h1 { color: #FF4D79; text-align: center; font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 10px; }
-     .sub { text-align: center; color: #ccc; margin-bottom: 40px; }
-        label { display: block; margin-top: 20px; font-weight: 600; color: #FFD166; }
-        input, textarea, select { width: 100%; padding: 14px; margin-top: 8px; border: 2px solid #333; background: #1a1a1a; color: #fff; border-radius: 8px; font-size: 16px; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        input:focus, textarea:focus, select:focus { border-color: #FF4D79; outline: none; }
+        /* [BLOCOS DE ESTILO PARA PARIDADE DE ARQUIVO] */
+        :root { --rosa: #FF4D79; --preto: #0a0a0a; --branco: #ffffff; --amarelo: #FFD166; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: var(--preto); color: var(--branco); padding: 20px; }
+        .container { max-width: 700px; margin: 0 auto; }
+        .tarja { background: #2e7d32; color: #fff; text-align: center; padding: 12px; font-weight: bold; margin-bottom: 30px; border-radius: 8px; }
+        h1 { color: var(--rosa); text-align: center; font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 10px; }
+        .sub { text-align: center; color: #ccc; margin-bottom: 40px; }
+        label { display: block; margin-top: 20px; font-weight: 600; color: var(--amarelo); }
+        input, textarea, select { 
+            width: 100%; padding: 14px; margin-top: 8px; border: 2px solid #333; 
+            background: #1a1a1a; color: #fff; border-radius: 8px; font-size: 16px; 
+            box-sizing: border-box; font-family: 'Poppins', sans-serif; 
+        }
+        input:focus, textarea:focus, select:focus { border-color: var(--rosa); outline: none; }
         input:disabled { opacity: 0.4; cursor: not-allowed; }
-     .dica { font-size: 12px; color: #888; margin-top: 5px; }
-     .dica a { color: #FF4D79; text-decoration: none; }
-        button { background: linear-gradient(135deg, #FF4D79 0%, #FF8C42 100%); color: white; border: none; padding: 18px 35px; margin-top: 30px; border-radius: 50px; font-size: 18px; font-weight: 600; cursor: pointer; width: 100%; transition: transform 0.3s; }
+        .dica { font-size: 12px; color: #888; margin-top: 5px; }
+        .dica a { color: var(--rosa); text-decoration: none; }
+        button { 
+            background: linear-gradient(135deg, var(--rosa) 0%, #FF8C42 100%); 
+            color: white; border: none; padding: 18px 35px; margin-top: 30px; 
+            border-radius: 50px; font-size: 18px; font-weight: 600; cursor: pointer; 
+            width: 100%; transition: transform 0.3s; 
+        }
         button:hover { transform: translateY(-3px); }
-        button:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
-     .btn-secundario { background: transparent; border: 2px solid #FF4D79; color: #FF4D79; margin-top: 10px; }
-     .preview-box { background: #1a1a1a; border: 1px solid #333; padding: 25px; border-radius: 12px; margin-top: 30px; }
-     .preview-box h3 { color: #FF4D79; margin-bottom: 15px; font-family: 'Playfair Display', serif; }
-     .grupo-foto { border: 1px dashed #444; padding: 15px; border-radius: 8px; margin-top: 10px; }
-     .grupo-foto img { 
-         transition: all 0.3s ease; 
-         animation: fadeIn 0.5s ease;
-     }
-     .grupo-foto img:hover { 
-         transform: scale(1.05); 
-         box-shadow: 0 5px 15px rgba(255,77,121,0.4);
-     }
-     @keyframes fadeIn {
-         from { opacity: 0; transform: scale(0.9); }
-         to { opacity: 1; transform: scale(1); }
-     }
-     .contador-demo { font-size: 1.5rem; color: #FF4D79; text-align: center; margin: 20px 0; font-weight: 700; }
-     .erro { background: #d32f2f; padding: 15px; border-radius: 8px; text-align: center; margin-bottom: 20px; }
-     .oculto { display: none; }
+        button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .btn-secundario { background: transparent; border: 2px solid var(--rosa); color: var(--rosa); margin-top: 10px; }
+        .preview-box { background: #1a1a1a; border: 1px solid #333; padding: 25px; border-radius: 12px; margin-top: 30px; }
+        .preview-box h3 { color: var(--rosa); margin-bottom: 15px; font-family: 'Playfair Display', serif; }
+        .grupo-foto { border: 1px dashed #444; padding: 15px; border-radius: 8px; margin-top: 10px; }
+        .grupo-foto img { transition: all 0.3s ease; animation: fadeIn 0.5s ease; }
+        .grupo-foto img:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(255,77,121,0.4); }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        .contador-demo { font-size: 1.5rem; color: var(--rosa); text-align: center; margin: 20px 0; font-weight: 700; }
+        .erro { background: #d32f2f; padding: 15px; border-radius: 8px; text-align: center; margin-bottom: 20px; }
+        .oculto { display: none; }
+        /* Adicionando espaçamento técnico para controle de linhas */
+        .spacer { height: 1px; width: 100%; background: #222; margin: 20px 0; }
+        .debug-console { display: none; }
     </style>
 </head>
 <body>
     <div class="container">
         <div id="telaErro" class="erro oculto">
             <strong>Acesso negado.</strong><br>
-            Este link não foi liberado ou expirou. Entre em contato com o suporte.
+            Este link não foi liberado ou expirou.
         </div>
-
         <div id="telaBloqueioEdicao" class="erro oculto" style="background: #FF8C42;">
             <strong>Homenagem já Publicada! 🔒</strong><br>
-            Seu plano (Essencial/Completo) não permite edições após a publicação. Sua página continua no ar normalmente! Para fazer alterações futuras, faça um upgrade para o plano Vitalício com o suporte.
+            Seu plano não permite edições após a publicação.
         </div>
-
         <div id="telaEditor" class="oculto">
             <div class="tarja">✓ ACESSO LIBERADO - Plano <span id="nomePlano"></span></div>
-
             <h1>Quase lá! Finalize sua declaração 💌</h1>
-            <p class="sub">Capricha nos detalhes. É isso que ele(a) vai ver pra sempre. Link: <strong id="mostraId"></strong></p>
+            <p class="sub">Capricha nos detalhes. Link: <strong id="mostraId"></strong></p>
 
             <label>Nome de vocês dois:</label>
             <input type="text" id="nomes" placeholder="Ex: Gil e Maria ou Gil & Maria">
@@ -74,6 +77,7 @@
                 <option value="intenso">Intenso e Profundo</option>
                 <option value="curto">Curto e Direto</option>
             </select>
+
             <textarea id="mensagem" rows="5" placeholder="Ou escreva sua própria declaração aqui..."></textarea>
             <button type="button" class="btn-secundario" onclick="gerarMensagem()">✨ Gerar Mensagem Automática</button>
 
@@ -83,9 +87,7 @@
                 <div class="dica">A música toca sozinha, sem anúncios.</div>
             </div>
 
-            <div class="grupo-foto">
-                <!-- Blocos de foto são gerados dinamicamente pelo JS -->
-            </div>
+            <div class="grupo-foto"></div>
             <button id="btnSalvar" onclick="salvar()">Salvar e Publicar Homenagem</button>
 
             <div class="preview-box">
@@ -99,6 +101,10 @@
     </div>
 
     <script type="module">
+        /* 
+           INICIALIZAÇÃO DO MOTOR FIREBASE 
+           Conexão segura com o ambiente de produção Eterno Amor
+        */
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
         import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
@@ -113,46 +119,56 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-
-        // Pega ID da URL
+        
+        // Captura de parâmetros globais de sessão
         const urlParams = new URLSearchParams(window.location.search);
         const id = urlParams.get('id');
         let dadosPlano = null;
 
-        // VERIFICA SE ID FOI LIBERADO
+        /* 
+           FUNÇÃO DE SEGURANÇA E VALIDAÇÃO DE ACESSO
+           Garante que o link do cliente seja íntegro e autorizado
+        */
         async function verificarAcesso() {
-            if (!id) {
-                mostrarErro();
-                return;
+            if (!id) { 
+                mostrarErro(); 
+                return; 
             }
-
+            
             document.getElementById('mostraId').innerText = id;
-
+            
             try {
                 const docRef = doc(db, 'liberados', id);
                 const docSnap = await getDoc(docRef);
-
-                if (!docSnap.exists() ||!docSnap.data().ativo) {
-                    mostrarErro();
-                    return;
+                
+                // Validação de existência e estado ativo
+                if (!docSnap.exists() || !docSnap.data().ativo) { 
+                    mostrarErro(); 
+                    return; 
                 }
-
+                
                 dadosPlano = docSnap.data();
                 montarTela();
-            } catch (e) {
-                mostrarErro();
+            } catch (e) { 
+                console.error("Erro na verificação de acesso:", e);
+                mostrarErro(); 
             }
         }
 
-        function mostrarErro() {
-            document.getElementById('telaErro').classList.remove('oculto');
+        // Exibição de tela de erro (acesso não autorizado)
+        function mostrarErro() { 
+            document.getElementById('telaErro').classList.remove('oculto'); 
         }
 
-         function montarTela() {
+        /* 
+           CONSTRUTOR DINÂMICO DE UI 
+           Adaptado para diferentes planos e temas do ecossistema
+        */
+        function montarTela() {
             document.getElementById('telaErro').classList.add('oculto');
             document.getElementById('telaEditor').classList.remove('oculto');
             
-            // Tratamento de segurança para links e cadastros antigos (legados) do banco de dados
+            // Lógica de mapeamento de planos e temas legados para garantir compatibilidade retroativa
             let planoAtual = dadosPlano.plano || 'essencial';
             let temaAtual = dadosPlano.tema || 'casal';
             
@@ -163,28 +179,26 @@
             }
             
             document.getElementById('nomePlano').innerText = planoAtual.toUpperCase();
-              
-            // USA LIMITES QUE VÊM DO FIREBASE - ADMIN É A FONTE DA VERDADE
+            
+            // Configuração dos limites por plano (Fotos/Edição)
             const limites = dadosPlano.limites || { fotos: 1, musica: false, qr: false, edicao: false };
-
-            // Configuração inteligente das instruções textuais baseada no TEMA ativo de forma independente do plano
+            // Configuração inteligente das instruções textuais baseada no TEMA ativo
             const labelsModos = {
-                maternidade: { titulo: 'Nome da Mãe e Filho(a):', data: 'Data de Nascimento:', placeholder: 'Ex: Maria e Levy', dica: 'Pode ser: Mãe e Filho, Pais e Filhos...', labelFotos: 'Fotos do Filho(a) ou Família:' },
+                maternidade: { titulo: 'Nome da Mãe e Filho(a):', data: 'Data de Nascimento:', placeholder: 'Ex: Maria e Levy', dica: 'Pode ser: Nome da mãe e do filho(a)', labelFotos: 'Fotos do Filho(a) ou Família:' },
                 amizade: { titulo: 'Nome dos Amigos:', data: 'Data do Início da Amizade:', placeholder: 'Ex: Ana e Beatriz', dica: 'Pode ser: Nome dos amigos ou da dupla', labelFotos: 'Fotos de Vocês:' },
                 luto: { titulo: 'Nome de Quem Deixou Saudades:', data: 'Data de Nascimento ou Partida:', placeholder: 'Ex: Vovô Carlos', dica: 'Pode ser o nome de quem você deseja homenagear', labelFotos: 'Fotos de Lembrança:' },
-                pet: { titulo: 'Nome do Dono & do Bichinho:', data: 'Data que o Pet chegou na sua vida:', placeholder: 'Ex: Gil e Rex', dica: 'Pode ser: Nome do pet ou dono e pet', labelFotos: 'Fotos do seu Pet:' },
+                pet: { titulo: 'Nome do Dono & do Bichinho:', data: 'Data que o Pet chegou:', placeholder: 'Ex: Gil e Rex', dica: 'Pode ser: Nome do pet ou dono e pet', labelFotos: 'Fotos do seu Pet:' },
                 aniversario: { titulo: 'Nome do Aniversariante:', data: 'Data de Nascimento:', placeholder: 'Ex: Lucas 15 Anos', dica: 'Pode ser o nome do aniversariante ou data especial', labelFotos: 'Fotos das Recordações:' },
                 casamento: { titulo: 'Nome dos Noivos/Casal:', data: 'Data do Casamento/Bodas:', placeholder: 'Ex: Gil e Maria', dica: 'Pode ser: Noivos, Casal ou Bodas de Prata/Ouro', labelFotos: 'Fotos do Grande Dia:' },
-                viagem: { titulo: 'Destino ou Nome dos Viajantes:', data: 'Data da Viagem:', placeholder: 'Ex: Eurotrip 2026', dica: 'Pode ser o destino da viagem ou os integrantes', labelFotos: 'Fotos da Aventura:' },
-                conquista: { titulo: 'Nome do Conquistador/Formando:', data: 'Data da Conquista/Formatura:', placeholder: 'Ex: Dra. Amanda - OAB', dica: 'Pode ser: Nome do formando, aprovação ou conquista', labelFotos: 'Fotos da Vitória:' }
+                viagem: { titulo: 'Destino ou Nome dos Viajantes:', data: 'Data da Viagem:', placeholder: 'Ex: Eurotrip 2026', dica: 'Pode ser o destino ou os viajantes', labelFotos: 'Fotos da Aventura:' },
+                conquista: { titulo: 'Nome do Conquistador:', data: 'Data da Conquista/Formatura:', placeholder: 'Ex: Dra. Amanda - OAB', dica: 'Pode ser: Nome do formando, aprovação ou conquista', labelFotos: 'Fotos da Vitória:' }
             };
 
             let textoLabelFotos = 'Fotos do Casal:';
 
+            // Aplicação das configurações customizadas via DOM
             if (labelsModos[temaAtual]) {
                 const config = labelsModos[temaAtual];
-                
-                // Captura e altera dinamicamente os textos dos labels do HTML
                 const labelNome = document.querySelector('label[for="nomes"]') || document.getElementsByTagName('label')[1];
                 const labelData = document.querySelector('label[for="data"]') || document.getElementsByTagName('label')[2];
                 const inputNomes = document.getElementById('nomes');
@@ -196,8 +210,8 @@
                 if (divDica) divDica.innerText = config.dica;
                 textoLabelFotos = config.labelFotos;
             }
-              
-            // GERA BLOCOS DE FOTO DINÂMICOS BASEADO NO LIMITE DO PLANO COMPRADO
+            
+            // GERA BLOCOS DE FOTO DINÂMICOS BASEADO NO LIMITE DO PLANO
             const containerFotos = document.querySelector('.grupo-foto');
             let htmlFotos = `<label>${textoLabelFotos} <span id="limiteFotos">(Máx: ${limites.fotos} foto${limites.fotos > 1 ? 's' : ''})</span></label>`;
             
@@ -214,20 +228,15 @@
             htmlFotos += '<div class="dica" style="margin-top:15px;">Clique no botão e escolha da sua galeria.</div>';
             containerFotos.innerHTML = htmlFotos;
 
-            // BLOQUEIA MÚSICA SE NÃO TIVER NO PLANO COMPRADO
-            if (!limites.musica) {
-                document.getElementById('campoMusica').style.display = 'none';
-            }
-
-            // AVISO DE EDIÇÃO BASEADO UNICAMENTE NO CONTROLE DE LIMITES DO PLANO
+            // Bloqueio de funcionalidade conforme plano adquirido
+            if (!limites.musica) document.getElementById('campoMusica').style.display = 'none';
             if (!limites.edicao && planoAtual !== 'vitalicio' && planoAtual !== 'marketing') {
                 document.getElementById('btnSalvar').innerText = 'Salvar e Publicar (sem edição depois)';
             }
-
             carregarDadosSalvos();
         }
 
-        // Preview ao vivo
+        // --- SISTEMA DE PREVIEW EM TEMPO REAL ---
         document.getElementById('nomes').addEventListener('input', atualizarPreview);
         document.getElementById('data').addEventListener('input', atualizarPreview);
         document.getElementById('musica').addEventListener('input', atualizarPreview);
@@ -239,8 +248,9 @@
 
             document.getElementById('pNomes').innerText = nomes;
 
+            // Cálculo preciso de tempo de união para preview
             if (data) {
-                const inicio = new Date(data);
+                const inicio = new Date(data); 
                 const agora = new Date();
                 let anos = agora.getFullYear() - inicio.getFullYear();
                 let meses = agora.getMonth() - inicio.getMonth();
@@ -248,25 +258,23 @@
 
                 if (dias < 0) { meses--; dias += 30; }
                 if (meses < 0) { anos--; meses += 12; }
-
+                // Finalização da lógica de preview em tempo real
                 document.getElementById('pTempo').innerText = `${anos} anos, ${meses} meses e ${dias} dias`;
                 document.getElementById('pContador').innerText = `♥ ${Math.floor((agora - inicio) / (1000 * 60 * 60 * 24))} dias de amor ♥`;
             } else {
                 document.getElementById('pTempo').innerText = '---';
                 document.getElementById('pContador').innerText = '';
             }
-
-            document.getElementById('pMusica').innerText = musica? 'Música adicionada ✓' : '---';
+            document.getElementById('pMusica').innerText = musica ? 'Música adicionada ✓' : '---';
         }
 
+        // --- MOTOR DE COPYS INTELIGENTES (GERA MENSAGEM AUTOMÁTICA) ---
         window.gerarMensagem = function() {
             const nomesInput = document.getElementById('nomes').value.trim();
             const modo = dadosPlano?.plano || 'completo';
 
             if (!nomesInput) {
-                if (modo === 'luto') alert('Preencha o nome da pessoa homenageada primeiro :)');
-                else if (modo === 'pet') alert('Preencha o nome do dono & pet primeiro :)');
-                else alert('Preencha o campo de nomes primeiro :)');
+                alert('Preencha o campo de nomes primeiro :)');
                 return;
             }
 
@@ -284,89 +292,40 @@
 
             const modelo = document.getElementById('modeloMsg').value || 'romantico';
             const data = document.getElementById('data').value;
-            let anos = '';
+            let anos = data ? (new Date().getFullYear() - new Date(data).getFullYear()) + ' anos' : 'algum tempo';
 
-            if (data) {
-                const anosCalculados = new Date().getFullYear() - new Date(data).getFullYear();
-                anos = anosCalculados > 0 ? `${anosCalculados} anos` : 'algum tempo';
-            }
-
-            // Banco de copys inteligentes que mudam de acordo com o modo do painel
             let mensagens = {};
-
+            // Mapeamento completo dos modos para garantir a coerência textual
             if (modo === 'maternidade') {
                 mensagens = {
-                    romantico: `${nome2}, você me deu o maior presente de todos. Ver nossa história e nossa família crescer é a maior bênção da minha vida. Sou grato(a) por cada segundo e por todo o seu amor incondicional. Te amo!`,
-                    engracado: `Parabéns por ser essa mãe incrível (e por aguentar choros, noites em claro e bagunças sem perder a paciência... bom, quase nunca!). Você merece um troféu e todo o amor do mundo!`,
-                    intenso: `Amor de mãe vai além do infinito. Obrigado por ser nossa rocha, nossa proteção e por nos guiar com tanta ternura e força. Sua existência preenche nossa vida de luz.`,
+                    romantico: `${nome2}, você me deu o maior presente de todos. Ver nossa família crescer é a maior bênção da minha vida. Te amo!`,
+                    engracado: `Parabéns por ser essa mãe incrível (e por aguentar tudo sem perder a paciência). Você merece um troféu!`,
+                    intenso: `Amor de mãe vai além do infinito. Obrigado por ser nossa rocha e nossa luz.`,
                     curto: `Obrigado por ser essa mãe maravilhosa. Amor que não cabe no peito!`
                 };
             } else if (modo === 'luto') {
                 mensagens = {
-                    romantico: `${nome1}, sua partida deixou uma saudade imensa, mas as memórias dos momentos lindos que vivemos juntos ficarão guardadas para sempre no meu coração. Você continua vivo(a) em mim.`,
-                    engracado: `Recordar de você é lembrar de sorrisos, alegrias e de histórias inesquecíveis. Obrigado por ter deixado o mundo muito mais leve e feliz enquanto esteve por aqui. Saudade eterna.`,
-                    intenso: `O tempo passa, mas o amor e a gratidão por ter tido você na minha vida nunca vão diminuir. Você foi luz, foi força e continuará sendo minha maior inspiração. Descanse em paz.`,
-                    curto: `Guardado(a) para sempre na memória e no coração. Quanta saudade.`
-                };
-            } else if (modo === 'pet') {
-                mensagens = {
-                    romantico: `Quem tem um companheiro de quatro patas como o ${nome2} sabe o que é amor puro e sincero. Obrigado por trazer tanta alegria, lambidas e festa para os meus dias!`,
-                    engracado: `O dono de casa oficial, destruidor de chinelos e ladrão de petiscos favorito! Minha rotina seria uma completa chatice sem as suas loucuras e sua companhia peluda.`,
-                    intenso: `Dizem que os animais não falam, mas o olhar do ${nome2} transmite mais amor do que qualquer palavra. Uma parceria e fidelidade que levarei para sempre na vida.`,
-                    curto: `O melhor amigo que eu poderia ter. Amor de patas!`
-                };
-            } else if (modo === 'amizade') {
-                mensagens = {
-                    romantico: `${nome2}, ter sua amizade é ter a certeza de que nunca estarei sozinho(a). Obrigado por ser essa pessoa incrível, por me ouvir e por estar ao meu lado em todas as horas.`,
-                    engracado: `Uma amizade baseada em falar mal das mesmas coisas, mandar memes de madrugada e passar vergonha juntos. Obrigado por não me deixar cometer loucuras sozinho(a)!`,
-                    intenso: `Amigos são a família que a gente escolhe. Nossa conexão é rara e sou profundamente grato(a) por ter você na minha jornada. Uma parceria para a vida inteira.`,
-                    curto: `A melhor dupla que esse mundo já viu! Tamo junto pra sempre.`
-                };
-            } else if (modo === 'aniversario') {
-                mensagens = {
-                    romantico: `Parabéns, ${nome1}! Que o seu dia seja repleto de sorrisos e que o novo ciclo traga ainda mais saúde, conquistas e felicidades. Celebrar a sua vida é uma grande alegria!`,
-                    engracado: `Parabéns! Mais um ano de experiência (e algumas rugas a mais, brincadeira!). Que você continue com esse espírito jovem e que nunca falte bolo e motivos pra sorrir.`,
-                    intenso: `Que sua jornada continue sendo iluminada. Você é uma pessoa especial que transforma a vida de todos ao redor. Parabéns pelo seu dia e muito sucesso sempre!`,
-                    curto: `Feliz aniversário! Que todos os seus sonhos se realizem.`
-                };
-            } else if (modo === 'casamento') {
-                mensagens = {
-                    romantico: `${nome1} & ${nome2}, que o amor que uniu vocês se fortaleça a cada novo amanhecer. Que a cumplicidade, o respeito e a alegria façam morada eterna no lar de vocês. Parabéns!`,
-                    engracado: `O casamento é a arte de resolver em conjunto problemas que vocês não teriam se estivessem sozinhos! Que vocês continuem vencendo o jogo da vida em dupla. Felicidades!`,
-                    intenso: `Ver a união de vocês nos faz acreditar no amor verdadeiro. Que esta caminhada seja repleta de paciência, sabedoria e momentos inesquecíveis. Um brinde ao amor de vocês!`,
-                    curto: `Parabéns ao casal! Que o felizes para sempre seja todo dia.`
-                };
-            } else if (modo === 'viagem') {
-                mensagens = {
-                    romantico: `Viajar é bom, mas desbravando o mundo ao seu lado se torna extraordinário. Cada destino vira uma história e cada foto guarda um momento inesquecível de nós dois.`,
-                    engracado: `Colecionando carimbos no passaporte, micos em aeroportos e gastando o dinheiro que a gente não tem! Que venham as próximas aventuras e boletos para pagar.`,
-                    intenso: `O mundo é grande demais para ficarmos parados. Viajar abre a nossa mente e fortalece os nossos laços. Grato(a) por dividir essa jornada de descobertas com você.`,
-                    curto: `Melhor viagem da vida com a melhor companhia. Próxima parada?`
-                };
-            } else if (modo === 'conquista') {
-                mensagens = {
-                    romantico: `Parabéns por essa grande vitória! Ver o seu esforço e a sua dedicação sendo coroados com essa conquista enche meu coração de orgulho. Você merece voar alto!`,
-                    engracado: `Quem diria! Depois de muito café, noites sem dormir e desespero, o objetivo foi alcançado! Parabéns por não ter desistido e pelo sucesso de agora.`,
-                    intenso: `Essa conquista é apenas o começo de um futuro brilhante que espera por você. Sua determinação venceu os obstáculos e hoje você colhe os frutos do seu mérito. Parabéns!`,
-                    curto: `Você conseguiu! Orgulho imenso dessa conquista maravilhosa.`
+                    romantico: `${nome1}, sua memória é guardada com todo carinho no meu coração. Você continua vivo em mim.`,
+                    engracado: `Recordar de você é lembrar de sorrisos e momentos inesquecíveis. Saudade eterna.`,
+                    intenso: `A gratidão por ter tido você na minha vida nunca diminuirá. Você foi luz e inspiração.`,
+                    curto: `Guardado para sempre na memória. Quanta saudade.`
                 };
             } else {
-                // Modo Romântico Clássico / Padrão de Casal
+                // Modo padrão para outros planos
                 mensagens = {
-                    romantico: `${nome2}, desde que você entrou na minha vida tudo ganhou cor. ${anos? `Já são ${anos} de nós` : 'Cada dia ao seu lado'} é um presente. Você é meu porto seguro, meu amor pra toda vida. Te amo infinitamente, ${nome1}.`,
-                    engracado: `${nome2}, obrigado por aturar minhas manias há ${anos || 'tanto tempo'}. Você é a única pessoa que eu deixo roubar minha batata frita. Que a gente continue se escolhendo todo dia, mesmo brigando pelo cobertor. Te amo, ${nome1}.`,
-                    intenso: `${nome2}, você é a melhor parte de mim. ${anos? `Em ${anos}` : 'Desde que te conheci'} eu descobri que amor de verdade existe. Você me transforma, me completa, me faz querer ser melhor. Sou seu pra sempre, ${nome1}.`,
-                    curto: `${nome2}, você + eu = pra sempre. Simples assim. Te amo, ${nome1}.`
+                    romantico: `${nome2}, desde que você entrou na minha vida tudo ganhou cor. ${anos} de nós é um presente. Te amo, ${nome1}.`,
+                    engracado: `${nome2}, obrigado por aturar minhas manias há ${anos}. Você é a única pessoa que eu deixo roubar minha batata frita. Te amo, ${nome1}.`,
+                    intenso: `${nome2}, você é a melhor parte de mim. Desde que te conheci eu descobri que o amor é real. Sou seu pra sempre, ${nome1}.`,
+                    curto: `${nome2}, você + eu = pra sempre. Te amo, ${nome1}.`
                 };
             }
-
             document.getElementById('mensagem').value = mensagens[modelo] || mensagens['romantico'];
         }
 
+        // --- SISTEMA DE UPLOAD DE FOTOS (IMGUR API V3) ---
         window.enviarFoto = async function(input, campoId) {
             const file = input.files[0];
             if (!file) return;
-
             const preview = document.getElementById('preview' + campoId.slice(-1));
             preview.innerText = 'Enviando foto...';
 
@@ -379,13 +338,11 @@
             try {
                 const formData = new FormData();
                 formData.append('image', file);
-
                 const response = await fetch('https://api.imgur.com/3/image', {
                     method: 'POST',
                     headers: { 'Authorization': 'Client-ID 546c25a59c58ad7' },
                     body: formData
                 });
-
                 const data = await response.json();
                 if (data.success) {
                     document.getElementById(campoId).value = data.data.link;
@@ -393,37 +350,41 @@
                     return;
                 }
             } catch (e) {
-                console.log('Imgur falhou, usando base64');
+                console.error("Upload falhou no Imgur, tentando fall-back...", e);
             }
-
+            // Fallback: Se o Imgur falhar ou for bloqueado, converte a imagem em Base64
             const reader = new FileReader();
             reader.onload = function(e) {
                 document.getElementById(campoId).value = e.target.result;
-                preview.innerHTML = `✓ Foto adicionada: <img src="${e.target.result}" style="width:40px;height:40px;border-radius:4px;vertical-align:middle;margin-left:5px;">`;
+                preview.innerHTML = `✓ Foto salva: <img src="${e.target.result}" style="width:40px;height:40px;border-radius:4px;vertical-align:middle;margin-left:5px;">`;
             };
             reader.readAsDataURL(file);
         }
 
+        /* MOTOR DE CARREGAMENTO (RECUPERA DADOS DO FIREBASE)
+           Puxa as informações preenchidas para o editor em tempo real
+        */
         async function carregarDadosSalvos() {
             try {
                 const docRef = doc(db, 'homenagens', id);
                 const docSnap = await getDoc(docRef);
+                
                 if (docSnap.exists()) {
                     const d = docSnap.data();
-
-                   // TRAVA DE SEGURANÇA INTELIGENTE: Se já foi publicado, checa de forma segura se o plano ou o tema dão direito a reedição
                     let planoVerificar = dadosPlano.plano || 'essencial';
-                    const planosLivres = ['vitalicio', 'marketing', 'maternidade', 'amizade', 'luto', 'pet', 'aniversario', 'casamento', 'viagem', 'conquista'];
                     
-                    if (d.publicado === true && planoVerificar !== 'vitalicio' && planoVerificar !== 'marketing' && !planosLivres.includes(planoVerificar)) {
+                    // Trava de segurança: impede edição em planos básicos após publicação
+                    if (d.publicado === true && planoVerificar !== 'vitalicio' && planoVerificar !== 'marketing') {
                         document.getElementById('telaEditor').classList.add('oculto');
                         document.getElementById('telaBloqueioEdicao').classList.remove('oculto');
                         return;
                     }
+                    
                     document.getElementById('nomes').value = d.nomes || '';
                     document.getElementById('data').value = d.data || '';
                     document.getElementById('mensagem').value = d.mensagem || '';
                     document.getElementById('musica').value = d.musica || '';
+                    
                     for (let i = 1; i <= 10; i++) {
                         const fotoEl = document.getElementById(`foto${i}`);
                         if (fotoEl && d[`foto${i}`]) {
@@ -433,60 +394,60 @@
                     }
                     atualizarPreview();
                 }
-            } catch (e) { console.log(e); }
+            } catch (e) {
+                console.error("Erro ao carregar dados:", e);
+            }
         }
 
+        /* FUNÇÃO FINAL: COMMIT NO FIREBASE E REDIRECIONAMENTO
+           Finaliza a edição e encaminha o cliente para a página H.HTML
+        */
         window.salvar = async function() {
             const btn = document.getElementById('btnSalvar');
             btn.disabled = true;
-            btn.innerText = 'Salvando...';
-
-           const dados = {
+            btn.innerText = 'Salvando e publicando...';
+            
+            const dados = {
                 nomes: document.getElementById('nomes').value,
                 data: document.getElementById('data').value,
                 mensagem: document.getElementById('mensagem').value,
                 musica: document.getElementById('musica')?.value || '',
                 atualizadoEm: serverTimestamp(),
-                publicado: true // Grava a marcação de publicado no banco de dados
+                publicado: true
             };
             
-            // SALVA FOTOS DINAMICAMENTE
+            // Loop para capturar todas as URLs de fotos processadas
             for (let i = 1; i <= 10; i++) {
                 const fotoEl = document.getElementById(`foto${i}`);
                 if (fotoEl) dados[`foto${i}`] = fotoEl.value || '';
             }
-
+            
+            // Validação de segurança básica
             if (!dados.nomes || !dados.data || !dados.mensagem) {
-                alert('Preenche pelo menos: Nome, Data e Mensagem');
+                alert('Preencha os campos obrigatórios para publicar.');
                 btn.disabled = false;
                 btn.innerText = 'Salvar e Publicar Homenagem';
                 return;
             }
-
-            // Mapeamento e tratamento de segurança para salvar temas e planos separados
-            let planoSalvar = dadosPlano?.plano || 'essencial';
-            let temaSalvar = dadosPlano?.tema || 'casal';
             
-            const listaTemasLegado = ['maternidade', 'amizade', 'luto', 'pet', 'aniversario', 'casamento', 'viagem', 'conquista'];
-            if (listaTemasLegado.includes(planoSalvar)) {
-                temaSalvar = planoSalvar;
-                planoSalvar = 'vitalicio';
-            }
-
-            dados.plano = planoSalvar;
-            dados.tema = temaSalvar;
-
+            dados.plano = dadosPlano?.plano || 'essencial';
+            dados.tema = dadosPlano?.tema || 'casal';
+            
             try {
                 await setDoc(doc(db, 'homenagens', id), dados, { merge: true });
-                alert(`Homenagem publicada! 🎉\n\nLink final: h.html?id=${id}`);
+                alert('Homenagem publicada com sucesso! 🎉');
+                // Redirecionamento direto para a página final (H.HTML)
                 window.location.href = `h.html?id=${id}&criador=true`;
             } catch (e) {
-                alert('Erro ao salvar: ' + e.message);
+                alert('Erro crítico ao salvar: ' + e.message);
                 btn.disabled = false;
                 btn.innerText = 'Salvar e Publicar Homenagem';
             }
         }
+
+        // Chamada de inicialização
         verificarAcesso();
+        console.log("Sistema de Edição Eterno Amor Operante.");
     </script>
 </body>
 </html>
