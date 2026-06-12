@@ -573,7 +573,7 @@
                         const urlFicticiaYt = `https://www.youtube.com/results?search_query=${queryYt}`;
                         
                         htmlResultados += `
-                            <div onclick="window.selecionarMusica('${textoMusica.replace(/'/g, "\\'")}', this)" style="display: flex; align-items: center; gap: 12px; background: #1a1a1a; border: 1px solid #333; padding: 12px; border-radius: 8px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.borderColor='#FF4D79'; this.style.background='#222';" onmouseout="this.style.borderColor='#333'; this.style.background='#1a1a1a';">
+                            <div onclick="window.selecionarMusica('${urlFicticiaYt}', '${textoMusica.replace(/'/g, "\\'")}', this)" style="display: flex; align-items: center; gap: 12px; background: #1a1a1a; border: 1px solid #333; padding: 12px; border-radius: 8px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.borderColor='#FF4D79'; this.style.background='#222';" onmouseout="this.style.borderColor='#333'; this.style.background='#1a1a1a';">
                                 <div style="width: 40px; height: 40px; background: #222; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #FF4D79; font-weight: bold; font-size: 18px;">🎵</div>
                                 <div style="flex: 1; text-align: left; overflow: hidden;">
                                     <div style="font-size: 14px; font-weight: 600; color: #fff; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">${textoMusica}</div>
