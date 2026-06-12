@@ -155,11 +155,10 @@
             document.getElementById('telaErro').classList.remove('oculto');
         }
 
-         function montarTela() {
+        function montarTela() {
             document.getElementById('telaErro').classList.add('oculto');
             document.getElementById('telaEditor').classList.remove('oculto');
             
-            // Tratamento de segurança para links e cadastros antigos (legados) do banco de dados
             let planoAtual = dadosPlano.plano || 'essencial';
             let temaAtual = dadosPlano.tema || 'casal';
             
@@ -170,44 +169,33 @@
             }
             
             document.getElementById('nomePlano').innerText = planoAtual.toUpperCase();
-              
-            // USA LIMITES QUE VÊM DO FIREBASE - ADMIN É A FONTE DA VERDADE
             const limites = dadosPlano.limites || { fotos: 1, musica: false, qr: false, edicao: false };
 
-            // Configuração inteligente das instruções textuais baseada no TEMA ativo de forma independente do plano
+            // Configuração dos Labels
             const labelsModos = {
-                maternidade: { titulo: 'Nome da Mãe e Filho(a):', data: 'Data de Nascimento:', placeholder: 'Ex: Maria e Levy', dica: 'Pode ser: Mãe e Filho, Pais e Filhos...', labelFotos: 'Fotos do Filho(a) ou Família:' },
-                amizade: { titulo: 'Nome dos Amigos:', data: 'Data do Início da Amizade:', placeholder: 'Ex: Ana e Beatriz', dica: 'Pode ser: Nome dos amigos ou da dupla', labelFotos: 'Fotos de Vocês:' },
-                luto: { titulo: 'Nome de Quem Deixou Saudades:', data: 'Data de Nascimento ou Partida:', placeholder: 'Ex: Vovô Carlos', dica: 'Pode ser o nome de quem você deseja homenagear', labelFotos: 'Fotos de Lembrança:' },
-                pet: { titulo: 'Nome do Dono & do Bichinho:', data: 'Data que o Pet chegou na sua vida:', placeholder: 'Ex: Gil e Rex', dica: 'Pode ser: Nome do pet ou dono e pet', labelFotos: 'Fotos do seu Pet:' },
-                aniversario: { titulo: 'Nome do Aniversariante:', data: 'Data de Nascimento:', placeholder: 'Ex: Lucas 15 Anos', dica: 'Pode ser o nome do aniversariante ou data especial', labelFotos: 'Fotos das Recordações:' },
-                casamento: { titulo: 'Nome dos Noivos/Casal:', data: 'Data do Casamento/Bodas:', placeholder: 'Ex: Gil e Maria', dica: 'Pode ser: Noivos, Casal ou Bodas de Prata/Ouro', labelFotos: 'Fotos do Grande Dia:' },
-                viagem: { titulo: 'Destino ou Nome dos Viajantes:', data: 'Data da Viagem:', placeholder: 'Ex: Eurotrip 2026', dica: 'Pode ser o destino da viagem ou os integrantes', labelFotos: 'Fotos da Aventura:' },
-                conquista: { titulo: 'Nome do Conquistador/Formando:', data: 'Data da Conquista/Formatura:', placeholder: 'Ex: Dra. Amanda - OAB', dica: 'Pode ser: Nome do formando, aprovação ou conquista', labelFotos: 'Fotos da Vitória:' }
+                maternidade: { titulo: 'Nome da Mãe e Filho(a):', data: 'Data de Nascimento:', placeholder: 'Ex: Maria e Levy', dica: 'Pode ser: Mãe e Filho...', labelFotos: 'Fotos do Filho(a) ou Família:' },
+                amizade: { titulo: 'Nome dos Amigos:', data: 'Data do Início da Amizade:', placeholder: 'Ex: Ana e Beatriz', dica: 'Pode ser o nome dos amigos', labelFotos: 'Fotos de Vocês:' },
+                luto: { titulo: 'Nome de Quem Deixou Saudades:', data: 'Data de Nascimento ou Partida:', placeholder: 'Ex: Vovô Carlos', dica: 'Homenageado', labelFotos: 'Fotos de Lembrança:' },
+                pet: { titulo: 'Nome do Dono & do Bichinho:', data: 'Data que o Pet chegou:', placeholder: 'Ex: Gil e Rex', dica: 'Nome do pet', labelFotos: 'Fotos do seu Pet:' },
+                aniversario: { titulo: 'Nome do Aniversariante:', data: 'Data de Nascimento:', placeholder: 'Ex: Lucas 15 Anos', dica: 'Data especial', labelFotos: 'Fotos das Recordações:' },
+                casamento: { titulo: 'Nome dos Noivos/Casal:', data: 'Data do Casamento/Bodas:', placeholder: 'Ex: Gil e Maria', dica: 'Noivos ou Bodas', labelFotos: 'Fotos do Grande Dia:' },
+                viagem: { titulo: 'Destino ou Viajantes:', data: 'Data da Viagem:', placeholder: 'Ex: Eurotrip 2026', dica: 'Destino da viagem', labelFotos: 'Fotos da Aventura:' },
+                conquista: { titulo: 'Nome do Conquistador/Formando:', data: 'Data da Conquista:', placeholder: 'Ex: Dra. Amanda', dica: 'Conquista', labelFotos: 'Fotos da Vitória:' }
             };
 
             let textoLabelFotos = 'Fotos do Casal:';
-
             if (labelsModos[temaAtual]) {
                 const config = labelsModos[temaAtual];
-                
-                // Captura e altera dinamicamente os textos dos labels do HTML
-                const labelNome = document.querySelector('label[for="nomes"]') || document.getElementsByTagName('label')[1];
-                const labelData = document.querySelector('label[for="data"]') || document.getElementsByTagName('label')[2];
-                const inputNomes = document.getElementById('nomes');
-                const divDica = document.querySelector('.dica');
-
-                if (labelNome) labelNome.innerText = config.titulo;
-                if (labelData) labelData.innerText = config.data;
-                if (inputNomes) inputNomes.placeholder = config.placeholder;
-                if (divDica) divDica.innerText = config.dica;
+                document.querySelector('label[for="nomes"]').innerText = config.titulo;
+                document.querySelector('label[for="data"]').innerText = config.data;
+                document.getElementById('nomes').placeholder = config.placeholder;
+                document.querySelector('.dica').innerText = config.dica;
                 textoLabelFotos = config.labelFotos;
             }
-              
-            // GERA BLOCOS DE FOTO DINÂMICOS BASEADO NO LIMITE DO PLANO COMPRADO
-            const containerFotos = document.querySelector('.grupo-foto');
-            let htmlFotos = `<label>${textoLabelFotos} <span id="limiteFotos">(Máx: ${limites.fotos} foto${limites.fotos > 1 ? 's' : ''})</span></label>`;
             
+            // GERA BLOCOS DE FOTO
+            const containerFotos = document.querySelector('.grupo-foto');
+            let htmlFotos = `<label>${textoLabelFotos} <span id="limiteFotos">(Máx: ${limites.fotos})</span></label>`;
             for (let i = 1; i <= limites.fotos && i <= 15; i++) {
                 htmlFotos += `
                     <div id="blocoFoto${i}" style="margin-top:10px;">
@@ -215,20 +203,14 @@
                         <button type="button" class="btn-secundario" onclick="document.getElementById('uploadFoto${i}').click()">📷 Adicionar Foto ${i}</button>
                         <input type="hidden" id="foto${i}">
                         <div id="preview${i}" class="dica"></div>
-                    </div>
-                `;
+                    </div>`;
             }
-            htmlFotos += '<div class="dica" style="margin-top:15px;">Clique no botão e escolha da sua galeria.</div>';
             containerFotos.innerHTML = htmlFotos;
 
-            // BLOQUEIA MÚSICA SE NÃO TIVER NO PLANO COMPRADO
-            if (!limites.musica) {
-                document.getElementById('campoMusica').style.display = 'none';
-            }
-
-            // AVISO DE EDIÇÃO BASEADO UNICAMENTE NO CONTROLE DE LIMITES DO PLANO
-            if (!limites.edicao && planoAtual !== 'vitalicio' && planoAtual !== 'marketing') {
-                document.getElementById('btnSalvar').innerText = 'Salvar e Publicar (sem edição depois)';
+            // GERENCIAMENTO DA MÚSICA
+            const campoMusica = document.getElementById('campoMusica');
+            if (campoMusica) {
+                campoMusica.style.display = limites.musica ? 'block' : 'none';
             }
 
             carregarDadosSalvos();
