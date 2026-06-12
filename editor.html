@@ -670,6 +670,9 @@
         };
 
        // FUNÇÕES EXPOSTAS PARA O NAVEGADOR
+       // EXPOSIÇÃO GLOBAL DE TODAS AS FUNÇÕES PARA O NAVEGADOR
+        window.atualizarPreview = atualizarPreview;
+        
         window.selecionarMusica = function(url, titulo, elemento) {
             // SALVA APENAS O TÍTULO DA MÚSICA COMO REFERÊNCIA
             document.getElementById('musica').value = titulo;
@@ -678,6 +681,11 @@
             document.getElementById('resultadosMusicaContainer').innerHTML = '';
             window.atualizarPreview();
         };
+
+        window.buscarMusicaYouTube = buscarMusicaYouTube;
+        window.gerarMensagem = gerarMensagem;
+        window.enviarFoto = enviarFoto;
+        window.salvar = salvar;
         verificarAcesso();
     </script>
 </body>
