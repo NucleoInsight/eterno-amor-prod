@@ -505,64 +505,41 @@
             reader.readAsDataURL(file);
         }
 
-        async function carregarDadosSalvos() {
-            try {
-                const docRef = doc(db, 'homenagens', id);
-                const docSnap = await getDoc(docRef);
-                if (docSnap.exists()) {
-                    const d = docSnap.data();
-
-                   // TRAVA DE SEGURANÇA INTELIGENTE: Se já foi publicado, checa de forma segura se o plano ou o tema dão direito a reedição
-                    let planoVerificar = dadosPlano.plano || 'essencial';
-                    const planosLivres = ['vitalicio', 'marketing', 'maternidade', 'amizade', 'luto', 'pet', 'aniversario', 'casamento', 'viagem', 'conquista'];
-                    
-                    if (d.publicado === true && planoVerificar !== 'vitalicio' && planoVerificar !== 'marketing' && !planosLivres.includes(planoVerificar)) {
-                        document.getElementById('telaEditor').classList.add('oculto');
-                        document.getElementById('telaBloqueioEdicao').classList.remove('oculto');
-                        return;
-                    }
-                    document.getElementById('nomes').value = d.nomes || '';
-                    document.getElementById('data').value = d.data || '';
-                    document.getElementById('mensagem').value = d.mensagem || '';
-                    document.getElementById('musica').value = d.musica || '';
-                    for (let i = 1; i <= 10; i++) {
-                        const fotoEl = document.getElementById(`foto${i}`);
-                        if (fotoEl && d[`foto${i}`]) {
-                            fotoEl.value = d[`foto${i}`];
-                            document.getElementById(`preview${i}`).innerHTML = `✓ <img src="${d[`foto${i}`]}" style="width:40px;height:40px;border-radius:4px;">`;
-                        }
-                    }
-                    atualizarPreview();
-                }
-            } catch (e) { console.log(e); }
-        }
-
-        window.salvar = async function() {
+       window.finalizar = async function() {
             const btn = document.getElementById('btnSalvar');
             btn.disabled = true;
             btn.innerText = 'Salvando...';
 
-           const dados = {
+            const dados = {
                 nomes: document.getElementById('nomes').value,
                 data: document.getElementById('data').value,
                 mensagem: document.getElementById('mensagem').value,
-                musica: document.getElementById('musica')?.value || '',
+                musica: document.getElementById('musica').value,
+                foto1: document.getElementById('foto1').value,
+                foto2: document.getElementById('foto2').value,
+                foto3: document.getElementById('foto3').value,
+                tema: document.getElementById('temaAtivo').value,
                 atualizadoEm: serverTimestamp(),
-                publicado: true // Grava a marcação de publicado no banco de dados
+                publicado: true
             };
-            
-            // SALVA FOTOS DINAMICAMENTE
-            for (let i = 1; i <= 10; i++) {
-                const fotoEl = document.getElementById(`foto${i}`);
-                if (fotoEl) dados[`foto${i}`] = fotoEl.value || '';
-            }
 
             if (!dados.nomes || !dados.data || !dados.mensagem) {
-                alert('Preenche pelo menos: Nome, Data e Mensagem');
+                alert('Preencha os campos obrigatórios!');
                 btn.disabled = false;
-                btn.innerText = 'Salvar e Publicar Homenagem';
+                btn.innerText = '⭐ Finalizar e Salvar Minha Página';
                 return;
             }
+
+            try {
+                await setDoc(doc(db, 'homenagens', id), dados, { merge: true });
+                alert('Homenagem publicada com sucesso! 🎉');
+                window.location.href = `h.html?id=${id}&criador=true`;
+            } catch (e) {
+                alert('Erro ao salvar: ' + e.message);
+                btn.disabled = false;
+                btn.innerText = '⭐ Finalizar e Salvar Minha Página';
+            }
+        };
 
             // Mapeamento e tratamento de segurança para salvar temas e planos separados
             let planoSalvar = dadosPlano?.plano || 'essencial';
